@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/home.dart';
-
-
+import 'package:healthreminders/Pages/SignUpGoogle.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -28,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
             child: Stack(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(30, 110, 0, 0),
+                  padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
                   child: Text(
                     "Sign",
                     style: TextStyle(
@@ -38,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(30, 180, 0, 0),
+                  padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
                   child: Text(
                     "Up",
                     style: TextStyle(
@@ -48,13 +47,13 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(130, 170, 0, 0),
+                  padding: EdgeInsets.fromLTRB(145, 180, 0, 0),
                   child: Text(
                     ".",
                     style: TextStyle(
                       fontSize: 90,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: Colors.teal,
                     ),
                   ),
                 ),
@@ -63,19 +62,19 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 35, left: 20, right: 20),
+            padding: EdgeInsets.only(top: 35, left: 35, right: 35),
             child: Column(
               children: <Widget>[
                 TextField(
                     decoration: InputDecoration(
-                      hintText: "Nickname",
+                      hintText: "Name",
                       hintStyle: TextStyle(
                         fontFamily: "Monster",
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),),
+                        borderSide: BorderSide(color: Colors.teal),),
                     )
                 ),
 
@@ -113,8 +112,8 @@ class _SignupPageState extends State<SignupPage> {
 
                       TextFormField(
                         validator: (input) {
-                          if (input.length < 6) {
-                            return 'Please type a valid password';
+                          if (input.length < 6){
+                            return 'Please type a longer password';
                           }
                         },
                         onSaved: (input) => _password = input,
@@ -135,25 +134,6 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 5,
-                ),
-
-                Container(
-                  padding: EdgeInsets.only(top: 15, left: 210),
-                  child: InkWell(
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Monster',
-                        decoration: TextDecoration.underline,
-
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
                   height: 40,
                 ),
 
@@ -161,11 +141,11 @@ class _SignupPageState extends State<SignupPage> {
                   height: 40,
                   child: Material(
                     borderRadius: BorderRadius.circular(20),
-                    shadowColor: Colors.greenAccent,
-                    color: Colors.green,
+                    shadowColor: Colors.tealAccent,
+                    color: Colors.teal,
                     elevation: 7.0,
                     child: GestureDetector(
-                      onTap: () => signIn(context),
+                      onTap: () => signUp(context),
                       child: Center(
                         child: Text(
                           "Sign Up",
@@ -179,22 +159,73 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Container(
+                    height: 40,
+                    width: 340,
+                    color: Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          style: BorderStyle.solid,
+                        ),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: ImageIcon(AssetImage('assets/google.png')),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                signInWithGoogle().whenComplete(() {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Home();
+                                      },
+                                    ),
+                                  );
+                                });
+                              },
+                              child: Text(
+                                "Sign Up with Google",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Monster",
+
+                                ),
+
+                              )
+                          )
+                        ],
+
+                      ),
+
+                    ),
+                  ),
+                ),
 
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                    height: 40,
-                    color: Colors.transparent,
-                    child: Material(
-
-                      borderRadius: BorderRadius.circular(20),
-                      elevation: 2.0,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/');
+                FlatButton(
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Colors.black)),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/');
                         },
-                        child: Center(
+                  child: Center(
                           child: Text(
                             "Go back",
                             style: TextStyle(
@@ -204,24 +235,18 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ),
                         ),
-                      ),
-
-                    )
-
-                ),
-              ],
-
-            ),
-
-          ),
-
-
-        ],
-      ),
+                      )
+    ]
+    )
+          )
+        ]
+    )
     );
+
+
   }
 
-  Future<void> signIn(context) async {
+  Future<void> signUp(context) async {
     final _form = _formKey.currentState;
     if (_form.validate()) {
       _form.save();
@@ -229,13 +254,41 @@ class _SignupPageState extends State<SignupPage> {
         AuthResult user = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
             email: _emailID, password: _password);
-        print("Successful Registered!");
+        print("Successfully Registered!");
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
-        print(e.message);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('SignUp Failed'),
+              titleTextStyle: TextStyle(
+              color: Colors.teal,
+              fontFamily: 'Monster',
+              fontSize: 20.0,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              ),
+          content: Text('Check your Email ID and make sure password is over 6 letters'),
+          contentTextStyle: TextStyle(
+            fontFamily: 'Monster',
+            color: Colors.black,
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/signup');
+              },
+              child: Text('Try Again'),
+            )
+          ],
+        );
       }
-    }
+        );
+      }
   }
 
+}
 }

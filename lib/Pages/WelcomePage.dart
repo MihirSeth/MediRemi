@@ -2,8 +2,13 @@ import 'package:healthreminders/Pages/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Pages/SignUpGoogle.dart';
+import 'package:healthreminders/Pages/PasswordReset.dart';
+
 
 import '../home.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class LoginPage extends StatelessWidget {
 
@@ -13,7 +18,8 @@ class LoginPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
-        "/signup" : (BuildContext context) => new SignupPage()
+        "/signup" : (BuildContext context) => new SignupPage(),
+        "/passwordreset" : (BuildContext context) => new PasswordReset()
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -27,8 +33,6 @@ class LoginPage extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
 
-
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -38,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _emailID;
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(30, 110, 0, 0),
+                    padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
                     child: Text(
                       "Hello",
                       style: TextStyle(
                         fontSize: 80,
                         fontWeight: FontWeight.bold,
+
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(30, 180, 0, 0),
+                    padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
                     child: Text(
                       "There",
                       style: TextStyle(
@@ -70,13 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(255, 170, 0, 0),
+                    padding: EdgeInsets.fromLTRB(265, 180, 0, 0),
                     child: Text(
                       ".",
                       style: TextStyle(
                         fontSize: 90,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.teal,
                       ),
                     ),
                   ),
@@ -85,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 35, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 35, left: 35, right: 35),
 
               child: Column(
                 children: <Widget>[
@@ -95,12 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       children: <Widget>[
                         TextFormField(
-                            validator: (input){
-                              if(input.isEmpty){
-                                return 'Please type a valid email';
+                            validator: (input) {
+                              if (input.isEmpty){
+                                return 'Please type a email';
                               }
                             },
-                            onSaved: (input)  => _emailID = input,
+
+                            onSaved: (input) => _emailID = input,
                             decoration: InputDecoration(
                               hintText: "Email ID",
                               hintStyle: TextStyle(
@@ -109,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Colors.grey,
                               ),
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),),
+                                borderSide: BorderSide(color: Colors.teal),),
                             )
                         ),
 
@@ -118,12 +126,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
 
                         TextFormField(
-                          validator: (input){
-                            if(input.length < 6){
-                              return 'Please type a valid password';
+                          // ignore: missing_return
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return 'Please type a password';
                             }
                           },
-                          onSaved: (input)  => _password = input,
+                          onSaved: (input) => _password = input,
                           decoration: InputDecoration(
                             hintText: "Password",
                             hintStyle: TextStyle(
@@ -132,7 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.grey,
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green),),
+                              borderSide: BorderSide(color: Colors.teal),),
+
                           ),
                           obscureText: true,
                         ),
@@ -142,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
 
 
-
                   SizedBox(
                     height: 5,
                   ),
@@ -150,10 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     padding: EdgeInsets.only(top: 15, left: 210),
                     child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/passwordreset");
+                      },
                       child: Text(
                         "Forgot Password",
                         style: TextStyle(
-                          color: Colors.green,
+                          color: Colors.teal,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Monster',
                           decoration: TextDecoration.underline,
@@ -166,18 +178,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 40,
                   ),
 
-                  Container(
-                    height: 40,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20),
-                      shadowColor: Colors.greenAccent,
-                      color: Colors.green,
-                      elevation: 7.0,
-                      child: GestureDetector(
-                        onTap:  () => signIn(context),
+                        FlatButton(
+                        shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: Colors.teal)),
+                        color: Colors.teal,
+
+                          onPressed: () {
+                        signIn(context);
+                        },
                         child: Center(
                           child: Text(
-                            "Log In",
+                            "Login",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -186,58 +198,62 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                    ),
+                    ]
+                  ),
                   ),
 
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  Container(
-                    height: 40,
-                    color: Colors.transparent,
+                  Center(
                     child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          style: BorderStyle.solid,
+                      height: 40,
+                      width: 340,
+                      color: Colors.transparent,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                            style: BorderStyle.solid,
+                          ),
+                          borderRadius: BorderRadius.circular(18),
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: ImageIcon(AssetImage('assets/google.png')),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              signInWithGoogle().whenComplete(() {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Home();
-                                    },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: ImageIcon(AssetImage('assets/google.png')),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  signInWithGoogle().whenComplete(() {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return Home();
+                                        },
+                                      ),
+                                    );
+                                  });
+                                },
+                                child: Text(
+                                  "Login with Google",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Monster",
+
                                   ),
-                                );
-                              });
-                            },
-                            child: Text(
-                              "Login with Google",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Monster",
 
-                          ),
+                                )
+                            )
+                          ],
 
-                          )
-                          )
-                        ],
+                        ),
 
                       ),
-
                     ),
                   ),
                   SizedBox(
@@ -264,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           "Register now.",
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Colors.teal,
                             fontFamily: "Monster",
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
@@ -277,10 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ],
               ),
-            ),
-          ],
-        )
-    );
+            );
   }
 
   Future<void> signIn(context) async {
@@ -288,13 +301,59 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_form.validate()) {
       _form.save();
       try {
-        AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailID, password: _password);
+        AuthResult user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _emailID, password: _password);
+        final FirebaseUser currentUser = await _auth.currentUser();
         print("Successful Wooho!");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
-        print(e.message);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: Text('Alert'),
+            titleTextStyle: TextStyle(
+              color: Colors.teal,
+              fontFamily: 'Monster',
+              fontSize: 20.0,
+                letterSpacing: 1.5,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+
+            ),
+            content: Text('Login Failed - Check Email ID and Password'),
+            contentTextStyle: TextStyle(
+              fontFamily: 'Monster',
+              color: Colors.black,
+            ),
+            actions: <Widget> [
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/');
+                },
+                child: Text('Try Again'),
+              )
+            ],
+          );
+        }
+        );
       }
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getUser().then((user) {
+      if (user != null) {
+        // send the user to the home page
+        // homePage();
+      }
+    });
+  }
+  Future<FirebaseUser> getUser() async {
+    return await _auth.currentUser();
   }
 
 
