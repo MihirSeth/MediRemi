@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/home.dart';
 import 'package:healthreminders/Pages/SignUpGoogle.dart';
+import 'package:healthreminders/Pages/loading.dart';
+
 
 class SignupPage extends StatefulWidget {
   @override
@@ -16,7 +18,6 @@ class _SignupPageState extends State<SignupPage> {
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +163,7 @@ class _SignupPageState extends State<SignupPage> {
                                           fontWeight: FontWeight.bold,
                                           decoration: TextDecoration.underline,
                                         ),
-                                        content: Text('Congratulations, you have signed up to take care of your health! Kindly sign in again'),
+                                        content: Text('Congratulations, you have signed up to take care of your health! Kindly login'),
                                         contentTextStyle: TextStyle(
                                           fontFamily: 'Monster',
                                           color: Colors.black,
@@ -172,7 +173,7 @@ class _SignupPageState extends State<SignupPage> {
                                             onPressed: () {
                                               Navigator.of(context).pushNamed('/');
                                             },
-                                            child: Text('Try Again'),
+                                            child: Text('Login'),
                                           )
                                         ],
                                       );

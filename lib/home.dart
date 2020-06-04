@@ -25,60 +25,73 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text(
-            "Home Screen",
+        appBar: AppBar(
+          title: Center(
+              child: Text(
+                "Home Screen",
                 style: TextStyle(
-                fontFamily: 'Monster'
-            ),
+                    fontFamily: 'Monster'
+                ),
+              )
+          ),
+          backgroundColor: Colors.teal,
+        ),
+      bottomNavigationBar: BottomNavigationBar(
+      currentIndex: 0, // this will be set when a new tab is tapped
+      items: [
+        BottomNavigationBarItem(
+          icon:  Icon(Icons.home),
+          title: new Text('Home'),
+        ),
+        BottomNavigationBarItem(
+          icon:  ImageIcon(AssetImage('assets/pill.png')),
+          title: new Text('Messages'),
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text('Profile')
         )
-        ),
-        backgroundColor: Colors.teal,
-      ),
-      body: Center(
-        child:  ButtonBar(
-
-          alignment: MainAxisAlignment.center, // this will take space as minimum as posible(to center)
-          children: <Widget>[
-            RaisedButton.icon(
-              label:  Text('Hello'),
-              icon: Icon(Icons.home),
-              onPressed: (){}
-            ),
-            RaisedButton(
-              child:  Text('Hi'),
-              onPressed: null,
-            ),
-          ],
-        ),
-      ),
+      ],
+    ),
         drawer: Drawer(
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                child: Text('Drawer Header'),
+                child: Text(''),
                 decoration: BoxDecoration(
                   color: Colors.teal,
                 ),
               ),
-              RaisedButton.icon(
-                icon: Icon(Icons.person),
-                label: Text('Logout'),
-                onPressed: () {
-                  _signOut().whenComplete(() {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return LoginPage();
+              Container(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                      children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text('Settings')),
+                   ListTile(
+                     leading: Icon(Icons.exit_to_app),
+                    title: Text('Logout'),
+                    onTap: () {
+                      _signOut().whenComplete(() {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginPage();
+                              
 
-                        },
-                      ),
-                    );
-                  });
-                },
+                            },
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                    ]
+                  ),
+              ),
               ),
             ],
           ),
@@ -86,4 +99,3 @@ class HomeState extends State<Home> {
     ;
   }
 }
-
