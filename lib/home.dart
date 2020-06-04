@@ -58,7 +58,7 @@ class HomeState extends State<Home> {
               DrawerHeader(
                 child: Text('Drawer Header'),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.teal,
                 ),
               ),
               RaisedButton.icon(

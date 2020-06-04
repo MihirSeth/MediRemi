@@ -150,7 +150,7 @@ class PasswordReset extends StatelessWidget {
                                                   builder: (BuildContext context) {
                                                     // return object of type Dialog
                                                     return AlertDialog(
-                                                      title: Text('Alert'),
+                                                      title: Center(child: Text('Alert')),
                                                     titleTextStyle: TextStyle(
                                                     color: Colors.teal,
                                                     fontFamily: 'Monster',

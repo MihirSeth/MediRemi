@@ -15,6 +15,8 @@ class _SignupPageState extends State<SignupPage> {
   String _emailID;
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +147,38 @@ class _SignupPageState extends State<SignupPage> {
                     color: Colors.teal,
                     elevation: 7.0,
                     child: GestureDetector(
-                      onTap: () => signUp(context),
+                       onTap: () {
+                        signUp(context);
+                         showDialog(
+                         context: context,
+                         builder: (BuildContext context) {
+                         return AlertDialog(
+                         title: Center(child: Text('Success')),
+                         titleTextStyle: TextStyle(
+                         color: Colors.teal,
+                         fontFamily: 'Monster',
+                         fontSize: 20.0,
+                         letterSpacing: 1.5,
+                         fontWeight: FontWeight.bold,
+                         decoration: TextDecoration.underline,
+                         ),
+                         content: Text('Congratulations, you have signed up to take care of your health! Kindly sign in again'),
+                         contentTextStyle: TextStyle(
+                         fontFamily: 'Monster',
+                         color: Colors.black,
+                         ),
+                         actions: [
+                         FlatButton(
+                         onPressed: () {
+                         Navigator.of(context).pushNamed('/');
+                         },
+                         child: Text('Try Again'),
+                         )
+                         ],
+                         );
+                         }
+                         );
+                        },
                       child: Center(
                         child: Text(
                           "Sign Up",
@@ -185,7 +218,36 @@ class _SignupPageState extends State<SignupPage> {
                             width: 10,
                           ),
                           InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Center(child: Text('Notification')),
+                                        titleTextStyle: TextStyle(
+                                          color: Colors.teal,
+                                          fontFamily: 'Monster',
+                                          fontSize: 20.0,
+                                          letterSpacing: 1.5,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        content: Text('If you use Google to Signup then Google must always be used to Login, but if you Signup in the normal way then you can Login through any method.'),
+                                        contentTextStyle: TextStyle(
+                                          fontFamily: 'Monster',
+                                          color: Colors.black,
+                                        ),
+                                        actions: [
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed('/signup');
+                                            },
+                                            child: Text('Try Again'),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                );
                                 signInWithGoogle().whenComplete(() {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -254,40 +316,46 @@ class _SignupPageState extends State<SignupPage> {
         AuthResult user = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
             email: _emailID, password: _password);
+        setState(() => loading = true);
         print("Successfully Registered!");
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('SignUp Failed'),
-              titleTextStyle: TextStyle(
-              color: Colors.teal,
-              fontFamily: 'Monster',
-              fontSize: 20.0,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
-              ),
-          content: Text('Check your Email ID and make sure password is over 6 letters'),
-          contentTextStyle: TextStyle(
-            fontFamily: 'Monster',
-            color: Colors.black,
-          ),
-          actions: [
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/signup');
-              },
-              child: Text('Try Again'),
-            )
-          ],
+        setState(() {
+          loading = false;
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Center(child: Text('SignUp Failed')),
+                  titleTextStyle: TextStyle(
+                    color: Colors.teal,
+                    fontFamily: 'Monster',
+                    fontSize: 20.0,
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                  content: Text(
+                      'Check your Email ID and make sure password is over 6 letters'),
+                  contentTextStyle: TextStyle(
+                    fontFamily: 'Monster',
+                    color: Colors.black,
+                  ),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/signup');
+                      },
+                      child: Text('Try Again'),
+                    )
+                  ],
+                );
+              }
+          );
+        }
         );
-      }
-        );
-      }
+        };
   }
 
 }

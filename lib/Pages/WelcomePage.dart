@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Pages/SignUpGoogle.dart';
 import 'package:healthreminders/Pages/PasswordReset.dart';
+import 'package:healthreminders/Pages/loading.dart';
 
 
 import '../home.dart';
@@ -43,11 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
   String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool loading = false;
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return loading ? Loading() : Scaffold(
+
         resizeToAvoidBottomInset: false,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,9 +187,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Colors.teal)),
                         color: Colors.teal,
-
                           onPressed: () {
                         signIn(context);
+
                         },
                         child: Center(
                           child: Text(
@@ -293,8 +297,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 ],
               ),
+
             );
   }
+
 
   Future<void> signIn(context) async {
     final _form = _formKey.currentState;
@@ -304,16 +310,18 @@ class _MyHomePageState extends State<MyHomePage> {
         AuthResult user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _emailID, password: _password);
         final FirebaseUser currentUser = await _auth.currentUser();
-        print("Successful Wooho!");
+        setState(() => loading = true);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
+        setState(() {
+          loading = false;
         showDialog(
             context: context,
             builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: Text('Alert'),
+            title: Center(child: Text('Alert')),
             titleTextStyle: TextStyle(
               color: Colors.teal,
               fontFamily: 'Monster',
@@ -340,21 +348,23 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         );
       }
+      );
     }
   }
-  @override
-  void initState() {
-    super.initState();
-    getUser().then((user) {
-      if (user != null) {
-        // send the user to the home page
-        // homePage();
-      }
-    });
-  }
+
   Future<FirebaseUser> getUser() async {
     return await _auth.currentUser();
   }
+        @override
+        void initState() {
+          super.initState();
+          getUser().then((user) {
+            if (user != null) {
+              // send the user to the home page
+              // homePage();
+            }
+          });
+        }
 
-
+}
 }
