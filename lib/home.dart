@@ -6,6 +6,9 @@ import 'package:healthreminders/Pages/WelcomePage.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Home extends StatefulWidget {
+
+
+
   @override
   HomeState createState() => HomeState();
 }
@@ -70,6 +73,7 @@ class HomeState extends State<Home> {
                       MaterialPageRoute(
                         builder: (context) {
                           return LoginPage();
+
                         },
                       ),
                     );

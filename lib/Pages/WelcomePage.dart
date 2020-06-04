@@ -13,6 +13,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class LoginPage extends StatelessWidget {
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,16 @@ class LoginPage extends StatelessWidget {
       home: MyHomePage(),
     );
   }
+
 }
 
 class MyHomePage extends StatefulWidget {
 
+
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -45,60 +50,58 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool loading = false;
-
-
   @override
   Widget build(BuildContext context) {
 
     return loading ? Loading() : Scaffold(
 
-        resizeToAvoidBottomInset: false,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
-                    child: Text(
-                      "Hello",
-                      style: TextStyle(
-                        fontSize: 80,
-                        fontWeight: FontWeight.bold,
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
+                  child: Text(
+                    "Hello",
+                    style: TextStyle(
+                      fontSize: 80,
+                      fontWeight: FontWeight.bold,
 
-                      ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
-                    child: Text(
-                      "There",
-                      style: TextStyle(
-                        fontSize: 80,
-                        fontWeight: FontWeight.bold,
-                      ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
+                  child: Text(
+                    "There",
+                    style: TextStyle(
+                      fontSize: 80,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(265, 180, 0, 0),
-                    child: Text(
-                      ".",
-                      style: TextStyle(
-                        fontSize: 90,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal,
-                      ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(265, 180, 0, 0),
+                  child: Text(
+                    ".",
+                    style: TextStyle(
+                      fontSize: 90,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
                     ),
                   ),
+                ),
 
-                ],
-              ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.only(top: 35, left: 35, right: 35),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 35, left: 35, right: 35),
 
-              child: Column(
+            child: Column(
                 children: <Widget>[
                   Form(
                     key: _formKey,
@@ -182,123 +185,124 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 40,
                   ),
 
-                        FlatButton(
-                        shape: RoundedRectangleBorder(
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                         side: BorderSide(color: Colors.teal)),
-                        color: Colors.teal,
-                          onPressed: () {
-                        signIn(context);
+                    color: Colors.teal,
 
-                        },
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Monster",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]
-                  ),
-                  ),
+                    onPressed: () {
+                      signIn(context);
 
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Container(
-                      height: 40,
-                      width: 340,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            style: BorderStyle.solid,
-                          ),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                              child: ImageIcon(AssetImage('assets/google.png')),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  signInWithGoogle().whenComplete(() {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return Home();
-                                        },
-                                      ),
-                                    );
-                                  });
-                                },
-                                child: Text(
-                                  "Login with Google",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Monster",
-
-                                  ),
-
-                                )
-                            )
-                          ],
-
-                        ),
-
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-
-                      Text(
-                        "New here?",
+                    },
+                    child: Center(
+                      child: Text(
+                        "Login",
                         style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                           fontFamily: "Monster",
                         ),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      InkWell(
+                    ),
+                  ),
+                ]
+            ),
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Container(
+              height: 40,
+              width: 340,
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: ImageIcon(AssetImage('assets/google.png')),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/signup");
+                          signInWithGoogle().whenComplete(() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home();
+                                },
+                              ),
+                            );
+                          });
                         },
                         child: Text(
-                          "Register now.",
+                          "Login with Google",
                           style: TextStyle(
-                            color: Colors.teal,
-                            fontFamily: "Monster",
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
+                            fontFamily: "Monster",
+
                           ),
-                        ),
-                      )
-                    ],
-                  ),
 
+                        )
+                    )
+                  ],
 
-                ],
+                ),
+
               ),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
 
-            );
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              Text(
+                "New here?",
+                style: TextStyle(
+                  fontFamily: "Monster",
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed("/signup");
+                },
+                child: Text(
+                  "Register now.",
+                  style: TextStyle(
+                    color: Colors.teal,
+                    fontFamily: "Monster",
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              )
+            ],
+          ),
+
+
+        ],
+      ),
+
+    );
   }
 
 
@@ -316,55 +320,55 @@ class _MyHomePageState extends State<MyHomePage> {
       } catch (e) {
         setState(() {
           loading = false;
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: Center(child: Text('Alert')),
-            titleTextStyle: TextStyle(
-              color: Colors.teal,
-              fontFamily: 'Monster',
-              fontSize: 20.0,
-                letterSpacing: 1.5,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: Center(child: Text('Alert')),
+                  titleTextStyle: TextStyle(
+                    color: Colors.teal,
+                    fontFamily: 'Monster',
+                    fontSize: 20.0,
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
 
-            ),
-            content: Text('Login Failed - Check Email ID and Password'),
-            contentTextStyle: TextStyle(
-              fontFamily: 'Monster',
-              color: Colors.black,
-            ),
-            actions: <Widget> [
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/');
-                },
-                child: Text('Try Again'),
-              )
-            ],
+                  ),
+                  content: Text('Login Failed - Check Email ID and Password'),
+                  contentTextStyle: TextStyle(
+                    fontFamily: 'Monster',
+                    color: Colors.black,
+                  ),
+                  actions: <Widget> [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/');
+                      },
+                      child: Text('Try Again'),
+                    )
+                  ],
+                );
+              }
           );
         }
         );
       }
-      );
     }
-  }
 
-  Future<FirebaseUser> getUser() async {
-    return await _auth.currentUser();
-  }
-        @override
-        void initState() {
-          super.initState();
-          getUser().then((user) {
-            if (user != null) {
-              // send the user to the home page
-              // homePage();
-            }
-          });
+    Future<FirebaseUser> getUser() async {
+      return await _auth.currentUser();
+    }
+    @override
+    void initState() {
+      super.initState();
+      getUser().then((user) {
+        if (user != null) {
+          // send the user to the home page
+          // homePage();
         }
+      });
+    }
 
-}
+  }
 }
