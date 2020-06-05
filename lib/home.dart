@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Pages/Medicine.dart';
 import 'package:healthreminders/Pages/MoreOptions.dart';
+import 'package:healthreminders/Pages/HomePage.dart';
+
 import 'package:healthreminders/Pages/MoreReminders.dart';
-import 'package:healthreminders/Services/SignOut.dart';
 import 'package:healthreminders/Pages/WelcomePage.dart';
 import 'package:horizontal_indicator/horizontal_indicator.dart';
 
@@ -22,12 +23,15 @@ class HomeState extends State<Home> {
   int _selectedTab = 0;
 
   final _pageOptions = [
-    Home(),
+    HomePage(),
     Medicine(),
     MoreOptions(),
   ];
-  final List<Widget> _children = [];
-
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedTab = index;
+    });
+  }
   Future<void> _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -38,8 +42,9 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Center(
+            appBar: AppBar(
+          title: Padding(
+              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
               child: Text(
                 "Home Screen",
                 style: TextStyle(
@@ -49,10 +54,13 @@ class HomeState extends State<Home> {
           ),
           backgroundColor: Colors.teal,
         ),
-      body:
-        _pageOptions[_selectedTab],
+
+      body: Center(
+        child: _pageOptions[_selectedTab],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedTab, // this will be set when a new tab is tapped
+          currentIndex: _selectedTab,
+      // this will be set when a new tab is tapped
       items: [
         BottomNavigationBarItem(
           icon:  Icon(Icons.home),
@@ -66,13 +74,11 @@ class HomeState extends State<Home> {
             icon: Icon(Icons.person),
             title: Text('Profile')
         )
-      ],
-        onTap: (index) {
-          setState(() {
-            _selectedTab = index;
-          });
-        },
-    ),
+  ],
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.teal[800],
+
+        ),
         drawer: Drawer(
           child: ListView(
             // Important: Remove any padding from the ListView.
@@ -117,4 +123,3 @@ class HomeState extends State<Home> {
     );
   }
 }
-
