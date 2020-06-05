@@ -25,20 +25,10 @@ class HomeState extends State<Home> {
   final _pageOptions = [
     HomePage(),
     Medicine(),
+    MoreReminders(),
     MoreOptions(),
   ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedTab = index;
-    });
-  }
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e); //
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,55 +61,28 @@ class HomeState extends State<Home> {
           title: new Text('Medicines'),
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Profile')
+            icon: Icon(Icons.alarm),
+            title: Text('More Reminders')
+        ),
+        BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        title: Text('More Options')
         )
   ],
-          onTap: _onItemTapped,
-          selectedItemColor: Colors.teal[800],
+        selectedItemColor: Colors.black,
+        backgroundColor: Colors.teal,
+        unselectedItemColor: Colors.teal[800],
+        unselectedLabelStyle: TextStyle(color:Colors.black),
 
-        ),
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text(''),
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                ),
-              ),
-              Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                      children: <Widget>[
-                  ListTile(
-                      leading: Icon(Icons.settings),
-                      title: Text('Settings')),
-                   ListTile(
-                     leading: Icon(Icons.exit_to_app),
-                    title: Text('Logout'),
-                    onTap: () {
-                      _signOut().whenComplete(() {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return LoginPage();
-                            },
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                    ]
-                  ),
-              ),
-              ),
-            ],
-          ),
-        )
-    );
+    onTap: (int index) {
+      setState(() {
+        _selectedTab = index;
+      },
+
+
+      );
+    })
+            );
+
   }
 }
