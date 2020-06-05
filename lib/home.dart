@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Pages/Medicine.dart';
+import 'package:healthreminders/Pages/MoreOptions.dart';
+import 'package:healthreminders/Pages/MoreReminders.dart';
 import 'package:healthreminders/Services/SignOut.dart';
 import 'package:healthreminders/Pages/WelcomePage.dart';
+import 'package:horizontal_indicator/horizontal_indicator.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -14,6 +19,14 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  int _selectedTab = 0;
+
+  final _pageOptions = [
+    Home(),
+    Medicine(),
+    MoreOptions(),
+  ];
+  final List<Widget> _children = [];
 
   Future<void> _signOut() async {
     try {
@@ -36,8 +49,10 @@ class HomeState extends State<Home> {
           ),
           backgroundColor: Colors.teal,
         ),
+      body:
+        _pageOptions[_selectedTab],
       bottomNavigationBar: BottomNavigationBar(
-      currentIndex: 0, // this will be set when a new tab is tapped
+          currentIndex: _selectedTab, // this will be set when a new tab is tapped
       items: [
         BottomNavigationBarItem(
           icon:  Icon(Icons.home),
@@ -45,13 +60,18 @@ class HomeState extends State<Home> {
         ),
         BottomNavigationBarItem(
           icon:  ImageIcon(AssetImage('assets/pill.png')),
-          title: new Text('Messages'),
+          title: new Text('Medicines'),
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile')
         )
       ],
+        onTap: (index) {
+          setState(() {
+            _selectedTab = index;
+          });
+        },
     ),
         drawer: Drawer(
           child: ListView(
@@ -81,8 +101,6 @@ class HomeState extends State<Home> {
                           MaterialPageRoute(
                             builder: (context) {
                               return LoginPage();
-                              
-
                             },
                           ),
                         );
@@ -95,7 +113,8 @@ class HomeState extends State<Home> {
               ),
             ],
           ),
-        ))
-    ;
+        )
+    );
   }
 }
+

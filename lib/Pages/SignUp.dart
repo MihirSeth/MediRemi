@@ -150,47 +150,18 @@ class _SignupPageState extends State<SignupPage> {
                             child: GestureDetector(
                               onTap: () {
                                 signUp(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Center(child: Text('Success')),
-                                        titleTextStyle: TextStyle(
-                                          color: Colors.teal,
-                                          fontFamily: 'Monster',
-                                          fontSize: 20.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        content: Text('Congratulations, you have signed up to take care of your health! Kindly login'),
-                                        contentTextStyle: TextStyle(
-                                          fontFamily: 'Monster',
-                                          color: Colors.black,
-                                        ),
-                                        actions: [
-                                          FlatButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pushNamed('/');
-                                            },
-                                            child: Text('Login'),
-                                          )
-                                        ],
-                                      );
-                                    }
-                                );
-                              },
-                              child: Center(
-                                child: Text(
-                                  "Sign Up",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Monster",
+                                },
+                                child: Center(
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Monster",
+                                    ),
                                   ),
-                                ),
+                                )
                               ),
-                            ),
                           ),
                         ),
                         SizedBox(

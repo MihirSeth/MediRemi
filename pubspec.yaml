@@ -27,6 +27,8 @@ dependencies:
   firebase_auth: ^0.16.1
   google_sign_in: ^4.5.1
   flutter_spinkit: "^4.1.2"
+  horizontal_indicator: ^0.1.0
+
 
 
 

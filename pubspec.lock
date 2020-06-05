@@ -177,6 +177,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.1+1"
+  horizontal_indicator:
+    dependency: "direct main"
+    description:
+      name: horizontal_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   http:
     dependency: transitive
     description:
@@ -198,6 +205,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.12"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.1"
   js:
     dependency: transitive
     description:
