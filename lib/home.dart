@@ -3,10 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Pages/Medicine.dart';
 import 'package:healthreminders/Pages/MoreOptions.dart';
 import 'package:healthreminders/Pages/HomePage.dart';
-
 import 'package:healthreminders/Pages/MoreReminders.dart';
 import 'package:healthreminders/Pages/WelcomePage.dart';
-import 'package:horizontal_indicator/horizontal_indicator.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,18 +30,6 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
-          title: Padding(
-              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-              child: Text(
-                "Home Screen",
-                style: TextStyle(
-                    fontFamily: 'Monster'
-                ),
-              )
-          ),
-          backgroundColor: Colors.teal,
-        ),
 
       body: Center(
         child: _pageOptions[_selectedTab],
@@ -65,7 +51,7 @@ class HomeState extends State<Home> {
             title: Text('More Reminders')
         ),
         BottomNavigationBarItem(
-        icon: Icon(Icons.person),
+        icon:  ImageIcon(AssetImage('assets/dots.png')),
         title: Text('More Options')
         )
   ],

@@ -5,6 +5,7 @@ import 'package:healthreminders/Pages/Medicine.dart';
 import 'package:healthreminders/Pages/MoreOptions.dart';
 import 'package:healthreminders/Pages/HomePage.dart';
 import 'package:healthreminders/Pages/WelcomePage.dart';
+import 'package:healthreminders/Pages/SignUp.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,6 +26,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+        appBar: AppBar(
+          title: Padding(
+              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+              child: Text(
+                "Home Screen",
+                style: TextStyle(
+                    fontFamily: 'Monster'
+                ),
+              )
+          ),
+          backgroundColor: Colors.teal,
+        ),
       body: Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: DateIndicator(

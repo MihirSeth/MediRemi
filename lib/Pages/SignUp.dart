@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/home.dart';
 import 'package:healthreminders/Pages/SignUpGoogle.dart';
 import 'package:healthreminders/Pages/loading.dart';
@@ -16,8 +18,11 @@ class _SignupPageState extends State<SignupPage> {
 
   String _emailID;
   String _password;
+  String _name;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,13 @@ class _SignupPageState extends State<SignupPage> {
                   padding: EdgeInsets.only(top: 35, left: 35, right: 35),
                   child: Column(
                       children: <Widget>[
-                        TextField(
+                        TextFormField(
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return 'Please type a Name';
+                              }
+                            },
+                            onSaved: (input) => _name = input,
                             decoration: InputDecoration(
                               hintText: "Name",
                               hintStyle: TextStyle(
@@ -291,13 +302,14 @@ class _SignupPageState extends State<SignupPage> {
     if (_form.validate()) {
       _form.save();
       try {
-        AuthResult user = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-            email: _emailID, password: _password);
+        AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailID, password: _password);
+        FirebaseUser user = result.user;
+
+        await DatabaseService(uid: user.uid).updateUserData(_name,_emailID);
+
         setState(() => loading = true);
         print("Successfully Registered!");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
         setState(() {
           loading = false;
