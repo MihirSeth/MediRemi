@@ -6,12 +6,14 @@ import 'package:healthreminders/Pages/WelcomePage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
 class Medicine extends StatefulWidget {
   @override
   _MedicineState createState() => _MedicineState();
 }
 
 class _MedicineState extends State<Medicine> {
+
   Future<void> _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -19,29 +21,60 @@ class _MedicineState extends State<Medicine> {
       print(e); //
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-            padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-            child: Text(
-              "Medicines",
-              style: TextStyle(
-                  fontFamily: 'Monster'
-              ),
-            )
+        appBar: AppBar(
+          title: Padding(
+              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+              child: Text(
+                "Medicines",
+                style: TextStyle(
+                    fontFamily: 'Monster'
+                ),
+              )
+          ),
+          backgroundColor: Colors.teal,
         ),
-        backgroundColor: Colors.teal,
-      ),
-      body: Center(
-            child: Text(
-              "Medicine",
-              style: TextStyle(
-                  fontFamily: 'Monster'
+        body:
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                height: 60,
+                width: 250,
+                child: Material(
+                  borderRadius: BorderRadius.circular(1000),
+                  shadowColor: Colors.tealAccent,
+                  color: Colors.teal,
+                  elevation: 7.0,
+                  child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      },
+                      child: Center(
+                        child: Text(
+                          "Add a Med",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Monster",
+                            fontSize: 20.0,
+
+                          ),
+                        ),
+                      )
+                  ),
+                ),
               ),
-            )
+            ),
+          ],
         ),
+
         drawer:Drawer(
             child: ListView(
               // Important: Remove any padding from the ListView.
@@ -84,8 +117,4 @@ class _MedicineState extends State<Medicine> {
             )
         )
     );
-  }
-}
-
-
-
+  }}

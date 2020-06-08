@@ -177,13 +177,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.1+1"
-  horizontal_indicator:
-    dependency: "direct main"
-    description:
-      name: horizontal_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   http:
     dependency: transitive
     description:
@@ -211,7 +204,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.15.8"
   js:
     dependency: transitive
     description:
@@ -282,6 +275,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
+  scrolling_day_calendar:
+    dependency: "direct main"
+    description:
+      name: scrolling_day_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

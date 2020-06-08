@@ -34,15 +34,21 @@ class _MedicineState extends State<MoreReminders> {
         ),
         backgroundColor: Colors.teal,
       ),
-      body: Center(
-            child: Text(
-              "Hello",
-              style: TextStyle(
-                  fontFamily: 'Monster'
-              ),
-            )
-        ),
-        
+//      body:   CalendarTimeline(
+//        initialDate: DateTime(2020, 2, 20),
+//        firstDate: DateTime(2020, 2, 15),
+//        lastDate: DateTime(2021, 11, 20),
+//        onDateSelected: (date) => print(date),
+//        leftMargin: 20,
+//        monthColor: Colors.black,
+//        dayColor: Colors.teal[200],
+//        dayNameColor: Color(0xFF333A47),
+//        activeDayColor: Colors.white,
+//        activeBackgroundDayColor: Colors.redAccent[100],
+//        dotsColor: Color(0xFF333A47),
+//      ),
+
+
         drawer:Drawer(
             child: ListView(
               // Important: Remove any padding from the ListView.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Pages/WelcomePage.dart';
 
 
@@ -21,6 +22,13 @@ class _MedicineState extends State<MoreOptions> {
       print(e); //
     }
   }
+
+  Widget pageItems = Text("Inital value");
+  DateTime selectedDate = DateTime.now();
+  DateTime startDate = DateTime.now().subtract(Duration(days: 10));
+  DateTime endDate = DateTime.now().add(Duration(days: 10));
+  String widgetKeyFormat = "yyyy-MM-dd";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +46,7 @@ class _MedicineState extends State<MoreOptions> {
       ),
 
         body: Center(
-            child: Text(
-              "Hi",
-              style: TextStyle(
-                  fontFamily: 'Monster'
-              ),
-            )
+          child: Text('Hi'),
         ),
         drawer:Drawer(
             child: ListView(

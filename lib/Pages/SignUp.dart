@@ -158,7 +158,7 @@ class _SignupPageState extends State<SignupPage> {
                             shadowColor: Colors.tealAccent,
                             color: Colors.teal,
                             elevation: 7.0,
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 signUp(context);
                                 },

@@ -1,8 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:healthreminders/Pages/loading.dart';
+
+
 
 import 'Wrapper.dart';
 
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
+
       value: AuthService().user,
       child: MaterialApp(
         home: Wrapper(),
