@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Services/Database.dart';
-import 'package:healthreminders/home.dart';
-import 'package:healthreminders/Pages/SignUpGoogle.dart';
-import 'package:healthreminders/Pages/loading.dart';
+import 'package:healthreminders/MainPages/home.dart';
+import 'package:healthreminders/Services/SignUpGoogle.dart';
+import 'package:healthreminders/Models/loading.dart';
 
 
 class SignupPage extends StatefulWidget {
@@ -81,7 +81,7 @@ class _SignupPageState extends State<SignupPage> {
                             },
                             onSaved: (input) => _name = input,
                             decoration: InputDecoration(
-                              hintText: "Name",
+                              hintText: "Full Name",
                               hintStyle: TextStyle(
                                 fontFamily: "Monster",
                                 fontWeight: FontWeight.bold,
@@ -345,7 +345,7 @@ class _SignupPageState extends State<SignupPage> {
           );
         }
         );
-      };
+      }
     }
 
   }

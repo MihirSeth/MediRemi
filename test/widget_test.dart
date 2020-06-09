@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:healthreminders/Pages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/WelcomePage.dart';
 
 import 'package:healthreminders/main.dart';
 

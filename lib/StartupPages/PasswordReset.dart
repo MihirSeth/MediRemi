@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/Pages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/WelcomePage.dart';
 
 String _emailID;
 String _password;

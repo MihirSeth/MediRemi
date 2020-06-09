@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:healthreminders/Models/User.dart';
 
 class DatabaseService {
 
@@ -18,8 +18,32 @@ class DatabaseService {
 
     });
   }
-  Stream<QuerySnapshot> get Names{
-    return nameCollection.snapshots();
+  List<Names> _brewListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc){
+      //print(doc.data);
+      return Names(
+          name: doc.data['Name'] ?? '',
+        email: doc.data['Email'] ?? '',
+      );
+    }).toList();
   }
+
+  // user data from snapshots
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid,
+        name: snapshot.data['name'],
+        email: snapshot.data['Email'],
+    );
+  }
+
+}
+
+class Names {
+  final String name;
+  final String email;
+
+
+  Names({ this.name, this.email });
 
 }

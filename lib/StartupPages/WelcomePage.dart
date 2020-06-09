@@ -1,12 +1,12 @@
-import 'package:healthreminders/Pages/SignUp.dart';
+import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/Pages/SignUpGoogle.dart';
-import 'package:healthreminders/Pages/PasswordReset.dart';
-import 'package:healthreminders/Pages/loading.dart';
+import 'package:healthreminders/Services/SignUpGoogle.dart';
+import 'package:healthreminders/StartupPages/PasswordReset.dart';
+import 'package:healthreminders/Models/loading.dart';
 
 
-import '../home.dart';
+import '../MainPages/home.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

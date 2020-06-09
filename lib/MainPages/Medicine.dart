@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Pages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthreminders/StartupPages/SignUp.dart';
 
 
 
@@ -26,15 +29,15 @@ class _MedicineState extends State<Medicine> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Padding(
-              padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-              child: Text(
-                "Medicines",
-                style: TextStyle(
-                    fontFamily: 'Monster'
+          title:  Center(
+            child: Text(
+                  "Medicines",
+                  style: TextStyle(
+                      fontFamily: 'Monster'
+                  ),
                 ),
-              )
           ),
+
           backgroundColor: Colors.teal,
         ),
         body:
@@ -53,9 +56,7 @@ class _MedicineState extends State<Medicine> {
                   elevation: 7.0,
                   child: FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => LoginPage()));
-                      },
+                        },
                       child: Center(
                         child: Text(
                           "Add a Med",
@@ -75,13 +76,37 @@ class _MedicineState extends State<Medicine> {
           ],
         ),
 
-        drawer:Drawer(
+        drawer: Drawer(
             child: ListView(
               // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  child: Text(''),
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: Firestore.instance.collection("Names")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Text('Loading...');
+                        else ErrorNames();
+                        return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) =>
+                              buildListItem(
+                                  context, snapshot.data.documents[index]),
+
+                        );
+                      }
+                  ),
+//                child: Center(
+//                  child: Text(
+//                      '$Names',
+//                    style: TextStyle(
+//                      color: Colors.white,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ),
+//                ),
                   decoration: BoxDecoration(
                     color: Colors.teal,
                   ),
@@ -116,5 +141,40 @@ class _MedicineState extends State<Medicine> {
               ],
             )
         )
+
     );
-  }}
+  }
+
+
+  Widget _widgetBuilder(DateTime selectedDate) {
+  }
+
+}
+
+void ErrorNames() {
+  Column(
+      children: <Widget>[
+        Text(
+            'Signed Up with not enough information. Go back to sign up page and sign up again'
+        ),
+
+        InkWell(
+            onTap: () {
+              BuildContext context;
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
+            },
+
+            child: Text(
+              "Login with Google",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "Monster",
+
+              ),
+
+            )
+        )
+      ]
+  );
+
+}
