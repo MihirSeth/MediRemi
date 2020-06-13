@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 
 class HomePage extends StatefulWidget {
@@ -26,10 +30,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget pageItems = Text("Inital value");
+  Widget pageItems = Text("");
   DateTime selectedDate = DateTime.now();
-  DateTime startDate = DateTime.now().subtract(Duration(days: 10));
-  DateTime endDate = DateTime.now().add(Duration(days: 10));
+  DateTime startDate = DateTime.now().subtract(Duration(days: 31));
+  DateTime endDate = DateTime.now().add(Duration(days: 31));
   String widgetKeyFormat = "yyyy-MM-dd";
 
   @override
@@ -55,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           selectedDate: selectedDate,
           onDateChange: (direction, DateTime selectedDate) {
             setState(() {
-              pageItems = _widgetBuilder(selectedDate);
+              pageItems = widgetBuilder(selectedDate);
             });
           },
           dateStyle: TextStyle(
@@ -70,11 +74,48 @@ class _HomePageState extends State<HomePage> {
           pageChangeDuration: Duration(
             milliseconds: 400,
           ),
-          noItemsWidget: Center(
-            child: Text(
-                "No items have been added for this date"), // add buttons etc here to add new items for date
+          noItemsWidget:  Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+               Container(
+                    alignment: Alignment.bottomCenter,
+                    height: 60,
+                    width: 250,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(1000),
+                      shadowColor: Colors.tealAccent,
+                      color: Colors.teal,
+                      elevation: 7.0,
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => AddMedicine()));
+                          },
+                          child: Center(
+                            child: Text(
+                              "Add a Med",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monster",
+                                fontSize: 20.0,
+
+                              ),
+                            ),
+                          )
+                      ),
+                    ),
+                  ),
+
+              ],
+            ),
           ),
+
         ),
+
 
 
         drawer: Drawer(
@@ -84,8 +125,7 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names")
-                          .snapshots(),
+                      stream: Firestore.instance.collection("Names").snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
@@ -100,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                   ),
+
 //                child: Center(
 //                  child: Text(
 //                      '$Names',
@@ -120,7 +161,8 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           ListTile(
                               leading: Icon(Icons.settings),
-                              title: Text('Settings')),
+                              title: Text('Settings')
+                          ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
                             title: Text('Logout'),
@@ -148,7 +190,36 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  Widget _widgetBuilder(DateTime selectedDate) {
+  Widget widgetBuilder(DateTime selectedDate) {
+    Container(
+      alignment: Alignment.bottomCenter,
+      height: 60,
+      width: 250,
+      child: Material(
+        borderRadius: BorderRadius.circular(1000),
+        shadowColor: Colors.tealAccent,
+        color: Colors.teal,
+        elevation: 7.0,
+        child: FlatButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddMedicine()));
+            },
+            child: Center(
+              child: Text(
+                "Add a Med",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Monster",
+                  fontSize: 20.0,
+
+                ),
+              ),
+            )
+        ),
+      ),
+    );
   }
 
 }

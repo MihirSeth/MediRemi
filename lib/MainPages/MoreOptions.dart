@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,8 +45,43 @@ class _MedicineState extends State<MoreOptions> {
       ),
 
 
-        body: Center(
-          child: Text('Hi'),
+        body: Container(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+                children: <Widget>[
+                  ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text('Settings')),
+                  ListTile(
+                    leading: Icon(Icons.person_add),
+                    title: Text('Doctors'),
+                    onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Doctors();
+                            },
+                          ),
+                        );
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.add_circle),
+                    title: Text('Appoinments'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Appoinments();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ]
+            ),
+          ),
         ),
         drawer: Drawer(
             child: ListView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,39 +42,46 @@ class _MedicineState extends State<Medicine> {
           backgroundColor: Colors.teal,
         ),
         body:
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                height: 60,
-                width: 250,
-                child: Material(
-                  borderRadius: BorderRadius.circular(1000),
-                  shadowColor: Colors.tealAccent,
-                  color: Colors.teal,
-                  elevation: 7.0,
-                  child: FlatButton(
-                      onPressed: () {
-                        },
-                      child: Center(
-                        child: Text(
-                          "Add a Med",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Monster",
-                            fontSize: 20.0,
+        Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+               Center(
+                 child: Container(
+                    alignment: Alignment.bottomCenter,
+                    height: 60,
+                    width: 250,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(1000),
+                      shadowColor: Colors.tealAccent,
+                      color: Colors.teal,
+                      elevation: 7.0,
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => AddMedicine()));
+                            },
+                          child: Center(
+                            child: Text(
+                              "Add a Med",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monster",
+                                fontSize: 20.0,
 
-                          ),
-                        ),
-                      )
+                              ),
+                            ),
+                          )
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
+               ),
+
+            ],
+          ),
         ),
 
         drawer: Drawer(

@@ -51,7 +51,7 @@ class HomeState extends State<Home> {
             title: Text('More Reminders')
         ),
         BottomNavigationBarItem(
-        icon:  ImageIcon(AssetImage('assets/dots.png')),
+        icon:  ImageIcon(AssetImage('assets/Images/dots.png')),
         title: Text('More Options')
         )
   ],

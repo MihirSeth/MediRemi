@@ -40,6 +40,7 @@ dependencies:
       ref: dev
       path: flare_flutter
   rxdart: ^0.22.0
+  firebase_messaging: ^6.0.16
 
 
 
@@ -54,6 +55,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
+flutter_launcher_name:
+  name: "Health Reminders"
 
 
 # For information on the generic Dart part of this file, see the
@@ -73,8 +77,14 @@ flutter:
     - assets/googlewhite.png
     - assets/MaterialIcons-Regular.ttf
     - assets/pill.png
-    - assets/dots.png
+    - assets/Images/dots.png
+    - assets/Bottle.png
+    - assets/Tablet.png
+    - assets/Syringe.png
+    - assets/Doctor.png
     - assets/MaterialIcons-Regular.ttf
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

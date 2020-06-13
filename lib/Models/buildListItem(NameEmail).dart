@@ -1,5 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+GoogleSignIn _googleSignIn;
+FirebaseUser _user;
+HomePageWidget(FirebaseUser user, GoogleSignIn signIn) {
+  _user = user;
+  _googleSignIn = signIn;
+}
 
 buildListItem(BuildContext context, DocumentSnapshot document) {
   return ListTile(
@@ -20,6 +29,9 @@ buildListItem(BuildContext context, DocumentSnapshot document) {
                       fontSize: 20,
                     ),
                   ),
+//                  Text(_user.displayName,
+//                      textAlign: TextAlign.center,
+//                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
                 ],
               ),
               SizedBox(

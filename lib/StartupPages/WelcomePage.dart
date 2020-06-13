@@ -1,3 +1,4 @@
+import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,12 @@ class LoginPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         "/signup" : (BuildContext context) => new SignupPage(),
-        "/passwordreset" : (BuildContext context) => new PasswordReset()
+        "/passwordreset" : (BuildContext context) => new PasswordReset(),
+        '/addmedicine': (context) => AddMedicine(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
@@ -56,249 +58,253 @@ class _MyHomePageState extends State<MyHomePage> {
     return loading ? Loading() : Scaffold(
 
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
-                  child: Text(
-                    "Hello",
-                    style: TextStyle(
-                      fontSize: 80,
-                      fontWeight: FontWeight.bold,
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35, 110, 0, 0),
+                      child: Text(
+                        "Hello",
+                        style: TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.bold,
 
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
-                  child: Text(
-                    "There",
-                    style: TextStyle(
-                      fontSize: 80,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(265, 180, 0, 0),
-                  child: Text(
-                    ".",
-                    style: TextStyle(
-                      fontSize: 90,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 35, left: 35, right: 35),
-
-            child: Column(
-                children: <Widget>[
-                  Form(
-                    key: _formKey,
-                    child: Column(
-
-                      children: <Widget>[
-                        TextFormField(
-                            validator: (input) {
-                              if (input.isEmpty){
-                                return 'Please type a email';
-                              }
-                            },
-
-                            onSaved: (input) => _emailID = input,
-                            decoration: InputDecoration(
-                              hintText: "Email ID",
-                              hintStyle: TextStyle(
-                                fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.teal),),
-                            )
                         ),
-
-                        SizedBox(
-                          height: 20.0,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(35, 190, 0, 0),
+                      child: Text(
+                        "There",
+                        style: TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(265, 180, 0, 0),
+                      child: Text(
+                        ".",
+                        style: TextStyle(
+                          fontSize: 90,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
+                        ),
+                      ),
+                    ),
 
-                        TextFormField(
-                          // ignore: missing_return
-                          validator: (input) {
-                            if (input.length < 6) {
-                              return 'Please type a password';
-                            }
-                          },
-                          onSaved: (input) => _password = input,
-                          decoration: InputDecoration(
-                            hintText: "Password",
-                            hintStyle: TextStyle(
-                              fontFamily: "Monster",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 35, left: 35, right: 35),
+
+                child: Column(
+                    children: <Widget>[
+                      Form(
+                        key: _formKey,
+                        child: Column(
+
+                          children: <Widget>[
+                            TextFormField(
+                                validator: (input) {
+                                  if (input.isEmpty){
+                                    return 'Please type a email';
+                                  }
+                                },
+
+                                onSaved: (input) => _emailID = input,
+                                decoration: InputDecoration(
+                                  hintText: "Email ID",
+                                  hintStyle: TextStyle(
+                                    fontFamily: "Monster",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.teal),),
+                                )
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),),
 
-                          ),
-                          obscureText: true,
+                            SizedBox(
+                              height: 20.0,
+                            ),
+
+                            TextFormField(
+                              // ignore: missing_return
+                              validator: (input) {
+                                if (input.length < 6) {
+                                  return 'Please type a password';
+                                }
+                              },
+                              onSaved: (input) => _password = input,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+
+                              ),
+                              obscureText: true,
+                            ),
+                          ],
+
                         ),
+                      ),
+
+
+                      SizedBox(
+                        height: 5,
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.only(top: 15, left: 210),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed("/passwordreset");
+                          },
+                          child: Text(
+                            "Forgot Password",
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Monster',
+                              decoration: TextDecoration.underline,
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.teal)),
+                        color: Colors.teal,
+
+                        onPressed: () {
+                          signIn(context);
+
+                        },
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Monster",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  height: 40,
+                  width: 340,
+                  color: Colors.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: ImageIcon(AssetImage('assets/google.png')),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              signInWithGoogle().whenComplete(() {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Home();
+                                    },
+                                  ),
+                                );
+                              });
+                            },
+                            child: Text(
+                              "Login with Google",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monster",
+
+                              ),
+
+                            )
+                        )
                       ],
 
                     ),
+
                   ),
-
-
-                  SizedBox(
-                    height: 5,
-                  ),
-
-                  Container(
-                    padding: EdgeInsets.only(top: 15, left: 210),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/passwordreset");
-                      },
-                      child: Text(
-                        "Forgot Password",
-                        style: TextStyle(
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Monster',
-                          decoration: TextDecoration.underline,
-
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.teal)),
-                    color: Colors.teal,
-
-                    onPressed: () {
-                      signIn(context);
-
-                    },
-                    child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Monster",
-                        ),
-                      ),
-                    ),
-                  ),
-                ]
-            ),
-          ),
-
-          SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Container(
-              height: 40,
-              width: 340,
-              color: Colors.transparent,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    style: BorderStyle.solid,
-                  ),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: ImageIcon(AssetImage('assets/google.png')),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          signInWithGoogle().whenComplete(() {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Home();
-                                },
-                              ),
-                            );
-                          });
-                        },
-                        child: Text(
-                          "Login with Google",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Monster",
-
-                          ),
-
-                        )
-                    )
-                  ],
-
-                ),
-
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-
-              Text(
-                "New here?",
-                style: TextStyle(
-                  fontFamily: "Monster",
                 ),
               ),
               SizedBox(
-                width: 5,
+                height: 15,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed("/signup");
-                },
-                child: Text(
-                  "Register now.",
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontFamily: "Monster",
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  Text(
+                    "New here?",
+                    style: TextStyle(
+                      fontFamily: "Monster",
+                    ),
                   ),
-                ),
-              )
+                  SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/signup");
+                    },
+                    child: Text(
+                      "Register now.",
+                      style: TextStyle(
+                        color: Colors.teal,
+                        fontFamily: "Monster",
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+
             ],
           ),
-
-
         ],
       ),
 
@@ -315,6 +321,8 @@ class _MyHomePageState extends State<MyHomePage> {
             .signInWithEmailAndPassword(email: _emailID, password: _password);
         final FirebaseUser currentUser = await _auth.currentUser();
         setState(() => loading = true);
+
+        final AuthCredential credential = EmailAuthProvider.getCredential(email: _emailID,password: _password);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
@@ -370,5 +378,10 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+
   }
+
 }
+
+
+

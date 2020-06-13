@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Services/PushNotifications.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -94,7 +95,11 @@ class _MedicineState extends State<MoreReminders> {
                         children: <Widget>[
                           ListTile(
                               leading: Icon(Icons.settings),
-                              title: Text('Settings')),
+                              title: Text('Settings'),
+                              onTap: () {
+                              }
+                          ),
+
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
                             title: Text('Logout'),
