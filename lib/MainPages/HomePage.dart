@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
@@ -30,11 +29,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget pageItems = Text("");
+  Widget pageItems = Text('');
   DateTime selectedDate = DateTime.now();
   DateTime startDate = DateTime.now().subtract(Duration(days: 31));
   DateTime endDate = DateTime.now().add(Duration(days: 31));
-  String widgetKeyFormat = "yyyy-MM-dd";
+  String widgetKeyFormat = "dd-MM-yyyy";
+  Map<String, Widget> widgets = Map();
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,32 +51,33 @@ class _HomePageState extends State<HomePage> {
           ),
           backgroundColor: Colors.teal,
         ),
-//
 
-
-        body: ScrollingDayCalendar(
-          startDate: startDate,
-          endDate: endDate,
-          selectedDate: selectedDate,
-          onDateChange: (direction, DateTime selectedDate) {
-            setState(() {
-              pageItems = widgetBuilder(selectedDate);
-            });
-          },
-          dateStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+      body: ScrollingDayCalendar(
+        startDate: startDate,
+        endDate: endDate,
+        selectedDate: selectedDate,
+        onDateChange: (direction, DateTime selectedDate) {
+          setState(() {
+            pageItems = widgetBuilder(selectedDate);
+          });
+        },
+        dateStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        displayDateFormat: "dd MMM, yyyy",
+        dateBackgroundColor: Colors.grey,
+        forwardIcon: Icons.arrow_forward,
+        backwardIcon: Icons.arrow_back,
+        pageChangeDuration: Duration(
+          milliseconds: 200,
+        ),
           pageItems: pageItems,
-          displayDateFormat: "dd/MM/yyyy",
-          dateBackgroundColor: Colors.grey,
-          forwardIcon: Icons.arrow_forward,
-          backwardIcon: Icons.arrow_back,
-          pageChangeDuration: Duration(
-            milliseconds: 400,
-          ),
-          noItemsWidget:  Padding(
-            padding: EdgeInsets.only(bottom: 10),
+        widgets: widgets,
+        widgetKeyFormat: widgetKeyFormat,
+        noItemsWidget: Center(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,6 +115,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+        )
 
         ),
 
@@ -162,6 +165,17 @@ class _HomePageState extends State<HomePage> {
                           ListTile(
                               leading: Icon(Icons.settings),
                               title: Text('Settings')
+                          ),
+                          ListTile(
+                              leading: ImageIcon(
+                                  AssetImage('assets/Whatsapp.png'),
+                                color: Colors.green
+                              ),
+                              title: Text('Whatsapp')
+                          ),
+                          ListTile(
+                              leading: Icon(Icons.email),
+                              title: Text('Email')
                           ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
@@ -221,8 +235,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
+
+
 
 void ErrorNames() {
   Column(

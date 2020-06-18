@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
+
+import 'DatabaseMedicine.dart';
 
 class AddMedicine extends StatefulWidget {
   @override
@@ -7,16 +10,21 @@ class AddMedicine extends StatefulWidget {
 }
 
 class _AddMedicineState extends State<AddMedicine> {
-  String medicine;
-  String mgdosage;
-  String pills;
-  String startingtime;
+  String _medicineName;
+  String _dosage;
+  int _pills;
+  String _medicineType;
+  String _interval;
+  String _startingTime;
+  int _durationTime;
+  String _durationType;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = 'Tablet';
   String _value;
   int _value1;
   String _value2;
-  String _value3;
+  final myController = TextEditingController();
+
 
 
   @override
@@ -58,7 +66,12 @@ class _AddMedicineState extends State<AddMedicine> {
                     ),
 
             TextFormField(
-            onSaved: (input) => medicine = input,
+                validator: (input) {
+                  if (input.isEmpty) {
+                    return 'Please type a Name';
+                  }
+                },
+                onSaved: (input) => _medicineName = input,
             decoration: InputDecoration(
               hintText: "Type Medicine or Brand Name",
               hintStyle: TextStyle(
@@ -88,18 +101,23 @@ class _AddMedicineState extends State<AddMedicine> {
                       ),
                     ),
     TextFormField(
-    onSaved: (input) => mgdosage = input,
-            keyboardType: TextInputType.number,
+        validator: (input) {
+          if (input.isEmpty) {
+            return 'Please type the Dosage';
+          }
+        },
+    onSaved: (input) => _dosage = input,
             decoration: InputDecoration(
-    hintText: "Type the Dosage ",
-    hintStyle: TextStyle(
-    fontFamily: "Monster",
-    fontWeight: FontWeight.bold,
-    color: Colors.grey,
-    ),
-    focusedBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.teal),),
-
+            hintText: "Type the Dosage ",
+            hintStyle: TextStyle(
+            fontFamily: "Monster",
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+            ),
+            focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.teal
+            ),
+            ),
     )
     ),
                     SizedBox(
@@ -119,7 +137,12 @@ class _AddMedicineState extends State<AddMedicine> {
                       ),
                     ),
                     TextFormField(
-                        onSaved: (input) => pills = input,
+                        validator: (input) {
+                          if (input.isEmpty) {
+                            return 'Please type the number of pills';
+                          }
+                        },
+                        onSaved: (input) => _pills = input as int,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "Type the Number of pills ",
@@ -167,8 +190,8 @@ class _AddMedicineState extends State<AddMedicine> {
                       height: 2,
                       color: Colors.teal,
                     ),
-                      hint: Text('Select Medicine Type'),
-                      value: _value,
+                    hint: Text('Select Medicine Type'),
+                      value: _medicineType,
                       items: [
                         DropdownMenuItem<String>(
                             child: Row(
@@ -181,7 +204,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                 ImageIcon(AssetImage('assets/Tablet.png')),
                               ],
                             ),
-                            value: 'One'
+                            value: 'Tablet'
                         ),
                       DropdownMenuItem<String>(
                         child: Row(
@@ -194,7 +217,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               ImageIcon(AssetImage('assets/pill.png')),
                             ],
                         ),
-                          value: 'Two'
+                          value: 'Pill'
 
                       ),
                       DropdownMenuItem<String>(
@@ -211,7 +234,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                             ],
                           ),
-                          value: 'Three'
+                          value: 'Bottle'
 
                       ),
                       DropdownMenuItem<String>(
@@ -228,13 +251,14 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                             ],
                           ),
-                          value: 'Four'
+                          value: 'Syringe'
 
                       )
                       ],
                             onChanged: (String newValue) {
                             setState(() {
-                            _value = newValue;
+                            _medicineType = newValue;
+
                             });
                             },
                   ),
@@ -268,79 +292,79 @@ class _AddMedicineState extends State<AddMedicine> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 200),
-                              child: DropdownButton<int>(
+                              child: DropdownButton<String>(
                                 underline: Container(
                                   height: 2,
                                   color: Colors.teal,
                                 ),
                                 hint: Text('Number of Hours'),
-                                value: _value1,
+                                value: _interval,
                                 items: [
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('2', style: TextStyle(color: Colors.teal),
+                                          Text('2 Hours', style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                      value: 1
+                                      value: '2 Hours'
                                   ),
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('4', style: TextStyle(color: Colors.teal),
+                                          Text('4 Hours', style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                    value: 2
+                                    value: '4 Hours'
 
                                   ),
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('6' , style: TextStyle(color: Colors.teal),
+                                          Text('6 Hours' , style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                      value: 3
+                                      value: '6 Hours'
                                   ),
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('8', style: TextStyle(color: Colors.teal),
+                                          Text('8 Hours', style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                      value: 4
+                                      value: '8 Hours'
                                   ),
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('12', style: TextStyle(color: Colors.teal),
+                                          Text('12 Hours', style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                      value: 5
+                                      value: '12 Hours'
                                   ),
-                                  DropdownMenuItem<int>(
+                                  DropdownMenuItem<String>(
                                       child: Row(
                                         children: <Widget>[
-                                          Text('24', style: TextStyle(color: Colors.teal),
+                                          Text('24 Hours', style: TextStyle(color: Colors.black),
                                           ),
 
                                         ],
                                       ),
-                                      value: 6
+                                      value: '24 Hours'
                                   )
                                 ],
-                                onChanged: (int newValue) {
+                                onChanged: (String newValue) {
                                   setState(() {
-                                    _value1 = newValue;
+                                    _interval = newValue;
                                   });
                                 },
                               ),
@@ -374,7 +398,7 @@ class _AddMedicineState extends State<AddMedicine> {
                       ),
                       TextFormField(
                           maxLength: 5,
-                          onSaved: (input) => startingtime = input,
+                          onSaved: (input) => _startingTime = input,
                           decoration: InputDecoration(
                             hintText: "Time (Kindly write in 24 hours method)",
                             hintStyle: TextStyle(
@@ -419,12 +443,17 @@ class _AddMedicineState extends State<AddMedicine> {
                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(bottom: 17, ),
+                                      padding: EdgeInsets.only(bottom: 17),
                                       child: TextFormField(
-                                          onSaved: (input) => startingtime = input,
+                                          validator: (input) {
+                                            if (input.isEmpty) {
+                                              return 'Please type the Duration number';
+                                            }
+                                          },
+                                          onSaved: (input) => _durationTime = input as int,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
-                                            hintText: "Number",
+                                            hintText: "Number" ,
                                             hintStyle: TextStyle(
                                               fontFamily: "Monster",
                                               fontWeight: FontWeight.bold,
@@ -450,32 +479,32 @@ class _AddMedicineState extends State<AddMedicine> {
                                           color: Colors.teal,
                                         ),
                                         hint: Text('Days/Weeks/Months/Years?'),
-                                        value: _value2,
+                                        value: _durationType,
                                         items: [
                                           DropdownMenuItem<String>(
-                                              child:Text('Days', style: TextStyle(color: Colors.teal),
+                                              child:Text('Days', style: TextStyle(color: Colors.black),
                                               ),
-                                              value: 'One'
+                                              value: 'Days'
                                           ),
                                           DropdownMenuItem<String>(
-                                            child:Text('Weeks', style: TextStyle(color: Colors.teal),
+                                            child:Text('Weeks', style: TextStyle(color: Colors.black),
                                             ),
-                                            value: 'Two'
+                                            value: 'Weeks '
                                           ),
                                           DropdownMenuItem<String>(
-                                              child:Text('Months', style: TextStyle(color: Colors.teal),
+                                              child:Text('Months', style: TextStyle(color: Colors.black),
                                               ),
-                                              value: 'Three'
+                                              value: 'Months'
                                           ),
                                           DropdownMenuItem<String>(
-                                              child:Text('Years', style: TextStyle(color: Colors.teal),
+                                              child:Text('Years', style: TextStyle(color: Colors.black),
                                               ),
-                                              value: 'Four'
+                                              value: 'Years'
                                           ),
                                         ],
                                         onChanged: (String newValue) {
                                           setState(() {
-                                            _value2 = newValue;
+                                            _durationType = newValue;
                                           });
                                         },
                                       ),
@@ -504,7 +533,11 @@ class _AddMedicineState extends State<AddMedicine> {
                     color: Colors.teal,
                     elevation: 7.0,
                     child: FlatButton(
-                        onPressed: () {
+                        onPressed: () async{
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Medicine()));
+
+                          await DatabaseService().medicineData(_medicineName, _dosage, _pills, _medicineType, _interval, _startingTime, _durationTime,  _durationType);
+
                         },
                         child: Center(
                           child: Text(
@@ -530,4 +563,3 @@ class _AddMedicineState extends State<AddMedicine> {
  }
 
 }
-

@@ -19,7 +19,7 @@ class _DoctorsState extends State<Doctors> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(bottom: 20),
+        padding: EdgeInsets.only(bottom: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,

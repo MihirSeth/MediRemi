@@ -37,21 +37,6 @@ class _MedicineState extends State<MoreReminders> {
 
         backgroundColor: Colors.teal,
       ),
-//      body:   CalendarTimeline(
-//        initialDate: DateTime(2020, 2, 20),
-//        firstDate: DateTime(2020, 2, 15),
-//        lastDate: DateTime(2021, 11, 20),
-//        onDateSelected: (date) => print(date),
-//        leftMargin: 20,
-//        monthColor: Colors.black,
-//        dayColor: Colors.teal[200],
-//        dayNameColor: Color(0xFF333A47),
-//        activeDayColor: Colors.white,
-//        activeBackgroundDayColor: Colors.redAccent[100],
-//        dotsColor: Color(0xFF333A47),
-//      ),
-
-
 
         drawer: Drawer(
             child: ListView(
@@ -95,11 +80,19 @@ class _MedicineState extends State<MoreReminders> {
                         children: <Widget>[
                           ListTile(
                               leading: Icon(Icons.settings),
-                              title: Text('Settings'),
-                              onTap: () {
-                              }
+                              title: Text('Settings')
                           ),
-
+                          ListTile(
+                              leading: ImageIcon(
+                                  AssetImage('assets/Whatsapp.png'),
+                                  color: Colors.green
+                              ),
+                              title: Text('Whatsapp')
+                          ),
+                          ListTile(
+                              leading: Icon(Icons.email),
+                              title: Text('Email')
+                          ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
                             title: Text('Logout'),
@@ -124,10 +117,6 @@ class _MedicineState extends State<MoreReminders> {
         )
 
     );
-  }
-
-
-  Widget _widgetBuilder(DateTime selectedDate) {
   }
 
 }
@@ -157,5 +146,4 @@ void ErrorNames() {
         )
       ]
   );
-
 }

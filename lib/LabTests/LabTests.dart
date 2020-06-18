@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Doctors/AddDoctors.dart';
 
-import 'AddAppoinment.dart';
+import 'AddLabTests.dart';
 
-class Appoinments extends StatefulWidget {
+class LabTests extends StatefulWidget {
   @override
-  _AppoinmentsState createState() => _AppoinmentsState();
+  _LabTestsState createState() => _LabTestsState();
 }
 
-class _AppoinmentsState extends State<Appoinments> {
+class _LabTestsState extends State<LabTests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Appoinments",
+            "Lab Tests",
             style: TextStyle(
                 fontFamily: 'Monster'
             ),
@@ -38,11 +39,11 @@ class _AppoinmentsState extends State<Appoinments> {
                         child: FlatButton(
                             onPressed: () {
                               Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => AddAppoinments()));
+                                  context, MaterialPageRoute(builder: (context) => AddLabTests()));
                             },
                             child: Center(
                               child: Text(
-                                "Add a Appoinment",
+                                "Add Lab Tests",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class AddAppoinments extends StatefulWidget {
+class AddLabTests extends StatefulWidget {
   @override
-  _AddAppoinmentsState createState() => _AddAppoinmentsState();
+  _AddLabTestsState createState() => _AddLabTestsState();
 }
 
-class _AddAppoinmentsState extends State<AddAppoinments> {
-
+class _AddLabTestsState extends State<AddLabTests> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String doctorname;
-  String appoinmentname;
-  String address;
-  String time;
+  String labtestname;
+  String speciality;
   String day;
   String date;
+  String address;
+  String time;
+  String reason;
   String _value;
+
 
 
 
@@ -23,7 +24,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Appoinments",
+          "Add Lab Tests",
           style: TextStyle(
               fontFamily: 'Monster'
           ),
@@ -42,9 +43,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 220),
+                          padding: EdgeInsets.only(right: 200),
                           child: Text(
-                              'Doctors Name',
+                              'Lab Tests Name',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20.0,
@@ -61,15 +62,14 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                   padding:  EdgeInsets.only(top: 20),
                                   child: CircleAvatar(
                                     child:
-                                    ImageIcon(
-                                      AssetImage(
-                                        'assets/Doctor.png',
-                                      ),
-                                      size: 40,
+                                    Icon(
+                                      Icons.assessment,
+                                      size: 25,
                                       color: Colors.white,
                                     ),
+
                                     backgroundColor: Colors.black,
-                                    radius: 30,
+                                    radius: 20,
                                   ),
                                 )
                             ),
@@ -81,10 +81,10 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               Expanded(
                                 flex: 7,
                                 child: TextFormField(
-                                    onSaved: (input) => doctorname = input,
+                                    onSaved: (input) => labtestname = input,
                                     decoration: InputDecoration(
 
-                                      hintText: " Doctor's Name",
+                                      hintText: "Name",
                                       hintStyle: TextStyle(
                                         fontFamily: "Monster",
                                         fontWeight: FontWeight.bold,
@@ -107,77 +107,10 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
               SizedBox(
                 height: 30,
               ),
-
               Padding(
-                padding: EdgeInsets.only(right: 170),
+                padding: EdgeInsets.only(right: 90),
                 child: Text(
-                    "Appoinment Details",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-
-                    )
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                padding: EdgeInsets.only(top:0, left: 25, right: 25),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding:  EdgeInsets.only(bottom: 10),
-                          child: CircleAvatar(
-                            child:
-                            Icon(
-                              Icons.edit,
-                              size: 25,
-                              color: Colors.white,
-                            ),
-
-                            backgroundColor: Colors.black,
-                            radius: 20,
-                          ),
-                        )
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child:
-                      Expanded(
-                        flex: 7,
-                        child: TextFormField(
-                            onSaved: (input) => appoinmentname = input ,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: "Appoinment Details",
-                              hintStyle: TextStyle(
-                                fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.teal),),
-                            )
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-
-              Padding(
-                padding: EdgeInsets.only(right: 270),
-                child: Text(
-                    "Location",
+                    "The Address of the Lab Test",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
@@ -238,9 +171,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 ),
               ),
               SizedBox(
-                height: 30.0,
+                height: 30,
               ),
-
               Container(
                   child: Column(
                     children: <Widget>[
@@ -328,7 +260,54 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                   )
               ),
               SizedBox(
+                height: 20,
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(right: 130),
+                child: Text(
+                    "Reason for the Lab Test",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+
+                    )
+                ),
+              ),
+              SizedBox(
                 height: 15,
+              ),
+              Container(
+                padding: EdgeInsets.only(top:0, left: 25, right: 25),
+
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child:
+                      Expanded(
+
+                        child: TextFormField(
+                            onSaved: (input) => reason = input,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Reason",
+                              hintStyle: TextStyle(
+                                fontFamily: "Monster",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.teal),),
+                            )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
 
               Padding(
@@ -344,7 +323,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 ),
               ),
               SizedBox(
-                height: 5,
+                height: 15,
               ),
               Container(
                 padding: EdgeInsets.only(top:0, left: 25, right: 25),
@@ -421,7 +400,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                   ],
                 ),
               ),
-
               SizedBox(
                 height: 50,
               ),
@@ -452,11 +430,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                   ),
                 ),
               ),
+
             ],
 
           ),
         ],
       ),
+
     );
   }
 }

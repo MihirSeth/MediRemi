@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -79,6 +80,19 @@ class _MedicineState extends State<MoreOptions> {
                       );
                     },
                   ),
+                  ListTile(
+                    leading: Icon(Icons.assessment),
+                      title: Text('Tests'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LabTests();
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ]
             ),
           ),
@@ -125,7 +139,19 @@ class _MedicineState extends State<MoreOptions> {
                         children: <Widget>[
                           ListTile(
                               leading: Icon(Icons.settings),
-                              title: Text('Settings')),
+                              title: Text('Settings')
+                          ),
+                          ListTile(
+                              leading: ImageIcon(
+                                  AssetImage('assets/Whatsapp.png'),
+                                  color: Colors.green
+                              ),
+                              title: Text('Whatsapp')
+                          ),
+                          ListTile(
+                              leading: Icon(Icons.email),
+                              title: Text('Email')
+                          ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
                             title: Text('Logout'),

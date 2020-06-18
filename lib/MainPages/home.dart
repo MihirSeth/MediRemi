@@ -40,11 +40,11 @@ class HomeState extends State<Home> {
       items: [
         BottomNavigationBarItem(
           icon:  Icon(Icons.home),
-          title: new Text('Home'),
+          title: Text('Home'),
         ),
         BottomNavigationBarItem(
           icon:  ImageIcon(AssetImage('assets/pill.png')),
-          title: new Text('Medicines'),
+          title: Text('Medicines'),
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.alarm),
