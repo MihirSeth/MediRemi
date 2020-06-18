@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:healthreminders/home.dart';
-import 'package:healthreminders/Pages/WelcomePage.dart';
-import 'package:healthreminders/Pages/SignUp.dart';
+import 'package:healthreminders/MainPages/home.dart';
+import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:provider/provider.dart';
 import 'package:healthreminders/Models/User.dart';
 

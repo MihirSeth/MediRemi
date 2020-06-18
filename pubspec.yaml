@@ -31,7 +31,16 @@ dependencies:
   provider: ^4.1.3
   scrolling_day_calendar: ^2.0.2
 #  calendar_timeline: ^0.6.0
-
+  table_calendar: ^2.2.3
+  shared_preferences: 0.5.2
+  flutter_local_notifications:
+  flare_flutter:
+    git:
+      url: git://github.com/2d-inc/Flare-Flutter.git
+      ref: dev
+      path: flare_flutter
+  rxdart: ^0.22.0
+  firebase_messaging: ^6.0.16
 
 
 
@@ -46,6 +55,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
+flutter_launcher_name:
+  name: "Health Reminders"
 
 
 # For information on the generic Dart part of this file, see the
@@ -65,7 +77,15 @@ flutter:
     - assets/googlewhite.png
     - assets/MaterialIcons-Regular.ttf
     - assets/pill.png
-    - assets/dots.png
+    - assets/Images/dots.png
+    - assets/Bottle.png
+    - assets/Tablet.png
+    - assets/Syringe.png
+    - assets/Doctor.png
+    - assets/MaterialIcons-Regular.ttf
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
