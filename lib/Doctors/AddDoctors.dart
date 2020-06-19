@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/Doctors/Services/DoctorDatabase.dart';
 
 class AddDoctors extends StatefulWidget {
   @override
@@ -8,11 +10,11 @@ class AddDoctors extends StatefulWidget {
 class _AddDoctorsState extends State<AddDoctors> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String doctorname;
-  String speciality;
-  int number;
-  String emailID;
-  String address;
+  String _doctorname;
+  String _speciality;
+  String _number;
+  String _emailID;
+  String _address;
 
 
 
@@ -30,211 +32,294 @@ class _AddDoctorsState extends State<AddDoctors> {
       body:
       ListView(
         children: [
-                Column(
+                Form(
+        key: _formKey,
+                  child: Column(
           children: <Widget>[
             Container(
-                padding: EdgeInsets.only(top: 15, left: 25, right: 25),
-                child:
-                Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(right: 220),
-                            child: Text(
-                                'Doctors Name',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                )
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                  child: Padding(
-                                    padding:  EdgeInsets.only(top: 20),
-                                    child: CircleAvatar(
-                                      child:
-                                      ImageIcon(
-                                          AssetImage(
-                                          'assets/Doctor.png',
-                                          ),
-                                        size: 40,
-                                        color: Colors.white,
-                                      ),
-                                      backgroundColor: Colors.black,
-                                      radius: 30,
-                                    ),
+                  padding: EdgeInsets.only(top: 15, left: 25, right: 25),
+                  child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 220),
+                              child: Text(
+                                  'Doctors Name',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
                                   )
                               ),
-                              SizedBox(
-                                width: 25,
-                              ),
-                              Container(
-                                child:
+                            ),
+                            Row(
+                              children: <Widget>[
                                 Expanded(
-                                  flex: 7,
-                                  child: TextFormField(
-                                      onSaved: (input) => doctorname = input,
-                                      decoration: InputDecoration(
-
-                                        hintText: " Doctor's Name",
-                                        hintStyle: TextStyle(
-                                          fontFamily: "Monster",
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey,
+                                  flex: 1,
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(top: 20),
+                                      child: CircleAvatar(
+                                        child:
+                                        ImageIcon(
+                                            AssetImage(
+                                            'assets/Doctor.png',
+                                            ),
+                                          size: 40,
+                                          color: Colors.white,
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.teal),),
-                                      )
+                                        backgroundColor: Colors.black,
+                                        radius: 30,
+                                      ),
+                                    )
+                                ),
+                                SizedBox(
+                                  width: 25,
+                                ),
+                                Container(
+                                  child:
+                                  Expanded(
+                                    flex: 7,
+                                    child: TextFormField(
+                                        validator: (input) {
+                                          if (input.isEmpty) {
+                                            return 'Please type the Doctors Name';
+                                          }
+                                        },
+                                        onSaved: (input) => _doctorname = input,
+                                        decoration: InputDecoration(
+
+                                          hintText: " Doctor's Name",
+                                          hintStyle: TextStyle(
+                                            fontFamily: "Monster",
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey,
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.teal),),
+                                        )
+                                    ),
                                   ),
                                 ),
+                              ],
+                            )
+
+                          ],
+                        ),
+
+
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(right: 170),
+              child: Text(
+                    "Speciality of Doctor",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+
+                    )
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              padding: EdgeInsets.only(top:0, left: 25, right: 25),
+              child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding:  EdgeInsets.only(bottom: 10),
+                          child: CircleAvatar(
+                            child:
+                            Icon(
+                              Icons.assignment,
+                              size: 25,
+                              color: Colors.white,
+                            ),
+
+                            backgroundColor: Colors.black,
+                            radius: 20,
+                          ),
+                        )
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child:
+                      Expanded(
+                        flex: 7,
+                        child: TextFormField(
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return 'Please type the Speciality of the Doctor';
+                              }
+                            },
+                            onSaved: (input) => _speciality = input,
+                            decoration: InputDecoration(
+                              hintText: "Speciality",
+                              hintStyle: TextStyle(
+                                fontFamily: "Monster",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
                               ),
-                            ],
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.teal),),
+                            )
+                        ),
+                      ),
+                    ),
+                  ],
+              ),
+            ),
+            SizedBox(
+                  height: 20,
+            ),
+
+            Padding(
+                  padding: EdgeInsets.only(right: 120),
+                  child: Text(
+                      "Phone Number of Doctor",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+
+                      )
+                  ),
+            ),
+            SizedBox(
+                  height: 15,
+            ),
+            Container(
+                  padding: EdgeInsets.only(top:0, left: 25, right: 25),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding:  EdgeInsets.only(bottom: 10),
+                            child: CircleAvatar(
+                              child:
+                              Icon(
+                                Icons.phone,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+
+                              backgroundColor: Colors.black,
+                              radius: 20,
+                            ),
                           )
-
-                        ],
                       ),
-                    )
-
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+                          flex: 7,
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Phone Number';
+                                }
+                              },
+                              onSaved: (input) => _number = input,
+                              keyboardType: TextInputType.number,
+                              maxLength: 11,
+                              decoration: InputDecoration(
+                                hintText: "Phone Number",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
             ),
             SizedBox(
-                height: 30,
+                  height: 20,
             ),
 
             Padding(
-                padding: EdgeInsets.only(right: 120),
-                child: Text(
-                    "Phone Number of Doctor",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.only(right: 225),
+                  child: Text(
+                      "Mail of Doctor",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
 
-                    )
-                ),
+                      )
+                  ),
             ),
             SizedBox(
-                height: 15,
+                  height: 15,
             ),
             Container(
-                padding: EdgeInsets.only(top:0, left: 25, right: 25),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding:  EdgeInsets.only(bottom: 10),
-                          child: CircleAvatar(
-                            child:
-                            Icon(
-                              Icons.phone,
-                              size: 25,
-                              color: Colors.white,
-                            ),
+                  padding: EdgeInsets.only(top:0, left: 25, right: 25),
 
-                            backgroundColor: Colors.black,
-                            radius: 20,
-                          ),
-                        )
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child:
+                  child: Row(
+                    children: <Widget>[
                       Expanded(
-                        flex: 7,
-                        child: TextFormField(
-                            onSaved: (input) => number = input as int,
-                            keyboardType: TextInputType.number,
-                            maxLength: 11,
-                            decoration: InputDecoration(
-                              hintText: "Phone Number",
-                              hintStyle: TextStyle(
-                                fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                          flex: 1,
+                          child: Padding(
+                            padding:  EdgeInsets.only(bottom: 10),
+                            child: CircleAvatar(
+                              child:
+                              Icon(
+                                Icons.mail,
+                                size: 25,
+                                color: Colors.white,
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.teal),),
-                            )
+
+                              backgroundColor: Colors.black,
+                              radius: 20,
+                            ),
+                          )
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+                          flex: 7,
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Email ID of the Doctor';
+                                }
+                              },
+                              onSaved: (input) => _emailID = input,
+                              decoration: InputDecoration(
+                                hintText: "Email ID",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-            ),
-            SizedBox(
-                height: 20,
-            ),
-
-            Padding(
-                padding: EdgeInsets.only(right: 225),
-                child: Text(
-                    "Mail of Doctor",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-
-                    )
-                ),
-            ),
-            SizedBox(
-                height: 15,
-            ),
-            Container(
-                padding: EdgeInsets.only(top:0, left: 25, right: 25),
-
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding:  EdgeInsets.only(bottom: 10),
-                          child: CircleAvatar(
-                            child:
-                            Icon(
-                              Icons.mail,
-                              size: 25,
-                              color: Colors.white,
-                            ),
-
-                            backgroundColor: Colors.black,
-                            radius: 20,
-                          ),
-                        )
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child:
-                      Expanded(
-                        flex: 7,
-                        child: TextFormField(
-                            onSaved: (input) => emailID = input,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: "Email ID",
-                              hintStyle: TextStyle(
-                                fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.teal),),
-                            )
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
             ),
             SizedBox(
               height: 30,
@@ -243,13 +328,13 @@ class _AddDoctorsState extends State<AddDoctors> {
             Padding(
               padding: EdgeInsets.only(right: 110),
               child: Text(
-                  "The Address of the Doctor",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+                    "The Address of the Doctor",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
 
-                  )
+                    )
               ),
             ),
             SizedBox(
@@ -259,50 +344,55 @@ class _AddDoctorsState extends State<AddDoctors> {
               padding: EdgeInsets.only(top:0, left: 25, right: 25),
 
               child: Row(
-                children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding:  EdgeInsets.only(bottom: 10),
-                        child: CircleAvatar(
-                          child:
-                          Icon(
-                            Icons.location_on,
-                            size: 25,
-                            color: Colors.white,
-                          ),
-
-                          backgroundColor: Colors.black,
-                          radius: 20,
-                        ),
-                      )
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    child:
+                  children: <Widget>[
                     Expanded(
-                      flex: 7,
-                      child: TextFormField(
-                          onSaved: (input) => address = input,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: "Address",
-                            hintStyle: TextStyle(
-                              fontFamily: "Monster",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
+                        flex: 1,
+                        child: Padding(
+                          padding:  EdgeInsets.only(bottom: 10),
+                          child: CircleAvatar(
+                            child:
+                            Icon(
+                              Icons.location_on,
+                              size: 25,
+                              color: Colors.white,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),),
-                          )
+
+                            backgroundColor: Colors.black,
+                            radius: 20,
+                          ),
+                        )
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child:
+                      Expanded(
+                        flex: 7,
+                        child: TextFormField(
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return 'Please type the Address of the Doctor';
+                              }
+                            },
+                            onSaved: (input) => _address = input,
+                            decoration: InputDecoration(
+                              hintText: "Address",
+                              hintStyle: TextStyle(
+                                fontFamily: "Monster",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.teal),),
+                            )
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
               ),
             ),
+
             SizedBox(
               height: 100,
             ),
@@ -311,30 +401,47 @@ class _AddDoctorsState extends State<AddDoctors> {
               height: 50,
               width: 250,
               child: Material(
-                borderRadius: BorderRadius.circular(1000),
-                shadowColor: Colors.tealAccent,
-                color: Colors.teal,
-                elevation: 7.0,
-                child: FlatButton(
-                    onPressed: () {
-                    },
-                    child: Center(
-                      child: Text(
-                        "Done",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Monster",
-                          fontSize: 20.0,
+                  borderRadius: BorderRadius.circular(1000),
+                  shadowColor: Colors.tealAccent,
+                  color: Colors.teal,
+                  elevation: 7.0,
+                  child: FlatButton(
+                      onPressed: () async{
+                        final _form = _formKey.currentState;
+                        if (_form.validate()) {
+                          _form.save();
 
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                              Doctors()));
+
+
+                          await DatabaseService().doctorData(
+                               _doctorname,
+                            _speciality,
+                             _number,
+                              _emailID,
+                               _address);
+                        }
+
+                      },
+                      child: Center(
+                        child: Text(
+                          "Done",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Monster",
+                            fontSize: 20.0,
+
+                          ),
                         ),
-                      ),
-                    )
-                ),
+                      )
+                  ),
               ),
             ),
           ],
 
+                  ),
                 ),
               ],
       ),

@@ -4,33 +4,37 @@ import 'package:healthreminders/Models/User.dart';
 class DatabaseService {
 
   final String uid;
+
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _medicinesCollection = Firestore.instance.collection('Medicines');
+  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Appoinments');
 
 
-  get medicineName => medicineName;
-  get dosage => dosage;
-  get medicineType => medicineType;
-  get pills => pills;
-  get interval => interval;
-  get startTime => startTime;
-  get durationTime => durationTime;
-  get durationType => durationType;
+  get labtestName => labtestName;
+  get labtestAddress => labtestAddress;
+  get time => time;
+  get timeType => timeType;
+  get reasonLabTest => reasonLabTest;
+
+  get dayLabTest => dayLabTest;
+  get dateLabTest => dateLabTest;
 
 
-  Future<void> medicineData (String medicineName,String dosage,String pills,String medicineType, String interval,String startingTime, String durationTime, String durationType) async {
-    return await _medicinesCollection.document(uid).setData({
+  Future<void> labtestData(String labtestName,String labtestAddress, String time, String timeType, String reasonLabTest, String dayLabTest,String dateLabTest) async {
+    return await _appoinmentsCollection.document(uid).setData({
 
-      "Name": medicineName,
-      "Dosage": dosage,
-      "Pills": pills,
-      "Type": medicineType,
-      "Interval": interval,
-      "Start": startingTime,
-      "Duration Time": durationTime,
-      "Duration Type": durationType,
+      "Lab Tests Name": labtestName,
+      "Address of Lab Test ": labtestAddress,
+      "Time": time,
+      "Time Type": timeType,
+      "Reason for Lab Test": reasonLabTest,
+      "Day of Appoinment": dayLabTest,
+      "Date of Appoinment": dateLabTest,
+
+
+
+
 
 
     });

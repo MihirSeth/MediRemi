@@ -1,3 +1,8 @@
+import 'package:healthreminders/Doctors/AddAppoinment.dart';
+import 'package:healthreminders/Doctors/AddDoctors.dart';
+import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +29,11 @@ class LoginPage extends StatelessWidget {
         "/signup" : (BuildContext context) => new SignupPage(),
         "/passwordreset" : (BuildContext context) => new PasswordReset(),
         '/addmedicine': (context) => AddMedicine(),
+        '/adddoctor': (context) => AddDoctors(),
+        '/addappoinments': (context) => AddAppoinments(),
+        '/medicines': (context) => Medicine(),
+        '/doctors': (context) => Doctors(),
+        '/appoinments': (context) => Appoinments(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -4,33 +4,30 @@ import 'package:healthreminders/Models/User.dart';
 class DatabaseService {
 
   final String uid;
+
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _medicinesCollection = Firestore.instance.collection('Medicines');
+  final CollectionReference _doctorsCollection = Firestore.instance.collection('Doctors');
 
 
-  get medicineName => medicineName;
-  get dosage => dosage;
-  get medicineType => medicineType;
-  get pills => pills;
-  get interval => interval;
-  get startTime => startTime;
-  get durationTime => durationTime;
-  get durationType => durationType;
+  get doctorsName => doctorsName;
+  get phoneNumber => phoneNumber;
+  get emailID => emailID;
+  get doctorAddress => doctorAddress;
+  get speciality => speciality;
 
 
-  Future<void> medicineData (String medicineName,String dosage,String pills,String medicineType, String interval,String startingTime, String durationTime, String durationType) async {
-    return await _medicinesCollection.document(uid).setData({
 
-      "Name": medicineName,
-      "Dosage": dosage,
-      "Pills": pills,
-      "Type": medicineType,
-      "Interval": interval,
-      "Start": startingTime,
-      "Duration Time": durationTime,
-      "Duration Type": durationType,
+  Future<void> doctorData(String doctorsName,String speciality, String phoneNumber, String emailID,
+      String doctorAddress) async {
+    return await _doctorsCollection.document(uid).setData({
+
+      "Doctor Name": doctorsName,
+      "Doctor Speciality": speciality,
+      "Phone Number": phoneNumber,
+      "Email ID": emailID,
+      "Address": doctorAddress,
 
 
     });

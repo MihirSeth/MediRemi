@@ -4,36 +4,39 @@ import 'package:healthreminders/Models/User.dart';
 class DatabaseService {
 
   final String uid;
+
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _medicinesCollection = Firestore.instance.collection('Medicines');
+  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Appoinments');
 
 
-  get medicineName => medicineName;
-  get dosage => dosage;
-  get medicineType => medicineType;
-  get pills => pills;
-  get interval => interval;
-  get startTime => startTime;
-  get durationTime => durationTime;
-  get durationType => durationType;
+  get doctorsName => doctorsName;
+  get appoinmentDetails => appoinmentDetails;
+  get doctorAddress => doctorAddress;
+  get time => time;
+  get timeType => timeType;
+  get dayAppoinment => dayAppoinment;
+  get dateAppoinment => dateAppoinment;
 
 
-  Future<void> medicineData (String medicineName,String dosage,String pills,String medicineType, String interval,String startingTime, String durationTime, String durationType) async {
-    return await _medicinesCollection.document(uid).setData({
+  Future<void> appoinmentData(String doctorsName,String appoinmentDetails, String doctorAddress, String time, String timeType, String dayAppoinment,String dateAppoinment) async {
+    return await _appoinmentsCollection.document(uid).setData({
 
-      "Name": medicineName,
-      "Dosage": dosage,
-      "Pills": pills,
-      "Type": medicineType,
-      "Interval": interval,
-      "Start": startingTime,
-      "Duration Time": durationTime,
-      "Duration Type": durationType,
+      "Doctor Name": doctorsName,
+      "Appoinment Details": appoinmentDetails,
+      "Address": doctorAddress,
+      "Time": time,
+      "Time Type": timeType,
+      "Day of Appoinment": dayAppoinment,
+      "Date of Appoinment": dateAppoinment,
 
 
-    });
+
+
+
+
+  });
   }
 //  List<Names> _brewListFromSnapshot(QuerySnapshot snapshot) {
 //    return snapshot.documents.map((doc){
