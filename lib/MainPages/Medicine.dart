@@ -81,21 +81,24 @@ class _MedicineState extends State<Medicine> {
                               else ErrorMedicines();
                               return Expanded(
                                 child: SizedBox(
-                                  height: 2000,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (context, index) =>
-                                        buildListItemMedicine(
-                                            context, snapshot.data.documents[index]),
+                                  height: 700 ,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemMedicine(
+                                                context, snapshot.data.documents[index]),
 
 
 
-                                  ),
+                                      ),
+
+
                                 ),
                               );
                             }
                         ),
+
                       ],
                   ),
                 ),

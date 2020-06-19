@@ -28,7 +28,7 @@ class DatabaseService {
       "Pills": pills,
       "Type": medicineType,
       "Interval": interval,
-      "Start": startingTime,
+      "Starting Time": startingTime,
       "Duration Time": durationTime,
       "Duration Type": durationType,
 

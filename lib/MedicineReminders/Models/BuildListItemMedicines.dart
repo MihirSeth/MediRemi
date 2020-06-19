@@ -162,6 +162,33 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                           ],
                         ),
                       ),
+                      ListTile(
+                        title: Row(
+                          children: <Widget>[
+                            Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'Starting Time: ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                decoration: TextDecoration.underline,
+
+                              ),
+                            ),
+                            Text(
+                              document['Starting Time'],
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 15,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                       ButtonBar(
                         children: <Widget>[
                         FlatButton(
