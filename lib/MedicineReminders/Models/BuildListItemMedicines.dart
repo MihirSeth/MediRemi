@@ -194,48 +194,58 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                         ),
                       ),
                       ButtonBar(
-                        children: <Widget>[
-  StreamBuilder<QuerySnapshot>(
-  stream: databaseReference.collection('Medicines').snapshots(),
-  builder: (context, snapshot) {
-  if (snapshot.hasData) {
-  return Column(
-  children: snapshot.data.documents.map((doc) {
-  return FlatButton(
-  child: Text(
-  'DELETE',
-  style: TextStyle(
-  color: Colors.teal
-  ),
-  ),
-  onPressed: () async {
-  await databaseReference
-      .collection('Medicines')
-      .document(doc.documentID)
-      .delete();
-  }
-  );
+                          children: <Widget>[
+                            StreamBuilder<QuerySnapshot>(
+                                stream: databaseReference.collection('Medicines').snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      children: snapshot.data.documents.map((doc) {
+                                        return FlatButton(
+                                            child: Text(
+                                              'DELETE',
+                                              style: TextStyle(
+                                                  color: Colors.teal
+                                              ),
+                                            ),
+                                            onPressed: () async {
+                                              await databaseReference
+                                                  .collection('Medicines')
+                                                  .document(doc.documentID)
+                                                  .delete();
+                                            }
+                                        );
 
-  }).toList(),
-  );
+                                      }).toList(),
+                                    );
 
-  }else{ // put this else block
-  return Container(
-  );
-  }
-  }
-  )
-])
+                                  }else{ // put this else block
+                                    return Container(
+                                      child: Text('No Data Found'),
+                                    );
+                                  }
+                                }
+                            )
+                          ])
                     ]
                 ),
               ),
-
         ),
-
         ]
     );
 
 }
+
+deleteData(docId) {
+  Firestore.instance
+      .collection('Medicines')
+      .document(docId)
+      .delete()
+      .catchError((e) {
+    print(e);
+  });
+}
+
 
 
 //StreamBuilder<QuerySnapshot>(
@@ -269,3 +279,5 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
 //}
 //}
 //)
+
+

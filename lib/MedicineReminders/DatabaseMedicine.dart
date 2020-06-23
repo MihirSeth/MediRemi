@@ -36,6 +36,7 @@ class DatabaseService {
 
     });
   }
+
 //  List<Names> _brewListFromSnapshot(QuerySnapshot snapshot) {
 //    return snapshot.documents.map((doc){
 //      //print(doc.data);

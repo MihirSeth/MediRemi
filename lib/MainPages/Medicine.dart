@@ -11,7 +11,7 @@ import 'package:healthreminders/StartupPages/SignUp.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-var user = _auth.currentUser();
+final uid = getCurrentUser() ;
 
 
 class Medicine extends StatefulWidget {
@@ -73,6 +73,7 @@ class _MedicineState extends State<Medicine> {
             Column(
               children: <Widget>[
                 Container(
+                  alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 15, right: 185, top: 20),
                   child: Text(
                     "Your Medicines:",
@@ -85,10 +86,10 @@ class _MedicineState extends State<Medicine> {
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Row(
-                    children: <Widget>[
+                    children: <Widget>  [
                       StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("Medicines")
-                              .where('uid',  isEqualTo: user)
+                          stream: Firestore.instance.collection('Medicines')
+//                              .where('uid',  isEqualTo: _auth.currentUser())
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
@@ -194,7 +195,9 @@ class _MedicineState extends State<Medicine> {
 
 }
 
-void ErrorMedicine() {
+
+
+ErrorMedicine() {
 
   AlertDialog(
   title: Center(child: Text('Alert')),
@@ -226,9 +229,10 @@ void ErrorMedicine() {
   }
 
 
- getCurrentUser() async {
+Future getCurrentUser() async {
   final FirebaseUser user = await _auth.currentUser();
   final _uid = user.uid;
-  print(_uid);
-  return _uid.toString();
+//  print(_uid);
+//  return _uid.toString();
 }
+
