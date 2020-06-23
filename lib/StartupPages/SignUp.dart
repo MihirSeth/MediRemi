@@ -162,9 +162,12 @@ class _SignupPageState extends State<SignupPage> {
                                 elevation: 7.0,
                                 child: InkWell(
                                   onTap: () {
-                                    signUp(context);
-                                    },
-                                    child: Center(
+                                    final _form = _formKey.currentState;
+                                    if (_form.validate()) {
+                                      _form.save();
+                                      signUp(context);
+                                    }
+                                    Center(
                                       child: Text(
                                         "Sign Up",
                                         style: TextStyle(
@@ -173,7 +176,8 @@ class _SignupPageState extends State<SignupPage> {
                                           fontFamily: "Monster",
                                         ),
                                       ),
-                                    )
+                                    );
+                                  }
                                   ),
                               ),
                             ),
@@ -294,7 +298,8 @@ class _SignupPageState extends State<SignupPage> {
                   )
                 ]
           ),
-            )],
+            )
+          ],
 
         )
     );
@@ -302,9 +307,6 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future<void> signUp(context) async {
-    final _form = _formKey.currentState;
-    if (_form.validate()) {
-      _form.save();
       try {
         AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailID, password: _password);
         FirebaseUser user = result.user;
@@ -353,4 +355,3 @@ class _SignupPageState extends State<SignupPage> {
     }
 
   }
-}

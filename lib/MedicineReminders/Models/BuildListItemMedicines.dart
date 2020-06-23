@@ -6,6 +6,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../AddMedicine.dart';
 
 
+
+final databaseReference = Firestore.instance;
+
+
 buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
   return Column(
         children: <Widget>[
@@ -191,19 +195,37 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                       ),
                       ButtonBar(
                         children: <Widget>[
-                        FlatButton(
-                            child: Text(
-                                'DELETE',
-                              style: TextStyle(
-                                color: Colors.teal
-                              ),
-                            ),
-                          onPressed: ()  async {
+  StreamBuilder<QuerySnapshot>(
+  stream: databaseReference.collection('Medicines').snapshots(),
+  builder: (context, snapshot) {
+  if (snapshot.hasData) {
+  return Column(
+  children: snapshot.data.documents.map((doc) {
+  return FlatButton(
+  child: Text(
+  'DELETE',
+  style: TextStyle(
+  color: Colors.teal
+  ),
+  ),
+  onPressed: () async {
+  await databaseReference
+      .collection('Medicines')
+      .document(doc.documentID)
+      .delete();
+  }
+  );
 
-                          }
-                    ),
-                        ],
-                      )
+  }).toList(),
+  );
+
+  }else{ // put this else block
+  return Container(
+  );
+  }
+  }
+  )
+])
                     ]
                 ),
               ),
@@ -216,3 +238,34 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
 }
 
 
+//StreamBuilder<QuerySnapshot>(
+//stream: databaseReference.collection('Medicines').snapshots(),
+//builder: (context, snapshot) {
+//if (snapshot.hasData) {
+//return Column(
+//children: snapshot.data.documents.map((doc) {
+//return FlatButton(
+//child: Text(
+//'DELETE',
+//style: TextStyle(
+//color: Colors.teal
+//),
+//),
+//onPressed: () async {
+//await databaseReference
+//    .collection('Medicines')
+//    .document(doc.documentID)
+//    .delete();
+//}
+//);
+//
+//}).toList(),
+//);
+//
+//}else{ // put this else block
+//return Container(
+//child: Text('No Data Found'),
+//);
+//}
+//}
+//)

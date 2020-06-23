@@ -8,7 +8,7 @@ class DatabaseService {
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Appoinments');
+  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Lab Tests');
 
 
   get labtestName => labtestName;
@@ -25,12 +25,12 @@ class DatabaseService {
     return await _appoinmentsCollection.document(uid).setData({
 
       "Lab Tests Name": labtestName,
-      "Address of Lab Test ": labtestAddress,
+      "Address of Lab Test": labtestAddress,
       "Time": time,
       "Time Type": timeType,
       "Reason for Lab Test": reasonLabTest,
-      "Day of Appoinment": dayLabTest,
-      "Date of Appoinment": dateLabTest,
+      "Day of Lab Test": dayLabTest,
+      "Date of Lab Test": dateLabTest,
 
 
 

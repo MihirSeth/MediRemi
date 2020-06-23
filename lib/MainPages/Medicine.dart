@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ import 'package:healthreminders/StartupPages/SignUp.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+var user = _auth.currentUser();
 
 
 class Medicine extends StatefulWidget {
@@ -42,7 +44,7 @@ class _MedicineState extends State<Medicine> {
           backgroundColor: Colors.teal,
            actions: <Widget>[
              Padding(
-               padding:  EdgeInsets.only(right: 10.0),
+               padding:  EdgeInsets.only(right: 15.0),
                child: IconButton(
                  onPressed: () {
                    Navigator.push(
@@ -52,6 +54,18 @@ class _MedicineState extends State<Medicine> {
                  icon: Icon(Icons.add),
                ),
              ),
+//             Padding(
+//               padding:  EdgeInsets.only(right: 10.0),
+//               child: IconButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                       context, MaterialPageRoute(
+//                       builder: (context) => Medicine()));
+//                 },
+//                 icon: Icon(Icons.refresh),
+//               ),
+//             ),
+
            ],
         ),
         body: ListView(
@@ -72,78 +86,34 @@ class _MedicineState extends State<Medicine> {
                   padding: EdgeInsets.only(top: 10),
                   child: Row(
                     children: <Widget>[
-                       StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance.collection("Medicines")
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData)
-                                return Text('Fetching your Medicines...');
-                              else ErrorMedicines();
+                      StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance.collection("Medicines")
+                              .where('uid',  isEqualTo: user)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData)
+                              return Text('Fetching your Medicines...');
+                           else ErrorMedicine();
                               return Expanded(
                                 child: SizedBox(
-                                  height: 700 ,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data.documents.length,
-                                        itemBuilder: (context, index) =>
-                                            buildListItemMedicine(
-                                                context, snapshot.data.documents[index]),
+                                  height: 700,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data.documents.length,
+                                    itemBuilder: (context, index) =>
+                                        buildListItemMedicine(
+                                            context,
+                                            snapshot.data.documents[index]),
 
-
-
-                                      ),
-
-
+                                  ),
                                 ),
                               );
-                            }
-                        ),
+                          }
+                          ),
 
-                      ],
+                    ],
                   ),
                 ),
-
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.end,
-//                  crossAxisAlignment: CrossAxisAlignment.center,
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.only(top: 600),
-//                      child: Center(
-//                        child: Container(
-//                          alignment: Alignment.bottomCenter,
-//                          height: 60,
-//                          width: 250,
-//                          child: Material(
-//                            borderRadius: BorderRadius.circular(1000),
-//                            shadowColor: Colors.tealAccent,
-//                            color: Colors.teal,
-//                            elevation: 7.0,
-//                            child: FlatButton(
-//                                onPressed: () {
-//                                  Navigator.push(
-//                                      context, MaterialPageRoute(
-//                                      builder: (context) => AddMedicine()));
-//                                },
-//                                child: Center(
-//                                  child: Text(
-//                                    "Add a Med",
-//                                    style: TextStyle(
-//                                      color: Colors.white,
-//                                      fontWeight: FontWeight.bold,
-//                                      fontFamily: "Monster",
-//                                      fontSize: 20.0,
-//
-//                                    ),
-//                                  ),
-//                                )
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  ],
-//                ),
 
               ],
             ),
@@ -171,15 +141,6 @@ class _MedicineState extends State<Medicine> {
                         );
                       }
                   ),
-//                child: Center(
-//                  child: Text(
-//                      '$Names',
-//                    style: TextStyle(
-//                      color: Colors.white,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ),
-//                ),
                   decoration: BoxDecoration(
                     color: Colors.teal,
                   ),
@@ -231,142 +192,43 @@ class _MedicineState extends State<Medicine> {
   }
 
 
-  void ErrorMedicines() {
-    Center(
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 185, top: 20),
-            child: Text(
-              "ADD MEDICINES",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 600),
-          child: Center(
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              height: 60,
-              width: 250,
-              child: Material(
-                borderRadius: BorderRadius.circular(1000),
-                shadowColor: Colors.tealAccent,
-                color: Colors.teal,
-                elevation: 7.0,
-                child: FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(
-                          builder: (context) => AddMedicine()));
-                    },
-                    child: Center(
-                      child: Text(
-                        "Add a Med",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Monster",
-                          fontSize: 20.0,
+}
 
-                        ),
-                      ),
-                    )
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
+void ErrorMedicine() {
 
-    );
+  AlertDialog(
+  title: Center(child: Text('Alert')),
+  titleTextStyle: TextStyle(
+  color: Colors.teal,
+  fontFamily: 'Monster',
+  fontSize: 20.0,
+  letterSpacing: 1.5,
+  fontWeight: FontWeight.bold,
+  decoration: TextDecoration.underline,
+
+  ),
+  content: Text('Add Medicines'),
+  contentTextStyle: TextStyle(
+  fontFamily: 'Monster',
+  color: Colors.black,
+  ),
+  actions: <Widget> [
+  FlatButton(
+  onPressed: () {
+//  Navigator.push(
+//  context, MaterialPageRoute(
+//  builder: (context) => AddMedicine()));
+  },
+  child: Text('ADD MEDICINES'),
+  )
+  ],
+  );
   }
 
 
-// Widget _myListView(BuildContext context) {
-//
-//   Column(
-//     children: <Widget>[
-//       Container(
-//         padding: EdgeInsets.only(left: 15, right:185, top: 20),
-//         child: Text(
-//           "Your Medicines:",
-//           style: TextStyle(
-//             fontSize: 25,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//       ),
-//       StreamBuilder<QuerySnapshot>(
-//           stream: Firestore.instance.collection("Medicines")
-//           .snapshots(),
-//       builder: (context, snapshot) {
-//       if (!snapshot.hasData)
-//       return Text('Loading...');
-//       else ErrorMedicines();
-//       return ListView.builder(
-//       itemCount: snapshot.data.documents.length,
-//       itemBuilder: (context, index) =>
-//       buildListItemMedicine(
-//       context, snapshot.data.documents[index]),
-//
-//       );
-//           }
-//       ),
-//       Column(
-//         mainAxisAlignment: MainAxisAlignment.end,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: <Widget>[
-//           Padding(
-//             padding:  EdgeInsets.only(top:300),
-//             child: Container(
-//               alignment: Alignment.bottomCenter,
-//               height: 60,
-//               width: 250,
-//               child: Material(
-//                 borderRadius: BorderRadius.circular(1000),
-//                 shadowColor: Colors.tealAccent,
-//                 color: Colors.teal,
-//                 elevation: 7.0,
-//                 child: FlatButton(
-//                     onPressed: () {
-//                       Navigator.push(
-//                           context, MaterialPageRoute(builder: (context) => AddMedicine()));
-//                     },
-//                     child: Center(
-//                       child: Text(
-//                         "Add a Med",
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.bold,
-//                           fontFamily: "Monster",
-//                           fontSize: 20.0,
-//
-//                         ),
-//                       ),
-//                     )
-//                 ),
-//               ),
-//             ),
-//           ),
-//
-//
-//         ],
-//       ),
-//
-//     ],
-//   );
-//}
-//
-//
+ getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
 }

@@ -10,6 +10,7 @@ import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final databaseReference = Firestore.instance;
 
 
 
@@ -265,4 +266,13 @@ void ErrorNames() {
     ]
   );
     
+}
+
+void getData() {
+  databaseReference
+      .collection("Names")
+      .getDocuments()
+      .then((QuerySnapshot snapshot) {
+    snapshot.documents.forEach((f) => print('${f.data}}'));
+  });
 }

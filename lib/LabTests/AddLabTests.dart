@@ -482,7 +482,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                           if (_form.validate()) {
                             _form.save();
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                                 MoreOptions()));
 
 

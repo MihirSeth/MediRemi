@@ -1,3 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class User {
 
@@ -14,4 +19,14 @@ class UserData {
   final String email;
   UserData({ this.uid, this.name, this.email});
 
+}
+
+
+
+
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final uid = user.uid;
+  print(uid);
+  return uid.toString();
 }

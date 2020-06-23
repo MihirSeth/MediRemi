@@ -44,7 +44,7 @@ buildListItem(BuildContext context, DocumentSnapshot document) {
                     width: 10,
                   ),
                   Text(
-                    document['Dosage'],
+                    document['Email'],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

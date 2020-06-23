@@ -411,7 +411,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                         if (_form.validate()) {
                           _form.save();
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                               Doctors()));
 
 

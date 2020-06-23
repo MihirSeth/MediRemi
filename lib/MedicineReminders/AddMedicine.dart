@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'DatabaseMedicine.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class AddMedicine extends StatefulWidget {
   @override
@@ -18,11 +22,10 @@ class _AddMedicineState extends State<AddMedicine> {
   String _startingTime;
   String _durationTime;
   String _durationType;
+  String _uid;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = 'Tablet';
-  String _value;
-  int _value1;
-  String _value2;
+
   final myController = TextEditingController();
 
 
@@ -231,7 +234,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                 ),
                                 ImageIcon(
                                     AssetImage('assets/Bottle.png'),
-                                  size: 40,
+                                  size: 35,
                                 ),
                               ],
                             ),
@@ -401,7 +404,7 @@ class _AddMedicineState extends State<AddMedicine> {
                             maxLength: 5,
                             onSaved: (input) => _startingTime = input,
                             decoration: InputDecoration(
-                              hintText: "Time (Kindly write in 24 hours method)",
+                              hintText: "Write in 24 hours method in Hours:Minutes",
                               hintStyle: TextStyle(
                                 fontFamily: "Monster",
                                 fontWeight: FontWeight.bold,
@@ -539,19 +542,23 @@ class _AddMedicineState extends State<AddMedicine> {
                 if (_form.validate()) {
                   _form.save();
 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                  Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                       Medicine()));
+
+                  String _uid = await getCurrentUser();
 
 
                   await DatabaseService().medicineData(
-                      _medicineName,
+                  _medicineName,
                       _dosage,
                       _pills,
                       _medicineType,
                       _interval,
                       _startingTime,
                       _durationTime,
-                      _durationType);
+                      _durationType,
+                      _uid,
+                  );
                 }
 
                           },
@@ -579,4 +586,11 @@ class _AddMedicineState extends State<AddMedicine> {
     );
  }
 
+}
+
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
 }
