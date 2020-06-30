@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/Doctors/Services/DoctorDatabase.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class AddDoctors extends StatefulWidget {
   @override
@@ -15,6 +19,7 @@ class _AddDoctorsState extends State<AddDoctors> {
   String _number;
   String _emailID;
   String _address;
+  final _timeDatabase = DateTime.now();
 
 
 
@@ -414,13 +419,17 @@ class _AddDoctorsState extends State<AddDoctors> {
                           Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                               Doctors()));
 
+                          String _uid = await getCurrentUser();
 
                           await DatabaseService().doctorData(
                                _doctorname,
                             _speciality,
                              _number,
                               _emailID,
-                               _address);
+                               _address,
+                            _timeDatabase,
+                            _uid
+                          );
                         }
 
                       },
@@ -448,4 +457,10 @@ class _AddDoctorsState extends State<AddDoctors> {
 
           );
   }
+}
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
 }

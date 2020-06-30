@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/MainPages/MoreOptions.dart';
 
 import 'Services/AppoinmentDatabase.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class AddAppoinments extends StatefulWidget {
   @override
@@ -12,12 +17,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _doctorsName;
-  String _appoinmentDetails;
+  String _appoinmentReason;
   String _doctorAddress;
   String _time;
   String _timeType;
   String _dayAppoinment;
   String _dateAppoinment;
+  final _timeDatabase = DateTime.now();
 
 
 
@@ -165,7 +171,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                   return 'Please type the Appoinment Details';
                                 }
                               },
-                              onSaved: (input) => _appoinmentDetails = input ,
+                              onSaved: (input) => _appoinmentReason = input ,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Appoinment Details",
@@ -507,15 +513,18 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                             Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                                 MoreOptions()));
 
+                            String _uid = await getCurrentUser();
 
                             await DatabaseService().appoinmentData(
                               _doctorsName,
-                             _appoinmentDetails,
+                             _appoinmentReason,
                              _doctorAddress,
                              _time,
                               _timeType,
                               _dayAppoinment,
                               _dateAppoinment,
+                              _timeDatabase,
+                              _uid,
                             );
                           }
 
@@ -543,4 +552,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
       ),
     );
   }
+}
+
+
+
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
 }

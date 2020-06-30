@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
+import 'package:healthreminders/Models/buildListItemGoogle.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthreminders/StartupPages/SignUp.dart';
-
+import 'package:provider/provider.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final uid = getCurrentUser() ;
+final uid =  _auth.currentUser();
 
+GoogleSignIn _googleSignIn;
+FirebaseUser _user;
+homePageWidget(FirebaseUser user, GoogleSignIn signIn) {
+  _user = user;
+  _googleSignIn = signIn;
+}
 
 class Medicine extends StatefulWidget {
   @override
@@ -31,13 +38,16 @@ class _MedicineState extends State<Medicine> {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(
             child: Text(
               "Medicines",
               style: TextStyle(
-                  fontFamily: 'Monster'
+                  fontFamily: 'Roboto'
               ),
             ),
           ),
@@ -65,7 +75,6 @@ class _MedicineState extends State<Medicine> {
 //                 icon: Icon(Icons.refresh),
 //               ),
 //             ),
-
            ],
         ),
         body: ListView(
@@ -79,8 +88,15 @@ class _MedicineState extends State<Medicine> {
                     "Your Medicines:",
                     style: TextStyle(
                       fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',
                     ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(right: 20, left: 20),
+                  child: Divider(
+                    color: Colors.black,
+                    thickness: 2,
                   ),
                 ),
                 Padding(
@@ -89,33 +105,40 @@ class _MedicineState extends State<Medicine> {
                     children: <Widget>  [
                       StreamBuilder<QuerySnapshot>(
                           stream: Firestore.instance.collection('Medicines')
-//                              .where('uid',  isEqualTo: _auth.currentUser())
+                              .where('uid',  isEqualTo: user.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
-                              return Text('Fetching your Medicines...');
-                           else ErrorMedicine();
+                              return Padding(
+                                padding: EdgeInsets.only(top: 250, left: 75),
+                                  child: Text(
+                                  'Fetching your Medicines...',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                fontSize: 20.0,
+                              )
+                              )
+                              );
+                           else errorMedicine(context);
                               return Expanded(
                                 child: SizedBox(
                                   height: 700,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (context, index) =>
-                                        buildListItemMedicine(
-                                            context,
-                                            snapshot.data.documents[index]),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.documents.length,
+                                      itemBuilder: (context, index) =>
+                                          buildListItemMedicine(
+                                              context,
+                                              snapshot.data.documents[index]),
 
-                                  ),
+                                    ),
                                 ),
                               );
                           }
                           ),
-
                     ],
                   ),
                 ),
-
               ],
             ),
           ],
@@ -128,11 +151,12 @@ class _MedicineState extends State<Medicine> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names")
+                      stream: Firestore.instance.collection("Users")
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
+                        else googleName();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) =>
@@ -188,16 +212,31 @@ class _MedicineState extends State<Medicine> {
               ],
             )
         )
-
     );
   }
+}
 
+googleName() {
+  StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection("Users Google")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Text('Loading...');
+        else googleName();
+        return ListView.builder(
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) =>
+              buildListItemGoogle(
+                  context, snapshot.data.documents[index]),
 
+        );
+      }
+  );
 }
 
 
-
-ErrorMedicine() {
+errorMedicine(BuildContext context) {
 
   AlertDialog(
   title: Center(child: Text('Alert')),
@@ -218,21 +257,12 @@ ErrorMedicine() {
   actions: <Widget> [
   FlatButton(
   onPressed: () {
-//  Navigator.push(
-//  context, MaterialPageRoute(
-//  builder: (context) => AddMedicine()));
+  Navigator.push(
+  context, MaterialPageRoute(
+  builder: (context) => AddMedicine()));
   },
   child: Text('ADD MEDICINES'),
   )
   ],
   );
   }
-
-
-Future getCurrentUser() async {
-  final FirebaseUser user = await _auth.currentUser();
-  final _uid = user.uid;
-//  print(_uid);
-//  return _uid.toString();
-}
-

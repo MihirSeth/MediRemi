@@ -1,26 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
+import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
+import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
+import 'package:healthreminders/LabTests/LabTests.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:provider/provider.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
-import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
+final uid =  _auth.currentUser();
 
 
 
 class HomePage extends StatefulWidget {
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedDay;
+  List<String> attachments = [];
+  bool isHTML = false;
+
+  final _recipientController = TextEditingController(
+    text: 'example@example.com',
+  );
+
+  final _subjectController = TextEditingController(text: 'The subject');
+
+  final _bodyController = TextEditingController(
+    text: 'Mail body.',
+  );
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<void> send() async {
+    final Email email = Email(
+      body: _bodyController.text,
+      subject: _subjectController.text,
+      recipients: [_recipientController.text],
+      attachmentPaths: attachments,
+      isHTML: isHTML,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(platformResponse),
+    ));
+  }
+
+//  int selectedDay;
 
   Future<void> _signOut() async {
     try {
@@ -30,16 +81,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget pageItems = Text('');
-  DateTime selectedDate = DateTime.now();
-  DateTime startDate = DateTime.now().subtract(Duration(days: 31));
-  DateTime endDate = DateTime.now().add(Duration(days: 31));
-  String widgetKeyFormat = "dd-MM-yyyy";
-  Map<String, Widget> widgets = Map();
+//  Widget pageItems = Text('');
+//  DateTime selectedDate = DateTime.now();
+//  DateTime startDate = DateTime.now().subtract(Duration(days: 31));
+//  DateTime endDate = DateTime.now().add(Duration(days: 31));
+//  String widgetKeyFormat = "dd-MM-yyyy";
+//  Map<String, Widget> widgets = Map();
 
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(
@@ -53,73 +107,178 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.teal,
         ),
 
-      body: ScrollingDayCalendar(
-        startDate: startDate,
-        endDate: endDate,
-        selectedDate: selectedDate,
-        onDateChange: (direction, DateTime selectedDate) {
-          setState(() {
-            pageItems = widgetBuilder(selectedDate);
-          });
-        },
-        dateStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-        displayDateFormat: "dd MMM, yyyy",
-        dateBackgroundColor: Colors.grey,
-        forwardIcon: Icons.arrow_forward,
-        backwardIcon: Icons.arrow_back,
-        pageChangeDuration: Duration(
-          milliseconds: 200,
-        ),
-          pageItems: pageItems,
-        widgets: widgets,
-        widgetKeyFormat: widgetKeyFormat,
-        noItemsWidget: Center(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-               Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 60,
-                    width: 250,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(1000),
-                      shadowColor: Colors.tealAccent,
-                      color: Colors.teal,
-                      elevation: 7.0,
-                      child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => AddMedicine()));
-                          },
-                          child: Center(
-                            child: Text(
-                              "Add a Med",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Monster",
-                                fontSize: 20.0,
-
+      body:ListView(
+        children: [
+          Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+                child: Text(
+                  "Your Reminders:",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(right: 20, left: 20),
+                child: Divider(
+                  color: Colors.black,
+                  thickness: 2,
+                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: <Widget>  [
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection('Medicines')
+                            .where('uid',  isEqualTo: user.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Padding(
+                                padding: EdgeInsets.only(top: 250, left: 75),
+                                child: Text(
+                                    'Fetching your Reminders...',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )
+                                )
+                            );
+                          else errorMedicine(context);
+                          return Expanded(
+                            child: SizedBox(
+                              height: 700,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, index) =>
+                                    buildListItemMedicine(
+                                        context,
+                                        snapshot.data.documents[index]),
                               ),
                             ),
-                          )
-                      ),
+                          );
+                        }
                     ),
-                  ),
-
-              ],
-            ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection("Doctors")
+                            .where('uid',  isEqualTo: user.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Padding(
+                                padding: EdgeInsets.only(top: 150, right: 25),
+                                child: Text(
+                                    '',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )
+                                )
+                            );
+                          else errorDoctors(context);
+                          return Expanded(
+                            child: SizedBox(
+                              height: 700,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, index) =>
+                                    buildListItemDoctors(
+                                        context,
+                                        snapshot.data.documents[index]),
+                              ),
+                            ),
+                          );
+                        }
+                        ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection("Appoinments")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Text('');
+                          else errorAppoinments(context);
+                          return Expanded(
+                            child: SizedBox(
+                              height: 700,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, index) =>
+                                    buildListItemAppoinments(
+                                        context,
+                                        snapshot.data.documents[index]),
+                              ),
+                            ),
+                          );
+                        }
+                        ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection("LabTests")
+                            .where('uid',  isEqualTo: user.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Padding(
+                                padding: EdgeInsets.only(top: 150, right: 25),
+                                child: Text(
+                                    '',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )
+                                )
+                            );
+                          else errorLabTests(context);
+                          return Expanded(
+                            child: SizedBox(
+                              height: 700,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, index) =>
+                                    buildListItemLabTests(
+                                        context,
+                                        snapshot.data.documents[index]),
+                              ),
+                            ),
+                          );
+                        }
+                        ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        )
-
-        ),
-
+        ],
+      ),
 
 
         drawer: Drawer(
@@ -129,11 +288,11 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names").snapshots(),
+                      stream: Firestore.instance.collection("Users").snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
-                        else ErrorNames();
+                        else googleName();
                           Loading();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
@@ -144,16 +303,6 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                   ),
-
-//                child: Center(
-//                  child: Text(
-//                      '$Names',
-//                    style: TextStyle(
-//                      color: Colors.white,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ),
-//                ),
                   decoration: BoxDecoration(
                     color: Colors.teal,
                   ),
@@ -205,42 +354,42 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  Widget widgetBuilder(DateTime selectedDate) {
-    Container(
-      alignment: Alignment.bottomCenter,
-      height: 60,
-      width: 250,
-      child: Material(
-        borderRadius: BorderRadius.circular(1000),
-        shadowColor: Colors.tealAccent,
-        color: Colors.teal,
-        elevation: 7.0,
-        child: FlatButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddMedicine()));
-            },
-            child: Center(
-              child: Text(
-                "Add a Med",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Monster",
-                  fontSize: 20.0,
+//  Widget widgetBuilder(DateTime selectedDate) {
+//    Container(
+//      alignment: Alignment.bottomCenter,
+//      height: 60,
+//      width: 250,
+//      child: Material(
+//        borderRadius: BorderRadius.circular(1000),
+//        shadowColor: Colors.tealAccent,
+//        color: Colors.teal,
+//        elevation: 7.0,
+//        child: FlatButton(
+//            onPressed: () {
+//              Navigator.push(
+//                  context, MaterialPageRoute(builder: (context) => AddMedicine()));
+//            },
+//            child: Center(
+//              child: Text(
+//                "Add a Med",
+//                style: TextStyle(
+//                  color: Colors.white,
+//                  fontWeight: FontWeight.bold,
+//                  fontFamily: "Monster",
+//                  fontSize: 20.0,
+//
+//                ),
+//              ),
+//            )
+//        ),
+//      ),
+//    );
+//  }
+//}
 
-                ),
-              ),
-            )
-        ),
-      ),
-    );
-  }
-}
 
 
-
-void ErrorNames() {
+void errorNames() {
   Column(
     children: <Widget>[
       Text(
@@ -267,12 +416,4 @@ void ErrorNames() {
   );
     
 }
-
-void getData() {
-  databaseReference
-      .collection("Names")
-      .getDocuments()
-      .then((QuerySnapshot snapshot) {
-    snapshot.documents.forEach((f) => print('${f.data}}'));
-  });
 }

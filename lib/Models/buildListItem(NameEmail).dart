@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-GoogleSignIn _googleSignIn;
-FirebaseUser _user;
-HomePageWidget(FirebaseUser user, GoogleSignIn signIn) {
-  _user = user;
-  _googleSignIn = signIn;
-}
+//GoogleSignIn _googleSignIn;
+//FirebaseUser _user;
+//HomePageWidget(FirebaseUser user, GoogleSignIn signIn) {
+//  _user = user;
+//  _googleSignIn = signIn;
+//}
 
 buildListItem(BuildContext context, DocumentSnapshot document) {
   return ListTile(

@@ -14,7 +14,7 @@ import 'package:healthreminders/Models/loading.dart';
 
 import '../MainPages/home.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+//final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
 class LoginPage extends StatelessWidget {
@@ -34,6 +34,7 @@ class LoginPage extends StatelessWidget {
         '/medicines': (context) => Medicine(),
         '/doctors': (context) => Doctors(),
         '/appoinments': (context) => Appoinments(),
+
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -329,9 +330,8 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         AuthResult user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _emailID, password: _password);
-        final FirebaseUser currentUser = await _auth.currentUser();
+//        final FirebaseUser currentUser = await _auth.currentUser();
         setState(() => loading = true);
-
         final AuthCredential credential = EmailAuthProvider.getCredential(email: _emailID,password: _password);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
@@ -353,7 +353,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: TextDecoration.underline,
 
                   ),
-                  content: Text('Login Failed - Check Email ID and Password'),
+                  content: Text('Login Failed - Check Email ID and Password and if not Signed up yet then Sign up'),
                   contentTextStyle: TextStyle(
                     fontFamily: 'Monster',
                     color: Colors.black,
@@ -364,6 +364,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.of(context).pushNamed('/');
                       },
                       child: Text('Try Again'),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/signup');
+                      },
+                      child: Text('Sign Up'),
                     )
                   ],
                 );
@@ -374,19 +380,19 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-    Future<FirebaseUser> getUser() async {
-      return await _auth.currentUser();
-    }
-    @override
-    void initState() {
-      super.initState();
-      getUser().then((user) {
-        if (user != null) {
-          // send the user to the home page
-          // homePage();
-        }
-      });
-    }
+//    Future<FirebaseUser> getUser() async {
+//      return await _auth.currentUser();
+//    }
+//    @override
+//    void initState() {
+//      super.initState();
+//      getUser().then((user) {
+//        if (user != null) {
+//          // send the user to the home page
+//          // homePage();
+//        }
+//      });
+//    }
 
 
   }

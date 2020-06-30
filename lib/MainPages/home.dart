@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MainPages/MoreOptions.dart';
 import 'package:healthreminders/MainPages/HomePage.dart';
 import 'package:healthreminders/MainPages/MoreReminders.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
 
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+//final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Home extends StatefulWidget {
 
@@ -56,7 +54,7 @@ class HomeState extends State<Home> {
         )
   ],
         selectedItemColor: Colors.black,
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.black,
         unselectedItemColor: Colors.teal[800],
         unselectedLabelStyle: TextStyle(color:Colors.black),
 

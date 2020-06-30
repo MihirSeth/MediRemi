@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/AddDoctors.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
-import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
-import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthreminders/StartupPages/SignUp.dart';
+import 'package:provider/provider.dart';
+import 'package:healthreminders/Models/User.dart';
 
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final uid =  _auth.currentUser();
 
 
 class Doctors extends StatefulWidget {
@@ -31,6 +32,9 @@ class _DoctorsState extends State<Doctors> {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(
@@ -70,17 +74,34 @@ class _DoctorsState extends State<Doctors> {
                     ),
                   ),
                 ),
+                Container(
+                  padding: EdgeInsets.only(right: 20, left: 20),
+                  child: Divider(
+                    color: Colors.black,
+                    thickness: 2,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Row(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(
                           stream: Firestore.instance.collection("Doctors")
+                              .where('uid',  isEqualTo: user.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
-                              return Text('Fetching your Doctors...');
-                            try {
+                               return Padding(
+                                  padding: EdgeInsets.only(top: 150, right: 25),
+                                  child: Text(
+                                      'Fetching your Doctors...',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20.0,
+                                      )
+                                  )
+                              );
+                            else errorDoctors(context);
                               return Expanded(
                                 child: SizedBox(
                                   height: 700,
@@ -97,43 +118,7 @@ class _DoctorsState extends State<Doctors> {
 
                                 ),
                               );
-                            } catch (e) {
-                              setState(() {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      // return object of type Dialog
-                                      return AlertDialog(
-                                        title: Center(child: Text('Alert')),
-                                        titleTextStyle: TextStyle(
-                                          color: Colors.teal,
-                                          fontFamily: 'Monster',
-                                          fontSize: 20.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
 
-                                        ),
-                                        content: Text('Add Doctors'),
-                                        contentTextStyle: TextStyle(
-                                          fontFamily: 'Monster',
-                                          color: Colors.black,
-                                        ),
-                                        actions: <Widget> [
-                                          FlatButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(
-                                                  builder: (context) => AddDoctors()));
-                                            },
-                                            child: Text('ADD DOCTORS'),
-                                          )
-                                        ],
-                                      );
-                                    }
-                                );
-                              });
-                            }
                           }),
 
                     ],
@@ -153,11 +138,12 @@ class _DoctorsState extends State<Doctors> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names")
+                      stream: Firestore.instance.collection("Users")
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
+                        else googleName();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) =>
@@ -227,3 +213,33 @@ class _DoctorsState extends State<Doctors> {
   }
 
   }
+
+  errorDoctors(BuildContext context) {
+  AlertDialog(
+    title: Center(child: Text('Alert')),
+    titleTextStyle: TextStyle(
+      color: Colors.teal,
+      fontFamily: 'Monster',
+      fontSize: 20.0,
+      letterSpacing: 1.5,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.underline,
+
+    ),
+    content: Text('Add Doctors'),
+    contentTextStyle: TextStyle(
+      fontFamily: 'Monster',
+      color: Colors.black,
+    ),
+    actions: <Widget> [
+      FlatButton(
+        onPressed: () {
+  Navigator.push(
+  context, MaterialPageRoute(
+  builder: (context) => AddDoctors()));
+        },
+        child: Text('ADD DOCTORS'),
+      )
+    ],
+  );
+}

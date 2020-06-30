@@ -11,11 +11,50 @@ import 'MedicineReminders/AddMedicine.dart';
 import 'Models/Wrapper.dart';
 import 'StartupPages/PasswordReset.dart';
 import 'StartupPages/SignUp.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(HealthRemindersApp());
 
-class MyApp extends StatelessWidget {
+class HealthRemindersApp extends StatefulWidget {
+
   // This widget is the root of your application.
+  @override
+  _HealthRemindersAppState createState() => _HealthRemindersAppState();
+}
+
+class _HealthRemindersAppState extends State<HealthRemindersApp> {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('heartbeat.jpg');
+    var initializationSettingsIOS = new IOSInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+    );
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+  }
+  Future onSelectNotification(String payload) async {
+    debugPrint("payload : $payload");
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text('Notification'),
+        content: new Text('$payload'),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
@@ -31,6 +70,7 @@ class MyApp extends StatelessWidget {
           '/medicines': (context) => Medicine(),
           '/doctors': (context) => Doctors(),
           '/appoinments': (context) => Appoinments(),
+
         },
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -43,4 +83,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthreminders/Models/User.dart';
 
 class DatabaseService {
 
@@ -20,14 +19,16 @@ class DatabaseService {
 
 
   Future<void> doctorData(String doctorsName,String speciality, String phoneNumber, String emailID,
-      String doctorAddress) async {
-    return await _doctorsCollection.document(uid).setData({
+      String doctorAddress,timeDatabase, String uid) async {
+    return await _doctorsCollection.document().setData({
 
       "Doctor Name": doctorsName,
       "Doctor Speciality": speciality,
       "Phone Number": phoneNumber,
       "Email ID": emailID,
       "Address": doctorAddress,
+      "Create Time Database": timeDatabase,
+      "uid": uid,
 
 
     });

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
 
 final databaseReference = Firestore.instance;
 
@@ -34,7 +31,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Doctor Name'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
@@ -53,7 +50,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                           width: 15,
                         ),
                         Text(
-                          'Appoinment Details: ',
+                          'Appoinment Reason: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -62,9 +59,9 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                           ),
                         ),
                         Text(
-                          document['Appoinment Details'],
+                          document['Appoinment Reason'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -94,7 +91,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Address'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -107,7 +104,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                   ListTile(
                     title: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+                        Icon(Icons.alarm, color: Colors.black,size: 20.0),
                         SizedBox(
                           width: 15,
                         ),
@@ -123,14 +120,14 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Time'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
                         Text(
                           document['Time Type'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -160,7 +157,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Date of Appoinment'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
@@ -170,7 +167,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Day of Appoinment'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -179,34 +176,20 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                   ),
                   ButtonBar(
                     children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                          stream: databaseReference.collection('Appoinments').snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Column(
-                                children: snapshot.data.documents.map((doc) {
-                                  return FlatButton(
-                                      child: Text(
-                                        'DELETE',
-                                        style: TextStyle(
-                                            color: Colors.teal
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        await databaseReference
-                                            .collection('Appoinments')
-                                            .document(doc.documentID)
-                                            .delete();
-                                      }
-                                  );
-                                }).toList(),
-                              );
-                            } else { // put this else block
-                              return Container(
-                                child: Text('No Data Found'),
-                              );
-                            }
-                          } )
+                      FlatButton(
+                          child: Text(
+                            'DELETE',
+                            style: TextStyle(
+                                color: Colors.teal
+                            ),
+                          ),
+                          onPressed: () async {
+                            await databaseReference
+                                .collection('Appoinments')
+                                .document(document.documentID)
+                                .delete();
+                          }
+                      ),
                     ],
                   )
                 ]

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthreminders/Models/User.dart';
 
 class DatabaseService {
 
@@ -8,7 +7,7 @@ class DatabaseService {
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Lab Tests');
+  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('LabTests');
 
 
   get labtestName => labtestName;
@@ -16,13 +15,12 @@ class DatabaseService {
   get time => time;
   get timeType => timeType;
   get reasonLabTest => reasonLabTest;
-
   get dayLabTest => dayLabTest;
   get dateLabTest => dateLabTest;
 
 
-  Future<void> labtestData(String labtestName,String labtestAddress, String time, String timeType, String reasonLabTest, String dayLabTest,String dateLabTest) async {
-    return await _appoinmentsCollection.document(uid).setData({
+  Future<void> labtestData(String labtestName,String labtestAddress, String time, String timeType, String reasonLabTest, String dayLabTest,String dateLabTest,timeDatabase, String uid) async {
+    return await _appoinmentsCollection.document().setData({
 
       "Lab Tests Name": labtestName,
       "Address of Lab Test": labtestAddress,
@@ -31,6 +29,9 @@ class DatabaseService {
       "Reason for Lab Test": reasonLabTest,
       "Day of Lab Test": dayLabTest,
       "Date of Lab Test": dateLabTest,
+      "Create Time Database": timeDatabase,
+      "uid": uid,
+
 
 
 

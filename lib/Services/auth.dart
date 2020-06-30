@@ -1,4 +1,3 @@
-import 'package:healthreminders/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Models/User.dart';
 

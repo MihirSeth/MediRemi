@@ -85,41 +85,69 @@
 //],
 //),
 
-//
-//
-//Padding(
-//padding: EdgeInsets.only(top: 20),
-//child: Card(
+//ScrollingDayCalendar(
+//startDate: startDate,
+//endDate: endDate,
+//selectedDate: selectedDate,
+//onDateChange: (direction, DateTime selectedDate) {
+//setState(() {
+//pageItems = widgetBuilder(selectedDate);
+//});
+//},
+//dateStyle: TextStyle(
+//fontWeight: FontWeight.bold,
 //color: Colors.white,
+//),
+//displayDateFormat: "dd MMM, yyyy",
+//dateBackgroundColor: Colors.grey,
+//forwardIcon: Icons.arrow_forward,
+//backwardIcon: Icons.arrow_back,
+//pageChangeDuration: Duration(
+//milliseconds: 200,
+//),
+//pageItems: pageItems,
+//widgets: widgets,
+//widgetKeyFormat: widgetKeyFormat,
+//noItemsWidget: Center(
+//child: Padding(
+//padding: EdgeInsets.only(bottom: 30),
 //child: Column(
+//mainAxisAlignment: MainAxisAlignment.end,
+//crossAxisAlignment: CrossAxisAlignment.center,
 //children: <Widget>[
-//ListTile(
-//leading: Icon(Icons.settings),
-//title: Text('Settings')
+//Container(
+//alignment: Alignment.bottomCenter,
+//height: 60,
+//width: 250,
+//child: Material(
+//borderRadius: BorderRadius.circular(1000),
+//shadowColor: Colors.tealAccent,
+//color: Colors.teal,
+//elevation: 7.0,
+//child: FlatButton(
+//onPressed: () {
+//Navigator.push(
+//context, MaterialPageRoute(builder: (context) => AddMedicine()));
+//},
+//child: Center(
+//child: Text(
+//"Add a Med",
+//style: TextStyle(
+//color: Colors.white,
+//fontWeight: FontWeight.bold,
+//fontFamily: "Monster",
+//fontSize: 20.0,
+//
 //),
-//ListTile(
-//leading: Icon(Icons.add ),
-//title: Text('Whatsapp')
 //),
+//)
+//),
+//),
+//),
+//
 //],
 //),
 //),
-//),
-//Padding(
-//padding: EdgeInsets.only(top: 20),
-//child: Card(
-//color: Colors.white,
-//child: Column(
-//children: <Widget>[
-//ListTile(
-//leading: Icon(Icons.settings),
-//title: Text('Settings')
-//),
-//ListTile(
-//leading: Icon(Icons.add ),
-//title: Text('Whatsapp')
-//),
-//],
-//),
-//),
+//)
+//
 //),

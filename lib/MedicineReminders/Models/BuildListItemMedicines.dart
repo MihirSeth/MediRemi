@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../AddMedicine.dart';
 
 
 
@@ -13,271 +10,219 @@ final databaseReference = Firestore.instance;
 buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
   return Column(
         children: <Widget>[
-             Card(
-              child: Container(
-                child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.assignment, color: Colors.black,size: 20.0,),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Name of the Medicine: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
+              Card(
+                child: Container(
+                  child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.assignment, color: Colors.black,size: 20.0,),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Name of the Medicine: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Roboto',
 
-                              ),
-                            ),
-                            Text(
-                              document['Name'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            ImageIcon(
-                                AssetImage('assets/pill.png'),
-                                color: Colors.black,
-                                size: 20.0
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'Dosage: ',
-                              style: TextStyle(
-                              color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                                fontSize: 15,
-                              ),
-                            ),
-                            Text(
-                              document['Dosage'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'Medicine Type: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                                fontSize: 15,
-                              ),
-                            ),
-                            Text(
-                              document['Type'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'Interval: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
 
+                                ),
                               ),
-                            ),
-                            Text(
-                              document['Interval'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
+                              Text(
+                                document['Name'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontFamily: 'Roboto',
+                                  fontSize: 15,
+                                ),
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'Pills: ',
-                              style: TextStyle(
+                        SizedBox(
+                          height: 0,
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              ImageIcon(
+                                  AssetImage('assets/pill.png'),
+                                  color: Colors.black,
+                                  size: 20.0
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Dosage: ',
+                                style: TextStyle(
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
-
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
                               ),
-                            ),
-                            Text(
-                              document['Pills'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            )
-                          ],
+                              Text(
+                                document['Dosage'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'Starting Time: ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                decoration: TextDecoration.underline,
-
-                              ),
-                            ),
-                            Text(
-                              document['Starting Time'],
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15,
-                              ),
-                            )
-                          ],
+                        SizedBox(
+                          height: 0,
                         ),
-                      ),
-                      ButtonBar(
-                          children: <Widget>[
-                            StreamBuilder<QuerySnapshot>(
-                                stream: databaseReference.collection('Medicines').snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Column(
-                                      children: snapshot.data.documents.map((doc) {
-                                        return FlatButton(
-                                            child: Text(
-                                              'DELETE',
-                                              style: TextStyle(
-                                                  color: Colors.teal
-                                              ),
-                                            ),
-                                            onPressed: () async {
-                                              await databaseReference
-                                                  .collection('Medicines')
-                                                  .document(doc.documentID)
-                                                  .delete();
-                                            }
-                                        );
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Medicine Type: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              Text(
+                                document['Type'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 0,
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Interval: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
 
-                                      }).toList(),
-                                    );
+                                ),
+                              ),
+                              Text(
+                                document['Interval'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 0,
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Pills: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
 
-                                  }else{ // put this else block
-                                    return Container(
-                                      child: Text('No Data Found'),
-                                    );
+                                ),
+                              ),
+                              Text(
+                                document['Pills'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.alarm, color: Colors.black,size: 20.0),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Starting Time: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+
+                                ),
+                              ),
+                              Text(
+                                document['Starting Time'],
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        ButtonBar(
+                            children: <Widget>[
+//                              IconButton(
+//                                              icon: Icon(
+//                                                  Icons.delete,
+//                                                color: Colors.teal,
+//                                                size: 30,
+//                                              ),
+//                                              onPressed: () async {
+//                                                  await databaseReference
+//                                                    .collection('Medicines')
+//                                                    .document(document.documentID)
+//                                                    .delete();
+//                                              }
+//                                          )
+                              FlatButton(
+                                  child: Text(
+                                    'DELETE',
+                                    style: TextStyle(
+                                        color: Colors.teal,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    await databaseReference
+                                        .collection('Medicines')
+                                        .document(document.documentID)
+                                        .delete();
                                   }
-                                }
-                            )
-                          ])
-                    ]
+                              ),
+                            ]
+                        )
+                      ]
+                  ),
                 ),
               ),
-        ),
         ]
     );
-
 }
-
-deleteData(docId) {
-  Firestore.instance
-      .collection('Medicines')
-      .document(docId)
-      .delete()
-      .catchError((e) {
-    print(e);
-  });
-}
-
-
-
-//StreamBuilder<QuerySnapshot>(
-//stream: databaseReference.collection('Medicines').snapshots(),
-//builder: (context, snapshot) {
-//if (snapshot.hasData) {
-//return Column(
-//children: snapshot.data.documents.map((doc) {
-//return FlatButton(
-//child: Text(
-//'DELETE',
-//style: TextStyle(
-//color: Colors.teal
-//),
-//),
-//onPressed: () async {
-//await databaseReference
-//    .collection('Medicines')
-//    .document(doc.documentID)
-//    .delete();
-//}
-//);
-//
-//}).toList(),
-//);
-//
-//}else{ // put this else block
-//return Container(
-//child: Text('No Data Found'),
-//);
-//}
-//}
-//)
-
-

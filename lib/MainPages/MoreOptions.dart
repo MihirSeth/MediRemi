@@ -3,15 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/Notes/Notes.dart';
+import 'package:healthreminders/Notifications/NotificationsPage.dart';
+import 'package:healthreminders/Services/PushNotifications.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 
 
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+//final FirebaseAuth _auth = FirebaseAuth.instance;
+//final Future<String> token = FirebaseMessaging().getToken();
+
 
 class MoreOptions extends StatefulWidget {
 
@@ -33,6 +40,7 @@ class _MedicineState extends State<MoreOptions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+//      backgroundColor: Colors.black,
       appBar: AppBar(
         title:  Center(
           child: Text(
@@ -46,56 +54,101 @@ class _MedicineState extends State<MoreOptions> {
       ),
 
 
-        body: Container(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-                children: <Widget>[
-                  ListTile(
-                      leading: Icon(Icons.settings),
-                      title: Text('Settings')),
-                  ListTile(
-                    leading: Icon(Icons.person_add),
-                    title: Text('Doctors'),
-                    onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return Doctors();
+        body: ListView(
+          children: [
+            Column(
+              children: <Widget>[
+                Container(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.person_add),
+                            title: Text('Doctors'),
+                            onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Doctors();
+                                    },
+                                  ),
+                                );
                             },
                           ),
-                        );
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.add_circle),
-                    title: Text('Appoinments'),
-                    onTap: () {
-                      Navigator.of(context).push(
+                          ListTile(
+                            leading: Icon(Icons.add_circle),
+                            title: Text('Appoinments'),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Appoinments();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.assessment),
+                              title: Text('Tests'),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return LabTests();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.assignment),
+                            title: Text('Notes'),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Notes();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(right: 20, left: 20),
+                            child: Divider(
+                              color: Colors.teal,
+                              thickness: 2,
+                            ),
+                          ),
+                          ListTile(
+                              leading: ImageIcon(
+                                  AssetImage('assets/Whatsapp.png'),
+                                  color: Colors.green
+                              ),
+                              title: Text('Whatsapp'),
+                            onTap: () {
+                              FlutterOpenWhatsapp.sendSingleMessage("919811098770", "Hello");
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.settings),
+                            title: Text('Settings'),
+                            onTap: () {
+                        Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) {
-                            return Appoinments();
-                          },
-                        ),
-                      );
-                    },
+                        builder: (context) {
+                        return Notifications();
+                                },
+                          ));
+                        })]
+                    ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.assessment),
-                      title: Text('Tests'),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LabTests();
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ]
+                ),
+              ],
             ),
-          ),
+          ],
         ),
         drawer: Drawer(
             child: ListView(
@@ -104,12 +157,12 @@ class _MedicineState extends State<MoreOptions> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names")
+                      stream: Firestore.instance.collection("Users")
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
-                        else ErrorNames();
+                        else googleName();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) =>
@@ -119,15 +172,6 @@ class _MedicineState extends State<MoreOptions> {
                         );
                       }
                   ),
-//                child: Center(
-//                  child: Text(
-//                      '$Names',
-//                    style: TextStyle(
-//                      color: Colors.white,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ),
-//                ),
                   decoration: BoxDecoration(
                     color: Colors.teal,
                   ),
@@ -174,40 +218,31 @@ class _MedicineState extends State<MoreOptions> {
               ],
             )
         )
-
     );
   }
-
-
-  Widget _widgetBuilder(DateTime selectedDate) {
-  }
-
 }
 
-void ErrorNames() {
+
+errorNames() {
   Column(
       children: <Widget>[
         Text(
             'Signed Up with not enough information. Go back to sign up page and sign up again'
         ),
-
         InkWell(
             onTap: () {
               BuildContext context;
               Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
             },
-
             child: Text(
               "Login with Google",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: "Monster",
-
               ),
-
             )
         )
       ]
   );
-
 }
+

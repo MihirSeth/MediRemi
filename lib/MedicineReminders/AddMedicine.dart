@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
-import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Models/User.dart';
 import 'DatabaseMedicine.dart';
 
 
@@ -21,13 +19,15 @@ class _AddMedicineState extends State<AddMedicine> {
   String _medicineType;
   String _interval;
   String _startingTime;
+  String _startingTimeType;
   String _durationTime;
   String _durationType;
-  String _uid;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = 'Tablet';
 
   final myController = TextEditingController();
+
+   final _timeDatabase = DateTime.now();
 
 
 
@@ -57,7 +57,7 @@ class _AddMedicineState extends State<AddMedicine> {
               Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only( right: 225),
+                        padding: EdgeInsets.only(right: 225),
 
                         child: Text(
                           "Medication Name",
@@ -386,38 +386,94 @@ class _AddMedicineState extends State<AddMedicine> {
                   ),
 
                   Container(
-                    padding: EdgeInsets.only(left: 25, right: 25),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 258),
-                          child: Text(
-                              "Starting Time",
-                              style: TextStyle(
-                                color: Colors.teal,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-
-                              )
-                          ),
-                        ),
-                        TextFormField(
-                            maxLength: 5,
-                            onSaved: (input) => _startingTime = input,
-                            decoration: InputDecoration(
-                              hintText: "Write in 24 hours method in Hours:Minutes",
-                              hintStyle: TextStyle(
-                                fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                      child: Column(
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 320),
+                                child:
+                                Text(
+                                    "Time",
+                                    style: TextStyle(
+                                      color: Colors.teal,
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                ),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.teal),),
+                              Container(
+                                padding: EdgeInsets.only(top:0, left: 25, right: 25),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 17, ),
+                                        child: TextFormField(
+                                            validator: (input) {
+                                              if (input.isEmpty) {
+                                                return 'Please type the Time';
+                                              }
+                                            },
+                                            onSaved: (input) => _startingTime = input,
+                                            decoration: InputDecoration(
+                                              hintText: "Time (Hours:Minutes)",
+                                              hintStyle: TextStyle(
+                                                fontFamily: "Monster",
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.teal),),
 
-                            ))
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20.0,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 0, left: 0),
+                                        child: DropdownButton<String>(
+                                          underline: Container(
+                                            height: 2,
+                                            color: Colors.teal,
+                                          ),
+                                          hint: Text('AM/PM?'),
+                                          value: _startingTimeType,
+                                          items: [
+                                            DropdownMenuItem<String>(
+                                                child:Text('PM', style: TextStyle(color: Colors.teal),
+                                                ),
+                                                value: 'One'
+                                            ),
+                                            DropdownMenuItem<String>(
+                                                child:Text('AM', style: TextStyle(color: Colors.teal),
+                                                ),
+                                                value: 'Two'
+                                            ),
+                                          ],
+                                          onChanged: (String newValue) {
+                                            setState(() {
+                                              _startingTimeType = newValue;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
 
-                      ],
-                    ),
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ],
+                      )
                   ),
 
                   SizedBox(
@@ -547,8 +603,6 @@ class _AddMedicineState extends State<AddMedicine> {
                       Medicine()));
 
                   String _uid = await getCurrentUser();
-
-
                   await DatabaseService().medicineData(
                   _medicineName,
                       _dosage,
@@ -556,9 +610,11 @@ class _AddMedicineState extends State<AddMedicine> {
                       _medicineType,
                       _interval,
                       _startingTime,
+                      _startingTimeType,
                       _durationTime,
                       _durationType,
-                      _uid,
+                       _uid,
+                      _timeDatabase,
                   );
                 }
                           },
@@ -586,6 +642,19 @@ class _AddMedicineState extends State<AddMedicine> {
     );
  }
 
+}
+
+loading() async {
+  Future.delayed(Duration(seconds: 2));
+  Container(
+    color: Colors.white,
+    child: Center(
+      child: SpinKitRing(
+        color: Colors.teal,
+        size: 50.0,
+      ),
+    ),
+  );
 }
 
 Future getCurrentUser() async {

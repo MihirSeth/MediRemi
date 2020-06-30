@@ -34,7 +34,6 @@ dependencies:
 #  calendar_timeline: ^0.6.0
   table_calendar: ^2.2.3
   shared_preferences: 0.5.2
-  flutter_local_notifications:
   flare_flutter:
     git:
       url: git://github.com/2d-inc/Flare-Flutter.git
@@ -42,6 +41,11 @@ dependencies:
       path: flare_flutter
   rxdart: ^0.22.0
   firebase_messaging: ^6.0.16
+  flutter_open_whatsapp: ^0.1.2
+  flutter_local_notifications: ^1.4.4+1
+  flutter_email_sender: ^3.0.1
+
+
 
 
 
@@ -92,9 +96,57 @@ flutter:
     - assets/MaterialIcons-Regular.ttf
     - assets/Whatsapp.png
 
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/Fonts/Lato/Lato-Black.ttf
+        - asset: assets/Fonts/Lato/Lato-BlackItalic.ttf
+        - asset: assets/Fonts/Lato/Lato-Bold.ttf
+        - asset: assets/Fonts/Lato/Lato-BoldItalic.ttf
+        - asset: assets/Fonts/Lato/Lato-Italic.ttf
+        - asset: assets/Fonts/Lato/Lato-Light.ttf
+        - asset: assets/Fonts/Lato/Lato-LightItalic.ttf
+        - asset: assets/Fonts/Lato/Lato-Regular.ttf
+        - asset: assets/Fonts/Lato/Lato-Thin.ttf
+        - asset: assets/Fonts/Lato/Lato-ThinItalic.ttf
+    - family: Montserrat
+      fonts:
+            - asset: assets/Fonts/Montserrat/Montserrat-Black.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-BlackItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Bold.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-BoldItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-ExtraBold.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-ExtraLight.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-ExtraLightItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Italic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Light.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-LightItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Medium.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-MediumItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Regular.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-SemiBold.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-SemiBoldItalic.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-Thin.ttf
+            - asset: assets/Fonts/Montserrat/Montserrat-ThinItalic.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/Fonts/Roboto/Roboto-Black.ttf
+        - asset: assets/Fonts/Roboto/Roboto-BlackItalic.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Bold.ttf
+        - asset: assets/Fonts/Roboto/Roboto-BoldItalic.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Italic.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Light.ttf
+        - asset: assets/Fonts/Roboto/Roboto-LightItalic.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Medium.ttf
+        - asset: assets/Fonts/Roboto/Roboto-MediumItalic.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/Fonts/Roboto/Roboto-Thin.ttf
+        - asset: assets/Fonts/Roboto/Roboto-ThinItalic.ttf
 
-
-
+#    - family: Oswald
+#      fonts:
+#        - asset: assets/Fonts/Oswald
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -105,18 +157,11 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+#   example:
+
+
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

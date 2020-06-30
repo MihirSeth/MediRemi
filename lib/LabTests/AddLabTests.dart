@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/MainPages/MoreOptions.dart';
 
 import 'LabTestsDatabase.dart';
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class AddLabTests extends StatefulWidget {
   @override
@@ -17,6 +22,8 @@ class _AddLabTestsState extends State<AddLabTests> {
   String _reasonLabTest;
   String _dayLabTest;
   String _dateLabTest;
+  final _timeDatabase = DateTime.now();
+
 
 
 
@@ -486,14 +493,18 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 MoreOptions()));
 
 
+                            String _uid = await getCurrentUser();
+
                             await DatabaseService().labtestData(
                                 _labtestName,
-                          _labtestAddress,
-                             _time,
-                             _timeType,
+                                _labtestAddress,
+                                 _time,
+                                 _timeType,
                                  _reasonLabTest,
                                  _dayLabTest,
                                  _dateLabTest,
+                                _timeDatabase,
+                                _uid
                             );
                           }
 
@@ -523,4 +534,10 @@ class _AddLabTestsState extends State<AddLabTests> {
 
     );
   }
+}
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
 }

@@ -1,11 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/Services/SignUpGoogle.dart';
-import 'package:healthreminders/Models/loading.dart';
+import 'package:healthreminders/Services/GoogleDatabase.dart';
+import 'package:provider/provider.dart';
 
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignupPage extends StatefulWidget {
   @override
@@ -19,6 +22,8 @@ class _SignupPageState extends State<SignupPage> {
   String _emailID;
   String _password;
   String _name;
+  String _phoneNumber;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -26,6 +31,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: ListView(
@@ -96,13 +102,37 @@ class _SignupPageState extends State<SignupPage> {
                                 )
                             ),
 
-                            SizedBox(
-                              height: 20.0,
-                            ),
+
+                          SizedBox(
+                          height: 20.0,
+                          ),
 
                           Column(
 
                                 children: <Widget>[
+                                  TextFormField(
+                                      validator: (input) {
+                                        if (input.isEmpty) {
+                                          return 'Please type a Phone Number';
+                                        }
+                                      },
+                                      onSaved: (input) => _phoneNumber = input,
+                                      decoration: InputDecoration(
+                                        hintText: "Phone Number (Kindly add 91)",
+                                        hintStyle: TextStyle(
+                                          fontFamily: "Monster",
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey,
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.teal),),
+                                      )
+                                  ),
+
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+
                                   TextFormField(
                                       validator: (input) {
                                         if (input.isEmpty) {
@@ -149,6 +179,7 @@ class _SignupPageState extends State<SignupPage> {
 
                               ),
 
+
                             SizedBox(
                               height: 40,
                             ),
@@ -167,20 +198,22 @@ class _SignupPageState extends State<SignupPage> {
                                       _form.save();
                                       signUp(context);
                                     }
-                                    Center(
-                                      child: Text(
-                                        "Sign Up",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "Monster",
-                                        ),
-                                      ),
-                                    );
-                                  }
+
+                                  },
+                                    child: Center(
+                                    child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Monster",
+                                    ),
+                                    ),
+                                    ),
                                   ),
                               ),
                             ),
+
                             SizedBox(
                               height: 20,
                             ),
@@ -221,7 +254,7 @@ class _SignupPageState extends State<SignupPage> {
                                                       fontWeight: FontWeight.bold,
                                                       decoration: TextDecoration.underline,
                                                     ),
-                                                    content: Text('If you use Google to Signup then Google must always be used to Login, but if you Signup in the normal way then you can Login through any method.'),
+                                                    content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. Kindly also put in your name and phone number before doing either.'),
                                                     contentTextStyle: TextStyle(
                                                       fontFamily: 'Monster',
                                                       color: Colors.black,
@@ -234,16 +267,30 @@ class _SignupPageState extends State<SignupPage> {
                                                         child: Text('Try Again'),
                                                       ),
                                                       FlatButton(
-                                                        onPressed: (){
-                                                          signInWithGoogle().whenComplete(() => Navigator.of(context).pushNamed('/'));
-                                                        },
+                                                        onPressed: () async {
+                                                          String _uid = await getCurrentUser();
+                                                          await DatabaseServiceGoogle(uid: user.uid).googleDatabase(_name,_emailID,_uid);
+                                                          signInWithGoogle().whenComplete(() {
+                                                            Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                builder: (context) {
+                                                                  return Home();
+                                                                },
+                                                              ),
+                                                            );
+                                                          }
+                                                          );},
                                                         child: Text('Move On'),
                                                       )
                                                     ],
                                                   );
                                                 }
                                             );
-                                            signInWithGoogle().whenComplete(() {
+
+                                            String _uid = await getCurrentUser();
+                                        await DatabaseServiceGoogle(uid: user.uid).googleDatabase(_name,_emailID,_uid);
+
+                                          signInWithGoogle().whenComplete(() {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (context) {
@@ -251,7 +298,8 @@ class _SignupPageState extends State<SignupPage> {
                                                   },
                                                 ),
                                               );
-                                            });
+                                            }
+                                            );
                                           },
                                           child: Text(
                                             "Sign Up with Google",
@@ -280,7 +328,7 @@ class _SignupPageState extends State<SignupPage> {
                                   side: BorderSide(color: Colors.black)),
                               color: Colors.white,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/');
+                                Navigator.of(context).popAndPushNamed('/');
                               },
                               child: Center(
                                 child: Text(
@@ -311,7 +359,10 @@ class _SignupPageState extends State<SignupPage> {
         AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailID, password: _password);
         FirebaseUser user = result.user;
 
-        await DatabaseService(uid: user.uid).updateUserData(_name,_emailID);
+        String _uid = await getCurrentUser();
+
+
+        await DatabaseService(uid: user.uid).updateUserData(_name,_emailID,_uid, _phoneNumber);
 
         setState(() => loading = true);
         print("Successfully Registered!");
@@ -355,3 +406,10 @@ class _SignupPageState extends State<SignupPage> {
     }
 
   }
+
+Future getCurrentUser() async {
+  final FirebaseUser user = await _auth.currentUser();
+  final _uid = user.uid;
+  print(_uid);
+  return _uid.toString();
+}

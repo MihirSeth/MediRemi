@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/AddAppoinment.dart';
-import 'package:healthreminders/Doctors/AddDoctors.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
 import 'package:healthreminders/LabTests/AddLabTests.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
-import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
-import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthreminders/StartupPages/SignUp.dart';
+import 'package:provider/provider.dart';
 
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final uid =  _auth.currentUser();
 
 
 class LabTests extends StatefulWidget {
@@ -34,6 +32,8 @@ class _LabTestsState extends State<LabTests> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(
@@ -78,12 +78,22 @@ class _LabTestsState extends State<LabTests> {
                   child: Row(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("Lab Tests")
+                          stream: Firestore.instance.collection("LabTests")
+                              .where('uid',  isEqualTo: user.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
-                              return Text('Fetching your LabTests...');
-                            try {
+                              return Padding(
+                                padding: EdgeInsets.only(top: 150, right: 25),
+                            child: Text(
+                            'Fetching your Lab Tests...',
+                            style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                            )
+                            )
+                            );
+                            else errorLabTests(context);
                               return Expanded(
                                 child: SizedBox(
                                   height: 700,
@@ -101,44 +111,7 @@ class _LabTestsState extends State<LabTests> {
 
                                 ),
                               );
-                            } catch (e) {
-                              setState(() {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      // return object of type Dialog
-                                      return AlertDialog(
-                                        title: Center(child: Text('Alert')),
-                                        titleTextStyle: TextStyle(
-                                          color: Colors.teal,
-                                          fontFamily: 'Monster',
-                                          fontSize: 20.0,
-                                          letterSpacing: 1.5,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.underline,
 
-                                        ),
-                                        content: Text('Add Lab Tests'),
-                                        contentTextStyle: TextStyle(
-                                          fontFamily: 'Monster',
-                                          color: Colors.black,
-                                        ),
-                                        actions: <Widget> [
-                                          FlatButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(
-                                                  builder: (context) => AddLabTests()));
-                                            },
-                                            child: Text('ADD LAB TESTS'),
-                                          )
-                                        ],
-                                      );
-                                    }
-                                );
-                              }
-                              );
-                            }
                           }),
 
                     ],
@@ -199,11 +172,12 @@ class _LabTestsState extends State<LabTests> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Names")
+                      stream: Firestore.instance.collection("Users")
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
+                        else googleName();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) =>
@@ -271,4 +245,34 @@ class _LabTestsState extends State<LabTests> {
 
     );
   }
+}
+
+errorLabTests(BuildContext context) {
+  AlertDialog(
+    title: Center(child: Text('Alert')),
+    titleTextStyle: TextStyle(
+      color: Colors.teal,
+      fontFamily: 'Monster',
+      fontSize: 20.0,
+      letterSpacing: 1.5,
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.underline,
+
+    ),
+    content: Text('Add Lab Tests'),
+    contentTextStyle: TextStyle(
+      fontFamily: 'Monster',
+      color: Colors.black,
+    ),
+    actions: <Widget> [
+      FlatButton(
+        onPressed: () {
+   Navigator.push(
+      context, MaterialPageRoute(
+      builder: (context) => AddLabTests()));
+        },
+        child: Text('ADD LAB TESTS'),
+      )
+    ],
+  );
 }

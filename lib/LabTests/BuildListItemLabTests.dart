@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
 
 final databaseReference = Firestore.instance;
 
@@ -34,7 +31,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Lab Tests Name'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
@@ -64,7 +61,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Address of Lab Test'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -93,14 +90,14 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Time'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
                         Text(
                           document['Time Type'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -130,7 +127,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Date of Lab Test'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
@@ -140,7 +137,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Day of Lab Test'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -170,7 +167,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                         Text(
                           document['Reason for Lab Test'],
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         )
@@ -179,34 +176,20 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                   ),
                   ButtonBar(
                     children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                          stream: databaseReference.collection('Lab Tests').snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Column(
-                                children: snapshot.data.documents.map((doc) {
-                                  return FlatButton(
-                                      child: Text(
-                                        'DELETE',
-                                        style: TextStyle(
-                                            color: Colors.teal
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        await databaseReference
-                                            .collection('Lab Tests')
-                                            .document(doc.documentID)
-                                            .delete();
-                                      }
-                                  );
-                                }).toList(),
-                              );
-                            } else { // put this else block
-                              return Container(
-                                child: Text('No Data Found'),
-                              );
-                            }
-                          } ),
+                      FlatButton(
+                          child: Text(
+                            'DELETE',
+                            style: TextStyle(
+                                color: Colors.teal
+                            ),
+                          ),
+                          onPressed: () async {
+                            await databaseReference
+                                .collection('LabTests')
+                                .document(document.documentID)
+                                .delete();
+                          }
+                      ),
                     ],
                   )
                 ]
