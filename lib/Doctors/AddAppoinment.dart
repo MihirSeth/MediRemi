@@ -172,7 +172,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _appoinmentReason = input ,
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Appoinment Details",
                                 hintStyle: TextStyle(
@@ -244,7 +243,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _doctorAddress = input,
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Address",
                                 hintStyle: TextStyle(
@@ -297,7 +295,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                             }
                                           },
                                           onSaved: (input) => _time = input,
-                                          keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             hintText: "Time (Hours:Minutes)",
                                             hintStyle: TextStyle(
@@ -328,14 +325,14 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                         value: _timeType,
                                         items: [
                                           DropdownMenuItem<String>(
-                                              child:Text('PM', style: TextStyle(color: Colors.teal),
+                                              child:Text('AM', style: TextStyle(color: Colors.black),
                                               ),
-                                              value: 'One'
+                                              value: 'AM'
                                           ),
                                           DropdownMenuItem<String>(
-                                              child:Text('AM', style: TextStyle(color: Colors.teal),
+                                              child:Text('PM', style: TextStyle(color: Colors.black),
                                               ),
-                                              value: 'Two'
+                                              value: 'PM'
                                           ),
                                         ],
                                         onChanged: (String newValue) {
@@ -376,7 +373,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                   height: 5,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top:0, left: 25, right: 200),
+                  padding: EdgeInsets.only(top:0, left: 25, right: 260),
 
                   child: Row(
                     children: <Widget>[
@@ -474,7 +471,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _dateAppoinment = input,
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Date",
                                 hintStyle: TextStyle(

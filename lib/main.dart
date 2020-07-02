@@ -23,38 +23,37 @@ class HealthRemindersApp extends StatefulWidget {
 }
 
 class _HealthRemindersAppState extends State<HealthRemindersApp> {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-//  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-  @override
-
-  void initState() {
-    super.initState();
-    var initializationSettingsAndroid =
-    new AndroidInitializationSettings('heartbeat.jpg');
-    var initializationSettingsIOS = new IOSInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-    );
-    var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
-
-  }
-  Future onSelectNotification(String payload) async {
-    debugPrint("payload : $payload");
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text('Notification'),
-        content: new Text('$payload'),
-      ),
-    );
-  }
+//    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+////  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+//
+//  @override
+//
+//  void initState() {
+//    super.initState();
+//    var initializationSettingsAndroid =
+//    new AndroidInitializationSettings('heartbeat.jpg');
+//    var initializationSettingsIOS = new IOSInitializationSettings(
+//      requestSoundPermission: false,
+//      requestBadgePermission: false,
+//      requestAlertPermission: false,
+////      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+//    );
+//    var initializationSettings = new InitializationSettings(
+//        initializationSettingsAndroid, initializationSettingsIOS);
+//    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+//    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+//        onSelectNotification: onSelectNotification);
+//  }
+//  Future onSelectNotification(String payload) async {
+//    debugPrint("payload : $payload");
+//    showDialog(
+//      context: context,
+//      builder: (_) => new AlertDialog(
+//        title: new Text('Notification'),
+//        content: new Text('$payload'),
+//      ),
+//    );
+//  }
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
@@ -70,13 +69,11 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
           '/medicines': (context) => Medicine(),
           '/doctors': (context) => Doctors(),
           '/appoinments': (context) => Appoinments(),
-
         },
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-
         ),
         home: Wrapper(),
       ),

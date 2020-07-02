@@ -8,9 +8,30 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          shadowColor: Colors.teal,
+          borderOnForeground: true,
+          margin: EdgeInsets.only(right: 20, left:20),
+          elevation: 5,
+
           child: Container(
             child: Column(
                 children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top:10),
+                    child: Text(
+                      'Lab Test',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto',
+                          decoration: TextDecoration.underline
+                      ),
+                    ),
+                  ),
                   ListTile(
                     title: Row(
                       children: <Widget>[
@@ -93,6 +114,9 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             color: Colors.blueGrey,
                             fontSize: 15,
                           ),
+                        ),
+                        Text(
+                          " ",
                         ),
                         Text(
                           document['Time Type'],
@@ -197,7 +221,9 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
           ),
 
         ),
-
+        SizedBox(
+          height: 10,
+        ),
       ]
   );
 

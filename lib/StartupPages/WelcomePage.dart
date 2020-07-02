@@ -2,8 +2,12 @@ import 'package:healthreminders/Doctors/AddAppoinment.dart';
 import 'package:healthreminders/Doctors/AddDoctors.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/LabTests/AddLabTests.dart';
+import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
+import 'package:healthreminders/Notes/AddNotes.dart';
+import 'package:healthreminders/Notes/Notes.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +35,13 @@ class LoginPage extends StatelessWidget {
         '/addmedicine': (context) => AddMedicine(),
         '/adddoctor': (context) => AddDoctors(),
         '/addappoinments': (context) => AddAppoinments(),
+        '/addnotes': (context) => AddNotes(),
+        '/addlabtests': (context) => AddLabTests(),
         '/medicines': (context) => Medicine(),
         '/doctors': (context) => Doctors(),
         '/appoinments': (context) => Appoinments(),
+        '/notes': (context) =>  Notes(),
+        '/labtests': (context) => LabTests(),
 
       },
       title: 'Flutter Demo',
@@ -164,16 +172,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.teal),),
-
                               ),
                               obscureText: true,
                             ),
                           ],
-
                         ),
                       ),
-
-
                       SizedBox(
                         height: 5,
                       ),

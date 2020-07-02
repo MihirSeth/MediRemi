@@ -1,6 +1,16 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:healthreminders/main.dart';
+import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
+import 'package:healthreminders/Models/User.dart';
+import 'package:healthreminders/Models/Wrapper.dart';
+import 'package:provider/provider.dart';
+//import 'package:healthreminders/main.dart';
+
+
+final uid =  FirebaseAuth.instance.currentUser();
 
 
 class Notifications extends StatefulWidget {
@@ -9,11 +19,26 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+
 //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
+  String name;
+  String type;
+  String dosage;
+  void getInfoMedicine () async{
+    var userQuery = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: user.uid);
+    userQuery.getDocuments().then((data) {
+      if (data.documents.length > 0) {
+        setState(() {
+          name = data.documents[0].data['Name'];
+          type = data.documents[0].data['Type'];
+          dosage = data.documents[0].data['Dosage'];
+        }
+        );
+      }
+    });
+    }
   @override
-
   void initState() {
     super.initState();
     var initializationSettingsAndroid =
@@ -32,50 +57,19 @@ class _NotificationsState extends State<Notifications> {
 
   }
   Future onSelectNotification(String payload) async {
-    debugPrint("payload : $payload");
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text('Notification'),
-        content: new Text('$payload'),
-      ),
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    await Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Wrapper()),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Plugin example app'),
-          backgroundColor: Colors.teal,
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: _showNotificationWithSound,
-                child: Text('Show Notification With Sound'),
-              ),
-              new SizedBox(
-                height: 30.0,
-              ),
-              new RaisedButton(
-                onPressed: _showNotificationWithoutSound,
-                child: new Text('Show Notification Without Sound'),
-              ),
-              new SizedBox(
-                height: 30.0,
-              ),
-              new RaisedButton(
-                onPressed: _showNotificationWithDefaultSound,
-                child: new Text('Show Notification With Default Sound'),
-              ),
-            ],
-          ),
-        ),
-      );
-
+    final user = Provider.of<User>(context);
+    return Scaffold();
   }
 
 //  Future onSelectNotification(String payload) async {
@@ -89,11 +83,53 @@ class _NotificationsState extends State<Notifications> {
 //      },
 //    );
 //  }
-  Future _showNotificationWithSound() async {
+
+
+  Future<void> scheduleNotification(medicine) async {
+    var hour = int.parse(medicine.startTime[0] + medicine.startTime[1]);
+    var ogValue = hour;
+    var minute = int.parse(medicine.startTime[2] + medicine.startTime[3]);
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'repeatDailyAtTime channel id',
+      'repeatDailyAtTime channel name',
+      'repeatDailyAtTime description',
+      importance: Importance.Max,
+//      sound: 'sound',
+      ledColor: Color(0xFF3EB16F),
+      ledOffMs: 1000,
+      ledOnMs: 1000,
+      enableLights: true,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    for (int i = 0; i < (24 / medicine.interval).floor(); i++) {
+      if ((hour + (medicine.interval * i) > 23)) {
+        hour = hour + (medicine.interval * i) - 24;
+      } else {
+        hour = hour + (medicine.interval * i);
+      }
+      await flutterLocalNotificationsPlugin.showDailyAtTime(
+          int.parse(medicine.notificationIDs[i]),
+          'Medicine Reminder: ${medicine.medicineName}',
+          medicine.medicineType.toString() != MedicineType.None.toString()
+              ? 'It is time to take your $name, according to schedule'
+              : 'It is time to take your medicine, according to schedule',
+          Time(hour, minute, 0),
+          platformChannelSpecifics);
+      hour = ogValue;
+    }
+    //await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+
+  Future <void> _showNotificationWithSound() async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
-//        sound: 'notification_sound' ,
         importance: Importance.Max,
+//        sound: 'notification',
         priority: Priority.High);
     var iOSPlatformChannelSpecifics =
     new IOSNotificationDetails(sound: "notification_sound.aiff");
@@ -141,3 +177,11 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 }
+
+
+
+
+
+
+
+

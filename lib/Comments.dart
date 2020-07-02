@@ -151,3 +151,108 @@
 //)
 //
 //),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//Container(
+//child: Column(
+//children: <Widget>[
+//Column(
+//children: <Widget>[
+//Padding(
+//padding: EdgeInsets.only(right: 320),
+//child:
+//Text(
+//"Time",
+//style: TextStyle(
+//color: Colors.teal,
+//fontSize: 15.0,
+//fontWeight: FontWeight.bold,
+//)
+//),
+//),
+//Container(
+//padding: EdgeInsets.only(top:0, left: 25, right: 25),
+//child: Row(
+//children: <Widget>[
+//Expanded(
+//flex: 2,
+//child: Padding(
+//padding: EdgeInsets.only(bottom: 17, ),
+//child: TextFormField(
+//validator: (input) {
+//if (input.isEmpty) {
+//return 'Please type the Time';
+//}
+//},
+//onSaved: (input) => _startingTime = input,
+//decoration: InputDecoration(
+//hintText: "Time (Hours:Minutes)",
+//hintStyle: TextStyle(
+//fontFamily: "Monster",
+//fontWeight: FontWeight.bold,
+//color: Colors.grey,
+//),
+//focusedBorder: UnderlineInputBorder(
+//borderSide: BorderSide(color: Colors.teal),),
+//
+//)
+//),
+//),
+//),
+//SizedBox(
+//width: 20.0,
+//),
+//Expanded(
+//flex: 1,
+//child: Padding(
+//padding: EdgeInsets.only(top: 0, left: 0),
+//child: DropdownButton<String>(
+//underline: Container(
+//height: 2,
+//color: Colors.teal,
+//),
+//hint: Text('AM/PM?'),
+//value: _startingTimeType,
+//items: [
+//DropdownMenuItem<String>(
+//child:Text('AM', style: TextStyle(color: Colors.blueGrey),
+//),
+//value: 'One'
+//),
+//DropdownMenuItem<String>(
+//child:Text('PM', style: TextStyle(color: Colors.blueGrey ),
+//),
+//value: 'Two'
+//),
+//],
+//onChanged: (String newValue) {
+//setState(() {
+//_startingTimeType = newValue;
+//});
+//},
+//),
+//),
+//),
+//],
+//
+//),
+//)
+//
+//],
+//),
+//],
+//)
+//),

@@ -31,7 +31,6 @@ class _AddMedicineState extends State<AddMedicine> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -447,14 +446,14 @@ class _AddMedicineState extends State<AddMedicine> {
                                           value: _startingTimeType,
                                           items: [
                                             DropdownMenuItem<String>(
-                                                child:Text('PM', style: TextStyle(color: Colors.teal),
+                                                child:Text('AM', style: TextStyle(color: Colors.blueGrey),
                                                 ),
-                                                value: 'One'
+                                                value: 'AM'
                                             ),
                                             DropdownMenuItem<String>(
-                                                child:Text('AM', style: TextStyle(color: Colors.teal),
+                                                child:Text('PM', style: TextStyle(color: Colors.blueGrey ),
                                                 ),
-                                                value: 'Two'
+                                                value: 'PM'
                                             ),
                                           ],
                                           onChanged: (String newValue) {
@@ -616,6 +615,7 @@ class _AddMedicineState extends State<AddMedicine> {
                        _uid,
                       _timeDatabase,
                   );
+
                 }
                           },
                           child: Center(
@@ -663,3 +663,4 @@ Future getCurrentUser() async {
   print(_uid);
   return _uid.toString();
 }
+

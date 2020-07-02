@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Doctors/AddAppoinment.dart';
+import 'package:healthreminders/Doctors/AddDoctors.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
@@ -45,6 +49,39 @@ class _MedicineState extends State<MoreReminders> {
         ),
 
         backgroundColor: Colors.teal,
+//        actions: <Widget>[
+//          Padding(
+//            padding:  EdgeInsets.only(right: 15.0),
+//            child: Row(
+//              children: <Widget>[
+//                FlatButton(
+//                  onPressed: () async {
+//                      Navigator.pop(context, MaterialPageRoute(builder: (context) =>
+//                          AddDoctors()));
+//                  },
+//                  child: Text(
+//                    'Add Doctors',
+//                    style: TextStyle(
+//                        color: Colors.white,
+//                    ),
+//                  ),
+//                ),
+//                FlatButton(
+//                  onPressed: () async {
+//                    Navigator.pop(context, MaterialPageRoute(builder: (context) =>
+//                        AddAppoinments()));
+//                  },
+//                  child: Text(
+//                    'Add Medicines',
+//                    style: TextStyle(
+//                        color: Colors.white
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ],
       ),
         body:
         ListView(
@@ -69,86 +106,82 @@ class _MedicineState extends State<MoreReminders> {
                     thickness: 2,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: <Widget>  [
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection('Doctors')
-                              .where('uid',  isEqualTo: user.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData)
-                              return Padding(
-                                  padding: EdgeInsets.only(top: 120, right: 25),
-                                  child: Text(
-                                      'Fetching your Reminders...',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20.0,
-                                      )
-                                  )
-                              );
-                            else errorAppoinments(context);
-                            return Expanded(
-                              child: SizedBox(
-                                height: 700,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) =>
-                                      buildListItemDoctors(
-                                          context,
-                                          snapshot.data.documents[index]),
-
-                                ),
-                              ),
-                            );
-                          }
-                      ),
-                    ],
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: <Widget>  [
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection('Appoinments')
-                              .where('uid',  isEqualTo: user.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData)
-                              return Padding(
-                                  padding: EdgeInsets.only(top: 250, right: 75),
-                                  child: Text(
-                                      '',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20.0,
-                                      )
-                                  )
-                              );
-                            else errorAppoinments(context);
-                            return Expanded(
-                              child: SizedBox(
-                                height: 700,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) =>
-                                      buildListItemMedicine(
-                                          context,
-                                          snapshot.data.documents[index]),
-
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                            Row(
+                              children: [
+                                StreamBuilder<QuerySnapshot>(
+                                    stream: Firestore.instance.collection('Doctors')
+                                        .where('uid',  isEqualTo: user.uid)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData)
+                                        return Padding(
+                                            padding: EdgeInsets.only(top: 120, right: 25),
+                                            child: Text(
+                                                'Fetching your Reminders...',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20.0,
+                                                )
+                                            )
+                                        );
+                                      else errorDoctors(context);
+                                      return Expanded(
+                                        child: SizedBox(
+                                          height: 700,
+                                          child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: snapshot.data.documents.length,
+                                                    itemBuilder: (context, index) =>
+                                                        buildListItemDoctors(
+                                                            context,
+                                                            snapshot.data.documents[index]),
+                                                ),
+                                        ),
+                                      );
+                                    }
                                 ),
+                              ],
+                            ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                              Row(
+                                children: [
+                                  StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance.collection("Appoinments")
+                                          .where('uid',  isEqualTo: user.uid)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData)
+                                          return Text('');
+                                        else errorAppoinments(context);
+                                        return Expanded(
+                                          child: SizedBox(
+                                            height: 700,
+                                            child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: snapshot.data.documents.length,
+                                                  itemBuilder: (context, index) =>
+                                                      buildListItemAppoinments(
+                                                          context,
+                                                          snapshot.data.documents[index]),
+                                                ),
+                                          ),
+                                        );
+
+                                      }
+                                  ),
+                                ],
                               ),
-                            );
-                          }
-                      ),
-                    ],
-                  ),
-                ),
+
+                      ],
+                    ),
               ],
             ),
           ],

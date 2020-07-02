@@ -17,6 +17,11 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          shadowColor: Colors.teal,
+          borderOnForeground: true,
           child: Container(
             child: Column(
                 children: <Widget>[

@@ -95,6 +95,7 @@ flutter:
     - assets/Doctor.png
     - assets/MaterialIcons-Regular.ttf
     - assets/Whatsapp.png
+    - assets/notification.mp3
 
   fonts:
     - family: Lato

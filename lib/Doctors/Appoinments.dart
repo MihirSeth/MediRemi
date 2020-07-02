@@ -65,7 +65,8 @@ class _AppoinmentsState extends State<Appoinments> {
             Column(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+                  padding: EdgeInsets.only(left: 15, right: 155, top: 20),
+                  alignment: Alignment.topLeft,
                   child: Text(
                     "Your Appoinments:",
                     style: TextStyle(
@@ -131,85 +132,6 @@ class _AppoinmentsState extends State<Appoinments> {
             ),
           ],
         ),
-
-        drawer: Drawer(
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Users")
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return Text('Loading...');
-                        else googleName();
-
-                        return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) =>
-                              buildListItem(
-                                  context, snapshot.data.documents[index]),
-
-                        );
-                      }
-                  ),
-//                child: Center(
-//                  child: Text(
-//                      '$Names',
-//                    style: TextStyle(
-//                      color: Colors.white,
-//                      fontWeight: FontWeight.bold,
-//                    ),
-//                  ),
-//                ),
-                  decoration: BoxDecoration(
-                    color: Colors.teal,
-                  ),
-                ),
-                Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                        children: <Widget>[
-                          ListTile(
-                              leading: Icon(Icons.settings),
-                              title: Text('Settings')
-                          ),
-                          ListTile(
-                              leading: ImageIcon(
-                                  AssetImage('assets/Whatsapp.png'),
-                                  color: Colors.green
-                              ),
-                              title: Text('Whatsapp')
-                          ),
-                          ListTile(
-                              leading: Icon(Icons.email),
-                              title: Text('Email')
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.exit_to_app),
-                            title: Text('Logout'),
-                            onTap: () {
-                              _signOut().whenComplete(() {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return LoginPage();
-                                    },
-                                  ),
-                                );
-                              });
-                            },
-                          ),
-                        ]
-                    ),
-                  ),
-                ),
-              ],
-            )
-        )
 
     );
   }

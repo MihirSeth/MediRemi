@@ -9,9 +9,29 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          shadowColor: Colors.teal,
+          borderOnForeground: true,
+          margin: EdgeInsets.only(right: 20, left:20),
+          elevation: 5,
           child: Container(
             child: Column(
                 children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top:10),
+                    child: Text(
+                      'Doctor',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto',
+                          decoration: TextDecoration.underline
+                      ),
+                    ),
+                  ),
                   ListTile(
                     title: Row(
                       children: <Widget>[
@@ -25,8 +45,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-
                           ),
                         ),
                         Text(
@@ -55,7 +73,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
@@ -84,7 +101,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
@@ -114,8 +130,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
-                            decoration: TextDecoration.underline,
-
                           ),
                         ),
                         Text(
@@ -144,8 +158,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
-                            decoration: TextDecoration.underline,
-
                           ),
                         ),
                         Text(
@@ -194,7 +206,9 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
           ),
 
         ),
-
+        SizedBox(
+          height: 10,
+        ),
       ]
   );
 

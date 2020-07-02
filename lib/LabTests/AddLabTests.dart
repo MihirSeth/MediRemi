@@ -256,14 +256,14 @@ class _AddLabTestsState extends State<AddLabTests> {
                                         value: _timeType,
                                         items: [
                                           DropdownMenuItem<String>(
-                                              child:Text('PM', style: TextStyle(color: Colors.teal),
-                                              ),
-                                              value: 'One'
-                                          ),
-                                          DropdownMenuItem<String>(
                                               child:Text('AM', style: TextStyle(color: Colors.teal),
                                               ),
-                                              value: 'Two'
+                                              value: 'AM'
+                                          ),
+                                          DropdownMenuItem<String>(
+                                              child:Text('PM', style: TextStyle(color: Colors.teal),
+                                              ),
+                                              value: 'PM'
                                           ),
                                         ],
                                         onChanged: (String newValue) {

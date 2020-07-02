@@ -91,7 +91,7 @@ class _MedicineState extends State<MoreOptions> {
                           ),
                           ListTile(
                             leading: Icon(Icons.assessment),
-                              title: Text('Tests'),
+                              title: Text('Lab Tests'),
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -118,7 +118,7 @@ class _MedicineState extends State<MoreOptions> {
                           Container(
                             padding: EdgeInsets.only(right: 20, left: 20),
                             child: Divider(
-                              color: Colors.teal,
+                              color: Colors.blueGrey,
                               thickness: 2,
                             ),
                           ),
