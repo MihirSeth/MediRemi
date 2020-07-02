@@ -152,6 +152,13 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     color: Colors.blueGrey,
                                     fontSize: 15,
                                   ),
+                                ),
+                                Text(
+                                  ' Hours',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 15,
+                                  ),
                                 )
                               ],
                             ),

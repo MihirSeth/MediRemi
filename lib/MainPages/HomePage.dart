@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
                               return Text('');
-                            else errorAppoinments(context);
+                            else errorLabTests(context);
                             return Expanded(
                               child: SizedBox(
                                 height: 700,

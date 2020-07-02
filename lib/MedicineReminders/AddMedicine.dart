@@ -17,7 +17,7 @@ class _AddMedicineState extends State<AddMedicine> {
   String _dosage;
   String _pills;
   String _medicineType;
-  String _interval;
+  int _interval;
   String _startingTime;
   String _startingTimeType;
   String _durationTime;
@@ -296,7 +296,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 200),
-                                child: DropdownButton<String>(
+                                child: DropdownButton<int>(
                                   underline: Container(
                                     height: 2,
                                     color: Colors.teal,
@@ -304,58 +304,58 @@ class _AddMedicineState extends State<AddMedicine> {
                                   hint: Text('Number of Hours'),
                                   value: _interval,
                                   items: [
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('2 Hours', style: TextStyle(color: Colors.black),
+                                            Text('2', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: '2 Hours'
+                                        value: 2
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('4 Hours', style: TextStyle(color: Colors.black),
+                                            Text('4', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                      value: '4 Hours'
+                                      value: 4
 
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('6 Hours' , style: TextStyle(color: Colors.black),
+                                            Text('6' , style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: '6 Hours'
+                                        value: 6
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('8 Hours', style: TextStyle(color: Colors.black),
+                                            Text('8', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: '8 Hours'
+                                        value: 8
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('12 Hours', style: TextStyle(color: Colors.black),
+                                            Text('12', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: '12 Hours'
+                                        value: 12
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('24 Hours', style: TextStyle(color: Colors.black),
@@ -363,10 +363,10 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '24 Hours'
+                                        value: 24
                                     )
                                   ],
-                                  onChanged: (String newValue) {
+                                  onChanged: (int newValue) {
                                     setState(() {
                                       _interval = newValue;
                                     });

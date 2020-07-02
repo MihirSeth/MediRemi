@@ -4,11 +4,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
+import 'package:healthreminders/Models/Wrapper.dart';
 import 'package:healthreminders/Models/buildListItemGoogle.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -27,6 +29,7 @@ class Medicine extends StatefulWidget {
 }
 
 class _MedicineState extends State<Medicine> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future<void> _signOut() async {
     try {
@@ -34,6 +37,50 @@ class _MedicineState extends State<Medicine> {
     } catch (e) {
       print(e); //
     }
+  }
+
+  String name;
+  String type;
+  String dosage;
+  void getInfoMedicine () async{
+    var userQuery = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+    userQuery.getDocuments().then((data) {
+      if (data.documents.length > 0) {
+        setState(() {
+          name = data.documents[0].data['Name'];
+          type = data.documents[0].data['Type'];
+          dosage = data.documents[0].data['Dosage'];
+        }
+        );
+      }
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('heartbeat.jpg');
+    var initializationSettingsIOS = new IOSInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+    );
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+  }
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    await Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Wrapper()),
+    );
   }
 
   @override

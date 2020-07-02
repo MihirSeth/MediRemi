@@ -1,4 +1,4 @@
-
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,19 +22,26 @@ class _NotificationsState extends State<Notifications> {
 
 //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  String name;
-  String type;
-  String dosage;
+  String medicineName;
+  String medicineType;
+  String medicineDosage;
+  int medicineInterval;
+  String medicineStartTime;
+
   void getInfoMedicine () async{
-    var userQuery = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: user.uid);
-    userQuery.getDocuments().then((data) {
+    var medicineName = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+    medicineName.getDocuments().then((data) {
       if (data.documents.length > 0) {
         setState(() {
-          name = data.documents[0].data['Name'];
-          type = data.documents[0].data['Type'];
-          dosage = data.documents[0].data['Dosage'];
+          medicineName = data.documents[0].data['Name'];
+          medicineType = data.documents[0].data['Type'];
+          medicineDosage = data.documents[0].data['Dosage'];
+          medicineInterval = data.documents[0].data['Interval'];
+          medicineStartTime = data.documents[0].data['Starting Time'];
+
+
         }
-        );
+         );
       }
     });
     }
@@ -72,116 +79,50 @@ class _NotificationsState extends State<Notifications> {
     return Scaffold();
   }
 
-//  Future onSelectNotification(String payload) async {
-//    showDialog(
-//      context: context,
-//      builder: (_) {
-//        return new AlertDialog(
-//          title: Text("Payload"),
-//          content: Text("Payload : $payload"),
-//        );
-//      },
-//    );
-//  }
 
 
   Future<void> scheduleNotification(medicine) async {
-    var hour = int.parse(medicine.startTime[0] + medicine.startTime[1]);
+    var vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
+
+    var hour = int.parse(medicineStartTime[0] + medicineStartTime[1]);
     var ogValue = hour;
-    var minute = int.parse(medicine.startTime[2] + medicine.startTime[3]);
+    var minute = int.parse(medicineStartTime[2] + medicineStartTime[3]);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'repeatDailyAtTime channel id',
       'repeatDailyAtTime channel name',
       'repeatDailyAtTime description',
       importance: Importance.Max,
-//      sound: 'sound',
+      sound: RawResourceAndroidNotificationSound('notification'),
       ledColor: Color(0xFF3EB16F),
       ledOffMs: 1000,
       ledOnMs: 1000,
       enableLights: true,
     );
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(sound: 'notification.aiff');
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    for (int i = 0; i < (24 / medicine.interval).floor(); i++) {
-      if ((hour + (medicine.interval * i) > 23)) {
-        hour = hour + (medicine.interval * i) - 24;
+    for (int i = 0; i < (24 / medicineInterval).floor(); i++) {
+      if ((hour + (medicineInterval * i) > 23)) {
+        hour = hour + (medicineInterval * i) - 24;
       } else {
-        hour = hour + (medicine.interval * i);
+        hour = hour + (medicineInterval * i);
       }
       await flutterLocalNotificationsPlugin.showDailyAtTime(
           int.parse(medicine.notificationIDs[i]),
-          'Medicine Reminder: ${medicine.medicineName}',
-          medicine.medicineType.toString() != MedicineType.None.toString()
-              ? 'It is time to take your $name, according to schedule'
+          'Medicine Reminder: $medicineName',
+          medicineType.toString() != MedicineType.None.toString()
+              ? 'It is time to take your $medicineName, according to schedule'
               : 'It is time to take your medicine, according to schedule',
           Time(hour, minute, 0),
           platformChannelSpecifics);
       hour = ogValue;
     }
-    //await flutterLocalNotificationsPlugin.cancelAll();
-  }
-
-
-  Future <void> _showNotificationWithSound() async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max,
-//        sound: 'notification',
-        priority: Priority.High);
-    var iOSPlatformChannelSpecifics =
-    new IOSNotificationDetails(sound: "notification_sound.aiff");
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'Custom_Sound',
-    );
-  }
-// Method 2
-  Future _showNotificationWithDefaultSound() async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'Default_Sound',
-    );
-  }
-// Method 3
-  Future _showNotificationWithoutSound() async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        playSound: false, importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics =
-    new IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'No_Sound',
-    );
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }
-
-
-
-
-
-
-
-

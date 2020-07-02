@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/AddAppoinment.dart';
-import 'package:healthreminders/Doctors/AddDoctors.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
-import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';

@@ -6,7 +6,6 @@ import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Notes/Notes.dart';
 import 'package:healthreminders/Notifications/NotificationsPage.dart';
-import 'package:healthreminders/Services/PushNotifications.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -136,12 +135,6 @@ class _MedicineState extends State<MoreOptions> {
                             leading: Icon(Icons.settings),
                             title: Text('Settings'),
                             onTap: () {
-                        Navigator.of(context).push(
-                        MaterialPageRoute(
-                        builder: (context) {
-                        return Notifications();
-                                },
-                          ));
                         })]
                     ),
                   ),
