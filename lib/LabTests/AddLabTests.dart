@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/MainPages/MoreOptions.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:healthreminders/LabTests/sucess_screen_labtests.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'LabTests.dart';
 import 'LabTestsDatabase.dart';
 
 
@@ -22,9 +27,36 @@ class _AddLabTestsState extends State<AddLabTests> {
   String _reasonLabTest;
   String _dayLabTest;
   String _dateLabTest;
+  String _monthLabTest;
+  String _yearLabTest;
   final _timeDatabase = DateTime.now();
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  String labtestName;
+  String labtestTime;
+  int labtestDate;
+  int labtestMonth;
+  int labtestYear;
+  String labtestLocation;
 
+
+  void getInfoMedicine () async{
+    var medicineDetails = Firestore.instance.collection('LabTests').where('uid',  isEqualTo: uid);
+    medicineDetails.getDocuments().then((data) {
+      if (data.documents.length > 0) {
+        setState(() {
+          labtestName = data.documents[0].data['Lab Tests Name'];
+          labtestTime = data.documents[0].data['Time'];
+          labtestDate = data.documents[0].data['Date of Lab Test'];
+          labtestMonth = data.documents[0].data['Date of Lab Test'];
+          labtestYear = data.documents[0].data['Date of Lab Test'];
+          labtestLocation = data.documents[0].data['Address of Lab Test'];
+
+        }
+        );
+      }
+    });
+  }
 
 
 
@@ -94,7 +126,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Lab Test Name';
-                                        }
+                                        } return '';
                                       },
                                       onSaved: (input) => _labtestName = input,
                                       decoration: InputDecoration(
@@ -102,7 +134,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                         hintText: "Name",
                                         hintStyle: TextStyle(
                                           fontFamily: "Monster",
-                                          fontWeight: FontWeight.bold,
                                           color: Colors.grey,
                                         ),
                                         focusedBorder: UnderlineInputBorder(
@@ -170,7 +201,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Address';
-                                }
+                                }return '';
                               },
                               onSaved: (input) => _labtestAddress = input,
                               keyboardType: TextInputType.number,
@@ -178,7 +209,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 hintText: "Address",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -222,7 +252,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Lab Test Time';
-                                            }
+                                            } return '';
                                           },
                                           onSaved: (input) => _time = input,
                                           keyboardType: TextInputType.number,
@@ -230,7 +260,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                             hintText: "Time (Hours:Minutes)",
                                             hintStyle: TextStyle(
                                               fontFamily: "Monster",
-                                              fontWeight: FontWeight.bold,
                                               color: Colors.grey,
                                             ),
                                             focusedBorder: UnderlineInputBorder(
@@ -252,7 +281,12 @@ class _AddLabTestsState extends State<AddLabTests> {
                                           height: 2,
                                           color: Colors.teal,
                                         ),
-                                        hint: Text('AM/PM?'),
+                                        hint: Text(
+                                          'AM/PM?',
+                                          style: TextStyle(
+                                              color: Colors.grey
+                                          ),
+                                        ),
                                         value: _timeType,
                                         items: [
                                           DropdownMenuItem<String>(
@@ -316,7 +350,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Reason';
-                                }
+                                } return '';
                               },
                               onSaved: (input) => _reasonLabTest = input,
                               keyboardType: TextInputType.number,
@@ -324,7 +358,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 hintText: "Reason",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -369,7 +402,12 @@ class _AddLabTestsState extends State<AddLabTests> {
                               height: 2,
                               color: Colors.teal,
                             ),
-                            hint: Text('Day'),
+                            hint: Text(
+                              'Day',
+                              style: TextStyle(
+                                  color: Colors.grey
+                              ),
+                            ),
                             value: _dayLabTest,
                             items: [
                               DropdownMenuItem<String>(
@@ -450,8 +488,8 @@ class _AddLabTestsState extends State<AddLabTests> {
                           child: TextFormField(
                               validator: (input) {
                                 if (input.isEmpty) {
-                                  return 'Please type the Date of the Lab Test';
-                                }
+                                  return 'Please type the Date';
+                                } return '';
                               },
                               onSaved: (input) => _dateLabTest = input,
                               keyboardType: TextInputType.number,
@@ -459,7 +497,58 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 hintText: "Date",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Month';
+                                } return '';
+                              },
+                              onSaved: (input) => _monthLabTest = input,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: "Month",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Year';
+                                } return '';
+                              },
+                              onSaved: (input) => _yearLabTest = input,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: "Year",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -489,8 +578,8 @@ class _AddLabTestsState extends State<AddLabTests> {
                           if (_form.validate()) {
                             _form.save();
 
-                            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                                MoreOptions()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                                SuccessScreenLabTests()));
 
 
                             String _uid = await getCurrentUser();
@@ -503,6 +592,8 @@ class _AddLabTestsState extends State<AddLabTests> {
                                  _reasonLabTest,
                                  _dayLabTest,
                                  _dateLabTest,
+                                _monthLabTest,
+                                _yearLabTest,
                                 _timeDatabase,
                                 _uid
                             );
@@ -533,6 +624,35 @@ class _AddLabTestsState extends State<AddLabTests> {
       ),
 
     );
+  }
+  Future<void> scheduleNotification(LabTests labTests) async {
+    var vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
+    var scheduledNotificationDateTime =
+    DateTime.utc(labtestYear, labtestMonth, labtestYear,7,0,0,0,0).add(Duration(seconds: 5));
+    var androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'your other channel id',
+      'your other channel name',
+      'your other channel description',
+      sound: RawResourceAndroidNotificationSound('notification'),
+      importance: Importance.Max,
+      priority: Priority.High,
+      showWhen: true,
+    );
+    var iOSPlatformChannelSpecifics =
+    IOSNotificationDetails(sound: 'notification.aiff');
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        'Reminder for Lab Test',
+        'Today is your Lab Test for $labtestName at $labtestTime and the location is $labtestLocation. ',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);
   }
 }
 Future getCurrentUser() async {

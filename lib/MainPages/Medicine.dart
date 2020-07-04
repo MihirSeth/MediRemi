@@ -4,13 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/Models/Wrapper.dart';
 import 'package:healthreminders/Models/buildListItemGoogle.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -29,7 +27,6 @@ class Medicine extends StatefulWidget {
 }
 
 class _MedicineState extends State<Medicine> {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future<void> _signOut() async {
     try {
@@ -39,48 +36,28 @@ class _MedicineState extends State<Medicine> {
     }
   }
 
-  String name;
-  String type;
-  String dosage;
+  String medicineName;
+  String medicineType;
+  String medicineDosage;
+  int medicineInterval;
+  String medicineStartTime;
+
   void getInfoMedicine () async{
-    var userQuery = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
-    userQuery.getDocuments().then((data) {
+    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+    medicineDetails.getDocuments().then((data) {
       if (data.documents.length > 0) {
         setState(() {
-          name = data.documents[0].data['Name'];
-          type = data.documents[0].data['Type'];
-          dosage = data.documents[0].data['Dosage'];
+          medicineName = data.documents[0].data['Name'];
+          medicineType = data.documents[0].data['Type'];
+          medicineDosage = data.documents[0].data['Dosage'];
+          medicineInterval = data.documents[0].data['Interval'];
+          medicineStartTime = data.documents[0].data['Starting Time'];
+
+
         }
         );
       }
     });
-  }
-  @override
-  void initState() {
-    super.initState();
-    var initializationSettingsAndroid =
-    new AndroidInitializationSettings('heartbeat.jpg');
-    var initializationSettingsIOS = new IOSInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-    );
-    var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
-
-  }
-  Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-    await Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => Wrapper()),
-    );
   }
 
   @override
@@ -111,17 +88,6 @@ class _MedicineState extends State<Medicine> {
                  icon: Icon(Icons.add),
                ),
              ),
-//             Padding(
-//               padding:  EdgeInsets.only(right: 10.0),
-//               child: IconButton(
-//                 onPressed: () {
-//                   Navigator.push(
-//                       context, MaterialPageRoute(
-//                       builder: (context) => Medicine()));
-//                 },
-//                 icon: Icon(Icons.refresh),
-//               ),
-//             ),
            ],
         ),
         body: ListView(
@@ -132,10 +98,11 @@ class _MedicineState extends State<Medicine> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 15, right: 185, top: 20),
                   child: Text(
-                    "Your Medicines:",
+                    "Your Medicines",
                     style: TextStyle(
                       fontSize: 25,
                       fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
@@ -199,6 +166,7 @@ class _MedicineState extends State<Medicine> {
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: Firestore.instance.collection("Users")
+                          .where('uid',  isEqualTo: user.uid)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)

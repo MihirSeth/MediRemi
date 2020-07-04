@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/Doctors/Services/DoctorDatabase.dart';
+import 'package:healthreminders/Doctors/success_screen_doctors.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -88,7 +88,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                                         validator: (input) {
                                           if (input.isEmpty) {
                                             return 'Please type the Doctors Name';
-                                          }
+                                          } return '';
                                         },
                                         onSaved: (input) => _doctorname = input,
                                         decoration: InputDecoration(
@@ -96,7 +96,6 @@ class _AddDoctorsState extends State<AddDoctors> {
                                           hintText: " Doctor's Name",
                                           hintStyle: TextStyle(
                                             fontFamily: "Monster",
-                                            fontWeight: FontWeight.bold,
                                             color: Colors.grey,
                                           ),
                                           focusedBorder: UnderlineInputBorder(
@@ -164,14 +163,13 @@ class _AddDoctorsState extends State<AddDoctors> {
                             validator: (input) {
                               if (input.isEmpty) {
                                 return 'Please type the Speciality of the Doctor';
-                              }
+                              }return '';
                             },
                             onSaved: (input) => _speciality = input,
                             decoration: InputDecoration(
                               hintText: "Speciality",
                               hintStyle: TextStyle(
                                 fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -234,7 +232,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Phone Number';
-                                }
+                                } return '';
                               },
                               onSaved: (input) => _number = input,
                               keyboardType: TextInputType.number,
@@ -243,7 +241,6 @@ class _AddDoctorsState extends State<AddDoctors> {
                                 hintText: "Phone Number",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -307,14 +304,13 @@ class _AddDoctorsState extends State<AddDoctors> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Email ID of the Doctor';
-                                }
+                                } return '';
                               },
                               onSaved: (input) => _emailID = input,
                               decoration: InputDecoration(
                                 hintText: "Email ID",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -378,14 +374,13 @@ class _AddDoctorsState extends State<AddDoctors> {
                             validator: (input) {
                               if (input.isEmpty) {
                                 return 'Please type the Address of the Doctor';
-                              }
+                              } return '';
                             },
                             onSaved: (input) => _address = input,
                             decoration: InputDecoration(
                               hintText: "Address",
                               hintStyle: TextStyle(
                                 fontFamily: "Monster",
-                                fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -416,8 +411,8 @@ class _AddDoctorsState extends State<AddDoctors> {
                         if (_form.validate()) {
                           _form.save();
 
-                          Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                              Doctors()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                              SuccessScreenDoctors()));
 
                           String _uid = await getCurrentUser();
 
@@ -457,6 +452,7 @@ class _AddDoctorsState extends State<AddDoctors> {
 
           );
   }
+
 }
 Future getCurrentUser() async {
   final FirebaseUser user = await _auth.currentUser();

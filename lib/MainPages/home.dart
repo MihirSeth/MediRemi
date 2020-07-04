@@ -53,9 +53,9 @@ class HomeState extends State<Home> {
         title: Text('More Options')
         )
   ],
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.teal,
         backgroundColor: Colors.black,
-        unselectedItemColor: Colors.teal[800],
+        unselectedItemColor: Colors.grey[800],
         unselectedLabelStyle: TextStyle(color:Colors.black),
 
     onTap: (int index) {

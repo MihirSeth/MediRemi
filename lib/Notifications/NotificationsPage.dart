@@ -49,7 +49,7 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('heartbeat.jpg');
+    new AndroidInitializationSettings('app_logo');
     var initializationSettingsIOS = new IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,

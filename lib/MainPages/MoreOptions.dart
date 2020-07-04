@@ -1,22 +1,25 @@
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/MainPages/Steps.dart';
+import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Notes/Notes.dart';
-import 'package:healthreminders/Notifications/NotificationsPage.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:provider/provider.dart';
 
 
 
 
-//final FirebaseAuth _auth = FirebaseAuth.instance;
-//final Future<String> token = FirebaseMessaging().getToken();
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final uid =  _auth.currentUser();
 
 
 class MoreOptions extends StatefulWidget {
@@ -35,9 +38,53 @@ class _MedicineState extends State<MoreOptions> {
   }
 
 
+  List<String> attachments = [];
+  bool isHTML = false;
+
+  final _recipientController = TextEditingController(
+    text: 'example@example.com',
+  );
+
+  final _subjectController = TextEditingController(text: 'The subject');
+
+  final _bodyController = TextEditingController(
+    text: 'Mail body.',
+  );
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<void> send() async {
+    final Email email = Email(
+      body: _bodyController.text,
+      subject: _subjectController.text,
+      recipients: [_recipientController.text],
+      attachmentPaths: attachments,
+      isHTML: isHTML,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(platformResponse),
+    ));
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User>(context);
+
     return Scaffold(
 //      backgroundColor: Colors.black,
       appBar: AppBar(
@@ -132,10 +179,23 @@ class _MedicineState extends State<MoreOptions> {
                             },
                           ),
                           ListTile(
-                            leading: Icon(Icons.settings),
-                            title: Text('Settings'),
+                              leading: Icon(Icons.email),
+                              title: Text('Email'),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.directions_walk),
+                            title: Text('Steps'),
                             onTap: () {
-                        })]
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Steps();
+                                  },
+                                ),
+                              );
+                        }
+                        )
+                        ]
                     ),
                   ),
                 ),
@@ -151,6 +211,7 @@ class _MedicineState extends State<MoreOptions> {
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: Firestore.instance.collection("Users")
+                          .where('uid',  isEqualTo: user.uid)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)

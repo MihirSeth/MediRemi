@@ -110,6 +110,7 @@ class _MedicineState extends State<MoreReminders> {
                   mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                             Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 StreamBuilder<QuerySnapshot>(
                                     stream: Firestore.instance.collection('Doctors')
@@ -118,7 +119,7 @@ class _MedicineState extends State<MoreReminders> {
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData)
                                         return Padding(
-                                            padding: EdgeInsets.only(top: 120, right: 25),
+                                            padding: EdgeInsets.only(top: 250, right: 75),
                                             child: Text(
                                                 'Fetching your Reminders...',
                                                 style: TextStyle(
@@ -149,6 +150,7 @@ class _MedicineState extends State<MoreReminders> {
                           height: 10,
                         ),
                               Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   StreamBuilder<QuerySnapshot>(
                                       stream: Firestore.instance.collection("Appoinments")
@@ -191,6 +193,7 @@ class _MedicineState extends State<MoreReminders> {
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: Firestore.instance.collection("Users")
+                          .where('uid',  isEqualTo: user.uid)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)

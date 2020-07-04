@@ -139,7 +139,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                           width: 15,
                         ),
                         Text(
-                          'Date and Day of Lab Test: ',
+                          'Date of Lab Test: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -155,11 +155,60 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             fontSize: 15,
                           ),
                         ),
+                        Text(
+                          '/',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+
+                          ),
+                        ),
+                        Text(
+                          document['Month of Lan Test'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          '/',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+
+                          ),
+                        ),
+                        Text(
+                          document['Year of Lab Test'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Row(
+                      children: <Widget>[
+                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
+
                         SizedBox(
                           width: 15,
                         ),
                         Text(
-                          document['Day of Lab Test'],
+                          'Day of Lab Test: ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          document['Day for Lab Test'],
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,

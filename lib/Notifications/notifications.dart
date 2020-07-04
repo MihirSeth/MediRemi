@@ -1,32 +1,12 @@
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-//import 'package:flutter/material.dart';
-//import 'package:healthreminders/MainPages/HomePage.dart';
-//
-//
-//
-//Future selectNotification(String payload) async {
-//  if (payload != null) {
-//    debugPrint('notification payload: ' + payload);
-//  }
-//  BuildContext context;
-//  await Navigator.push(
-//    context,
-//    MaterialPageRoute(builder: (context) => HomePage(payload)),
-//  );
-//}
-
-
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
+import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/Wrapper.dart';
 import 'package:provider/provider.dart';
-//import 'package:healthreminders/main.dart';
-
 
 final uid =  FirebaseAuth.instance.currentUser();
 
@@ -47,8 +27,8 @@ class _NotificationsState extends State<Notifications> {
   String medicineStartTime;
 
   void getInfoMedicine () async{
-    var medicineName = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
-    medicineName.getDocuments().then((data) {
+    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+    medicineDetails.getDocuments().then((data) {
       if (data.documents.length > 0) {
         setState(() {
           medicineName = data.documents[0].data['Name'];
@@ -66,8 +46,9 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('heartbeat.jpg');
+    new AndroidInitializationSettings('app_logo');
     var initializationSettingsIOS = new IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
@@ -99,7 +80,7 @@ class _NotificationsState extends State<Notifications> {
 
 
 
-  Future<void> scheduleNotification(medicine) async {
+  Future<void> scheduleNotification(Medicine medicine) async {
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
@@ -132,9 +113,9 @@ class _NotificationsState extends State<Notifications> {
         hour = hour + (medicineInterval * i);
       }
       await flutterLocalNotificationsPlugin.showDailyAtTime(
-          int.parse(medicine.notificationIDs[i]),
+           0,
           'Medicine Reminder: $medicineName',
-          medicineType.toString() != MedicineType.None.toString()
+          medicineType.toString() != medicineType.toString()
               ? 'It is time to take your $medicineName, according to schedule'
               : 'It is time to take your medicine, according to schedule',
           Time(hour, minute, 0),

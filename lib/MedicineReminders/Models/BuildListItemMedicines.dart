@@ -95,7 +95,17 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     color: Colors.blueGrey,
                                     fontSize: 15,
                                   ),
-                                )
+                                ),
+                                Text(
+                                  ' mg',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+
+                                  ),
+                                ),
+
                               ],
                             ),
                           ),
@@ -153,13 +163,6 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     fontSize: 15,
                                   ),
                                 ),
-                                Text(
-                                  ' Hours',
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 15,
-                                  ),
-                                )
                               ],
                             ),
                           ),
@@ -188,7 +191,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     color: Colors.blueGrey,
                                     fontSize: 15,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

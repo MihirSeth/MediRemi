@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/MainPages/MoreOptions.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:healthreminders/Doctors/success_screen_appoinments.dart';
 
+import 'Appoinments.dart';
 import 'Services/AppoinmentDatabase.dart';
 
 
@@ -23,7 +28,35 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   String _timeType;
   String _dayAppoinment;
   String _dateAppoinment;
+  String _monthAppoinment;
+  String _yearAppoinment;
+
   final _timeDatabase = DateTime.now();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  String appoinmentDoctorName;
+  String appoinmentTime;
+  int appoinmentDate;
+  int appoinmentMonth;
+  int appoinmentYear;
+
+
+  void getInfoMedicine () async{
+    var medicineDetails = Firestore.instance.collection('Appoinments').where('uid',  isEqualTo: uid);
+    medicineDetails.getDocuments().then((data) {
+      if (data.documents.length > 0) {
+        setState(() {
+          appoinmentDoctorName = data.documents[0].data['Doctor Name'];
+          appoinmentTime = data.documents[0].data['Time'];
+          appoinmentDate = data.documents[0].data['Date of Appoinment'];
+          appoinmentMonth = data.documents[0].data['Date of Appoinment'];
+          appoinmentYear = data.documents[0].data['Date of Appoinment'];
+
+        }
+        );
+      }
+    });
+  }
 
 
 
@@ -93,12 +126,12 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Doctor Name';
-                                        }
+                                        } return '';
                                       },
                                       onSaved: (input) => _doctorsName = input,
                                       decoration: InputDecoration(
 
-                                        hintText: " Appoinment Name",
+                                        hintText: "Appoinment Name",
                                         hintStyle: TextStyle(
                                           fontFamily: "Monster",
                                           fontWeight: FontWeight.bold,
@@ -152,7 +185,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 size: 25,
                                 color: Colors.white,
                               ),
-
                               backgroundColor: Colors.black,
                               radius: 20,
                             ),
@@ -169,14 +201,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Appoinment Details';
-                                }
+                                } return '';
                               },
                               onSaved: (input) => _appoinmentReason = input ,
                               decoration: InputDecoration(
                                 hintText: "Appoinment Details",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -240,14 +271,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Doctors address';
-                                }
+                                } return '';
                               },
                               onSaved: (input) => _doctorAddress = input,
                               decoration: InputDecoration(
                                 hintText: "Address",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -292,14 +322,13 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            }
+                                            } return '';
                                           },
                                           onSaved: (input) => _time = input,
                                           decoration: InputDecoration(
                                             hintText: "Time (Hours:Minutes)",
                                             hintStyle: TextStyle(
                                               fontFamily: "Monster",
-                                              fontWeight: FontWeight.bold,
                                               color: Colors.grey,
                                             ),
                                             focusedBorder: UnderlineInputBorder(
@@ -321,7 +350,12 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                           height: 2,
                                           color: Colors.teal,
                                         ),
-                                        hint: Text('AM/PM?'),
+                                        hint: Text(
+                                          'AM/PM?',
+                                          style: TextStyle(
+                                              color: Colors.grey
+                                          ),
+                                        ),
                                         value: _timeType,
                                         items: [
                                           DropdownMenuItem<String>(
@@ -386,7 +420,12 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               height: 2,
                               color: Colors.teal,
                             ),
-                            hint: Text('Day'),
+                            hint: Text(
+                                'Day',
+                              style: TextStyle(
+                                  color: Colors.grey
+                              ),
+                            ),
                             value: _dayAppoinment,
                             items: [
                               DropdownMenuItem<String>(
@@ -456,7 +495,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                   height: 15,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top:0, left: 25, right: 25),
+                  padding: EdgeInsets.only(top:0, left: 20, right: 150),
 
                   child: Row(
                     children: <Widget>[
@@ -467,15 +506,68 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                           child: TextFormField(
                               validator: (input) {
                                 if (input.isEmpty) {
-                                  return 'Please type the Date of the Appoinment';
-                                }
+                                  return 'Please type the Date';
+                                } return '';
                               },
                               onSaved: (input) => _dateAppoinment = input,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Date",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Month';
+                                } return '';
+                              },
+                              onSaved: (input) => _monthAppoinment = input,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: "Month",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
+                                  color: Colors.grey,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.teal),),
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        child:
+                        Expanded(
+
+                          child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Please type the Year';
+                                }return '';
+                              },
+                              onSaved: (input) => _yearAppoinment = input,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: "Year",
+                                hintStyle: TextStyle(
+                                  fontFamily: "Monster",
                                   color: Colors.grey,
                                 ),
                                 focusedBorder: UnderlineInputBorder(
@@ -506,8 +598,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                           if (_form.validate()) {
                             _form.save();
 
-                            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                                MoreOptions()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                                SuccessScreenAppoinments()));
 
                             String _uid = await getCurrentUser();
 
@@ -519,6 +611,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               _timeType,
                               _dayAppoinment,
                               _dateAppoinment,
+                              _monthAppoinment,
+                              _yearAppoinment,
                               _timeDatabase,
                               _uid,
                             );
@@ -548,8 +642,36 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
       ),
     );
   }
-}
 
+  Future<void> scheduleNotification(Appoinments appoinments) async {
+    var vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
+    var scheduledNotificationDateTime =
+    DateTime.utc(appoinmentYear, appoinmentMonth, appoinmentYear,7,0,0,0,0).add(Duration(seconds: 5));
+    var androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+        'your other channel id',
+        'your other channel name',
+        'your other channel description',
+      sound: RawResourceAndroidNotificationSound('notification'),
+      importance: Importance.Max,
+      priority: Priority.High,
+      showWhen: true,
+    );
+    var iOSPlatformChannelSpecifics =
+    IOSNotificationDetails(sound: 'notification.aiff');
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+          'Appoinment Reminder with $appoinmentDoctorName',
+          'Today is your Appoinment with $appoinmentDoctorName at $appoinmentTime. ',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);
+}
 
 
 Future getCurrentUser() async {
@@ -557,4 +679,4 @@ Future getCurrentUser() async {
   final _uid = user.uid;
   print(_uid);
   return _uid.toString();
-}
+}}

@@ -347,6 +347,10 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context) {
                 // return object of type Dialog
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
                   title: Center(child: Text('Alert')),
                   titleTextStyle: TextStyle(
                     color: Colors.teal,

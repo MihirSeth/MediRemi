@@ -245,6 +245,10 @@ class _SignupPageState extends State<SignupPage> {
                                                 context: context,
                                                 builder: (BuildContext context) {
                                                   return AlertDialog(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30),
+                                                    ),
+                                                    elevation: 5,
                                                     title: Center(child: Text('Notification')),
                                                     titleTextStyle: TextStyle(
                                                       color: Colors.teal,
@@ -374,6 +378,10 @@ class _SignupPageState extends State<SignupPage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
                   title: Center(child: Text('SignUp Failed')),
                   titleTextStyle: TextStyle(
                     color: Colors.teal,

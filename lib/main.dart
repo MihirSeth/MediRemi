@@ -5,10 +5,14 @@ import 'package:healthreminders/Doctors/Appoinments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
+import 'package:healthreminders/Notes/AddNotes.dart';
 import 'package:healthreminders/Services/auth.dart';
 import 'package:provider/provider.dart';
+import 'LabTests/AddLabTests.dart';
+import 'LabTests/LabTests.dart';
 import 'MedicineReminders/AddMedicine.dart';
 import 'Models/Wrapper.dart';
+import 'Notes/Notes.dart';
 import 'StartupPages/PasswordReset.dart';
 import 'StartupPages/SignUp.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -24,36 +28,36 @@ class HealthRemindersApp extends StatefulWidget {
 
 class _HealthRemindersAppState extends State<HealthRemindersApp> {
 //    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-////  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-//
-//  @override
-//
-//  void initState() {
-//    super.initState();
-//    var initializationSettingsAndroid =
-//    new AndroidInitializationSettings('heartbeat.jpg');
-//    var initializationSettingsIOS = new IOSInitializationSettings(
-//      requestSoundPermission: false,
-//      requestBadgePermission: false,
-//      requestAlertPermission: false,
-////      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-//    );
-//    var initializationSettings = new InitializationSettings(
-//        initializationSettingsAndroid, initializationSettingsIOS);
-//    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-//    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//        onSelectNotification: onSelectNotification);
-//  }
-//  Future onSelectNotification(String payload) async {
-//    debugPrint("payload : $payload");
-//    showDialog(
-//      context: context,
-//      builder: (_) => new AlertDialog(
-//        title: new Text('Notification'),
-//        content: new Text('$payload'),
-//      ),
-//    );
-//  }
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    super.initState();
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('app_logo');
+    var initializationSettingsIOS = new IOSInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+    );
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+  }
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    await Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Wrapper()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
@@ -66,9 +70,13 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
           '/addmedicine': (context) => AddMedicine(),
           '/adddoctor': (context) => AddDoctors(),
           '/addappoinments': (context) => AddAppoinments(),
+          '/addnotes': (context) => AddNotes(),
+          '/addlabtests': (context) => AddLabTests(),
           '/medicines': (context) => Medicine(),
           '/doctors': (context) => Doctors(),
           '/appoinments': (context) => Appoinments(),
+          '/notes': (context) =>  Notes(),
+          '/labtests': (context) => LabTests(),
         },
         title: 'Flutter Demo',
         theme: ThemeData(

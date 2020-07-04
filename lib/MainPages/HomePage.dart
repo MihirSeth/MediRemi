@@ -6,8 +6,9 @@ import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
-import 'package:healthreminders/LabTests/LabTests.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/MedicineReminders/BuildListMedicineHomePage.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
@@ -16,7 +17,6 @@ import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
@@ -31,45 +31,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> attachments = [];
-  bool isHTML = false;
-
-  final _recipientController = TextEditingController(
-    text: 'example@example.com',
-  );
-
-  final _subjectController = TextEditingController(text: 'The subject');
-
-  final _bodyController = TextEditingController(
-    text: 'Mail body.',
-  );
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<void> send() async {
-    final Email email = Email(
-      body: _bodyController.text,
-      subject: _subjectController.text,
-      recipients: [_recipientController.text],
-      attachmentPaths: attachments,
-      isHTML: isHTML,
-    );
-
-    String platformResponse;
-
-    try {
-      await FlutterEmailSender.send(email);
-      platformResponse = 'success';
-    } catch (error) {
-      platformResponse = error.toString();
-    }
-
-    if (!mounted) return;
-
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(platformResponse),
-    ));
-  }
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 //  int selectedDay;
 
@@ -132,136 +94,43 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              Column(
-                children: <Widget>[
-                  StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('Doctors')
-                          .where('uid',  isEqualTo: user.uid)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return Padding(
-                              padding: EdgeInsets.only(top: 120, right: 25),
-                              child: Text(
-                                  'Fetching your Reminders...',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                  )
-                              )
-                          );
-                        else errorDoctors(context);
-                        return Expanded(
-                          child: SizedBox(
-                            height: 700,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.documents.length,
-                              itemBuilder: (context, index) =>
-                                  buildListItemDoctors(
-                                      context,
-                                      snapshot.data.documents[index]),
+              Row(
+                  children: <Widget>  [
+                    StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection('Medicines')
+                            .where('uid',  isEqualTo: user.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return Padding(
+                                padding: EdgeInsets.only(top: 250, left: 75),
+                                child: Text(
+                                    'Fetching your Medicines...',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )
+                                )
+                            );
+                          else errorMedicine(context);
+                          return Expanded(
+                            child: SizedBox(
+                              height: 700,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.documents.length,
+                                itemBuilder: (context, index) =>
+                                    buildListItemMedicineHomePage(
+                                        context,
+                                        snapshot.data.documents[index]),
 
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("Appoinments")
-                              .where('uid',  isEqualTo: user.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData)
-                              return Text('');
-                            else errorAppoinments(context);
-                            return Expanded(
-                              child: SizedBox(
-                                height: 700,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) =>
-                                      buildListItemAppoinments(
-                                          context,
-                                          snapshot.data.documents[index]),
-                                ),
-                              ),
-                            );
-
-                          }
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("LabTests")
-                              .where('uid',  isEqualTo: user.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData)
-                              return Text('');
-                            else errorLabTests(context);
-                            return Expanded(
-                              child: SizedBox(
-                                height: 700,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) =>
-                                      buildListItemLabTests(
-                                          context,
-                                          snapshot.data.documents[index]),
-                                ),
-                              ),
-                            );
-
-                          }
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                      StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("Medicines")
-                              .where('uid',  isEqualTo: user.uid)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData)
-                              return Text('');
-                            else errorAppoinments(context);
-                            return Expanded(
-                              child: SizedBox(
-                                height: 700,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) =>
-                                      buildListItemMedicine(
-                                          context,
-                                          snapshot.data.documents[index]),
-                                ),
-                              ),
-                            );
-
-                          }
-                      ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                ],
-              ),
+                          );
+                        }
+                    ),
+                  ],
+                ),
             ],
           ),
         ],
@@ -275,7 +144,9 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection("Users").snapshots(),
+                      stream: Firestore.instance.collection("Users")
+                          .where('uid',  isEqualTo: user.uid)
+                          .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');

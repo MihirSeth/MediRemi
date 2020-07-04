@@ -37,10 +37,6 @@ class AuthService {
         } catch (error) {}
       }
 
-      // sign out
-      Future signOut() async {
-        try {
-          return await _auth.signOut();
-        } catch (error) {}
-      }
+
+
     }}}

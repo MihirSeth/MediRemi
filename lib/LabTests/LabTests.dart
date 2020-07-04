@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/LabTests/AddLabTests.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
-import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
-import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 

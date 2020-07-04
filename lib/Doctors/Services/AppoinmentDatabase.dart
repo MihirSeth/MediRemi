@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class DatabaseService {
 
@@ -19,7 +20,7 @@ class DatabaseService {
   get dateAppoinment => dateAppoinment;
 
 
-  Future<void> appoinmentData(String doctorsName,String appoinmentReason, String doctorAddress, String time, String timeType, String dayAppoinment,String dateAppoinment,timeDatabase, String uid) async {
+  Future<void> appoinmentData(String doctorsName,String appoinmentReason, String doctorAddress, String time, String timeType, String dayAppoinment,String dateAppoinment, String monthAppoinment,String yearAppoinment, timeDatabase, String uid) async {
     return await _appoinmentsCollection.document().setData({
 
       "Doctor Name": doctorsName,
@@ -29,6 +30,8 @@ class DatabaseService {
       "Time Type": timeType,
       "Day of Appoinment": dayAppoinment,
       "Date of Appoinment": dateAppoinment,
+      "Month of Appoinment": monthAppoinment,
+      "Year of Appoinment": yearAppoinment,
       "Create Time Database": timeDatabase,
       "uid": uid,
 

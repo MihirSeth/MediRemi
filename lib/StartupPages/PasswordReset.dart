@@ -59,7 +59,6 @@ class PasswordReset extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -72,7 +71,6 @@ class PasswordReset extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
                                   color: Colors.grey,
                                 ),
                               ),

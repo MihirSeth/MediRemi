@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/MedicineReminders/success_screen_medicines.dart';
 import 'DatabaseMedicine.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,7 +21,7 @@ class _AddMedicineState extends State<AddMedicine> {
   String _dosage;
   String _pills;
   String _medicineType;
-  int _interval;
+  String _interval;
   String _startingTime;
   String _startingTimeType;
   String _durationTime;
@@ -26,10 +30,29 @@ class _AddMedicineState extends State<AddMedicine> {
   String dropdownValue = 'Tablet';
 
   final myController = TextEditingController();
-
    final _timeDatabase = DateTime.now();
 
-
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  String medicineName;
+  String medicineType;
+  String medicineDosage;
+  int medicineInterval;
+  String medicineStartTime;
+  void getInfoMedicine () async{
+    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+    medicineDetails.getDocuments().then((data) {
+      if (data.documents.length > 0) {
+        setState(() {
+          medicineName = data.documents[0].data['Name'];
+          medicineType = data.documents[0].data['Type'];
+          medicineDosage = data.documents[0].data['Dosage'];
+          medicineInterval = data.documents[0].data['Interval'];
+          medicineStartTime = data.documents[0].data['Starting Time'];
+        }
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +103,6 @@ class _AddMedicineState extends State<AddMedicine> {
                 hintText: "Type Medicine or Brand Name",
                 hintStyle: TextStyle(
                     fontFamily: "Monster",
-                    fontWeight: FontWeight.bold,
                     color: Colors.grey,
                 ),
                 focusedBorder: UnderlineInputBorder(
@@ -115,7 +137,6 @@ class _AddMedicineState extends State<AddMedicine> {
               hintText: "Type the Dosage ",
               hintStyle: TextStyle(
               fontFamily: "Monster",
-              fontWeight: FontWeight.bold,
               color: Colors.grey,
               ),
               focusedBorder: UnderlineInputBorder(
@@ -152,7 +173,6 @@ class _AddMedicineState extends State<AddMedicine> {
                             hintText: "Type the Number of pills ",
                             hintStyle: TextStyle(
                               fontFamily: "Monster",
-                              fontWeight: FontWeight.bold,
                               color: Colors.grey,
                             ),
                             focusedBorder: UnderlineInputBorder(
@@ -194,7 +214,12 @@ class _AddMedicineState extends State<AddMedicine> {
                         height: 2,
                         color: Colors.teal,
                       ),
-                      hint: Text('Select Medicine Type'),
+                      hint: Text(
+                          'Select Medicine Type',
+                        style: TextStyle(
+                          color: Colors.grey
+                        ),
+                      ),
                         value: _medicineType,
                         items: [
                           DropdownMenuItem<String>(
@@ -296,66 +321,71 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 200),
-                                child: DropdownButton<int>(
+                                child: DropdownButton<String>(
                                   underline: Container(
                                     height: 2,
                                     color: Colors.teal,
                                   ),
-                                  hint: Text('Number of Hours'),
+                                  hint: Text(
+                                      'Number of Hours',
+                                      style: TextStyle(
+                                      color: Colors.grey
+                                  ),
+                                  ),
                                   value: _interval,
                                   items: [
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('2', style: TextStyle(color: Colors.black),
+                                            Text('2 Hours', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: 2
+                                        value: '2 Hours'
                                     ),
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('4', style: TextStyle(color: Colors.black),
+                                            Text('4 Hours', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                      value: 4
+                                      value: '4 Hours'
 
                                     ),
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('6' , style: TextStyle(color: Colors.black),
+                                            Text('6 Hours' , style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: 6
+                                        value: '6 Hours'
                                     ),
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('8', style: TextStyle(color: Colors.black),
+                                            Text('8 Hours', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: 8
+                                        value: '8 Hours'
                                     ),
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('12', style: TextStyle(color: Colors.black),
+                                            Text('12 Hours', style: TextStyle(color: Colors.black),
                                             ),
 
                                           ],
                                         ),
-                                        value: 12
+                                        value: '12 Hours'
                                     ),
-                                    DropdownMenuItem<int>(
+                                    DropdownMenuItem<String>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('24 Hours', style: TextStyle(color: Colors.black),
@@ -363,10 +393,10 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: 24
+                                        value: '24 Hours'
                                     )
                                   ],
-                                  onChanged: (int newValue) {
+                                  onChanged: (String newValue) {
                                     setState(() {
                                       _interval = newValue;
                                     });
@@ -420,7 +450,6 @@ class _AddMedicineState extends State<AddMedicine> {
                                               hintText: "Time (Hours:Minutes)",
                                               hintStyle: TextStyle(
                                                 fontFamily: "Monster",
-                                                fontWeight: FontWeight.bold,
                                                 color: Colors.grey,
                                               ),
                                               focusedBorder: UnderlineInputBorder(
@@ -442,7 +471,12 @@ class _AddMedicineState extends State<AddMedicine> {
                                             height: 2,
                                             color: Colors.teal,
                                           ),
-                                          hint: Text('AM/PM?'),
+                                          hint: Text(
+                                              'AM/PM?',
+                                            style: TextStyle(
+                                                color: Colors.grey
+                                            ),
+                                          ),
                                           value: _startingTimeType,
                                           items: [
                                             DropdownMenuItem<String>(
@@ -516,7 +550,6 @@ class _AddMedicineState extends State<AddMedicine> {
                                               hintText: "Number" ,
                                               hintStyle: TextStyle(
                                                 fontFamily: "Monster",
-                                                fontWeight: FontWeight.bold,
                                                 color: Colors.grey,
                                               ),
                                               focusedBorder: UnderlineInputBorder(
@@ -538,7 +571,12 @@ class _AddMedicineState extends State<AddMedicine> {
                                             height: 2,
                                             color: Colors.teal,
                                           ),
-                                          hint: Text('Days/Weeks/Months/Years?'),
+                                          hint: Text(
+                                              'Days/Weeks/Months/Years?',
+                                            style: TextStyle(
+                                                color: Colors.grey
+                                            ),
+                                          ),
                                           value: _durationType,
                                           items: [
                                             DropdownMenuItem<String>(
@@ -598,8 +636,8 @@ class _AddMedicineState extends State<AddMedicine> {
                 if (_form.validate()) {
                   _form.save();
 
-                  Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                      Medicine()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                      SuccessScreenMedicine()));
 
                   String _uid = await getCurrentUser();
                   await DatabaseService().medicineData(
@@ -641,7 +679,50 @@ class _AddMedicineState extends State<AddMedicine> {
         )
     );
  }
+  Future<void> scheduleNotification(Medicine medicine) async {
+    var vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
 
+    var hour = int.parse(medicineStartTime[0] + medicineStartTime[1]);
+    var ogValue = hour;
+    var minute = int.parse(medicineStartTime[2] + medicineStartTime[3]);
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'repeatDailyAtTime channel id',
+      'repeatDailyAtTime channel name',
+      'repeatDailyAtTime description',
+      importance: Importance.Max,
+      sound: RawResourceAndroidNotificationSound('notification'),
+      ledColor: Color(0xFF3EB16F),
+      ledOffMs: 1000,
+      ledOnMs: 1000,
+      enableLights: true,
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(sound: 'notification.aiff');
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    for (int i = 0; i < (24 / medicineInterval).floor(); i++) {
+      if ((hour + (medicineInterval * i) > 23)) {
+        hour = hour + (medicineInterval * i) - 24;
+      } else {
+        hour = hour + (medicineInterval * i);
+      }
+      await flutterLocalNotificationsPlugin.showDailyAtTime(
+          0,
+          'Medicine Reminder: $medicineName',
+          medicineType.toString() != medicineType.toString()
+              ? 'It is time to take your $medicineName, according to schedule'
+              : 'It is time to take your medicine, according to schedule',
+          Time(hour, minute, 0),
+          platformChannelSpecifics);
+      hour = ogValue;
+    }
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
 }
 
 loading() async {

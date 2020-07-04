@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/Notes/Notes.dart';
+import 'package:healthreminders/Notes/success_screen_notes.dart';
 
 import 'DatabaseNotes.dart';
 
@@ -36,8 +36,8 @@ class _AddNotesState extends State<AddNotes> {
                 if (_form.validate()) {
                   _form.save();
 
-                  Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                      Notes()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                      SuccessScreenNotes()));
 
                   String _uid = await getCurrentUser();
                   await DatabaseService().notesData(

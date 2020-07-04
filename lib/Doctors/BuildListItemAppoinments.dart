@@ -179,8 +179,37 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(
-                          width: 15,
+                        Text(
+                          '/',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+
+                          ),
+                        ),
+                        Text(
+                          document['Month of Appoinment'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          '/',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+
+                          ),
+                        ),
+                        Text(
+                          document['Year of Appoinment'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
                         ),
                       ],
                     ),
