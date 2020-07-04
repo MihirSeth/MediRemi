@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final databaseReference = Firestore.instance;
 
 
-buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
+buildListItemAppoinmentsHomePage(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
@@ -63,64 +63,6 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                   ListTile(
                     title: Row(
                       children: <Widget>[
-                        Icon(Icons.assignment, color: Colors.black,size: 20.0,),
-
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Appoinment Details: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Text(
-                          document['Appoinment Details'],
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  ListTile(
-                    title: Row(
-                      children: <Widget>[
-                        Icon(Icons.location_on, color: Colors.black,size: 20.0),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Appoinment Address: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-
-                          ),
-                        ),
-                        Text(
-                          document['Address'],
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  ListTile(
-                    title: Row(
-                      children: <Widget>[
                         Icon(Icons.alarm, color: Colors.black,size: 20.0),
                         SizedBox(
                           width: 15,
@@ -164,7 +106,7 @@ buildListItemAppoinments(BuildContext context, DocumentSnapshot document) {
                           width: 15,
                         ),
                         Text(
-                          'Date of Appoinment: ',
+                          'Date of Appoinment: It is on ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

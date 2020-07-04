@@ -22,13 +22,13 @@ class _AddMedicineState extends State<AddMedicine> {
   String _pills;
   String _medicineType;
   String _interval;
-  String _startingTime;
+  String _startingTimeHours;
+  String _startingTimeMinutes;
   String _startingTimeType;
   String _durationTime;
   String _durationType;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = 'Tablet';
-
   final myController = TextEditingController();
    final _timeDatabase = DateTime.now();
 
@@ -37,7 +37,8 @@ class _AddMedicineState extends State<AddMedicine> {
   String medicineType;
   String medicineDosage;
   int medicineInterval;
-  String medicineStartTime;
+  String medicineStartTimeHours;
+  String medicineStartTimeMinutes;
   void getInfoMedicine () async{
     var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
     medicineDetails.getDocuments().then((data) {
@@ -47,7 +48,8 @@ class _AddMedicineState extends State<AddMedicine> {
           medicineType = data.documents[0].data['Type'];
           medicineDosage = data.documents[0].data['Dosage'];
           medicineInterval = data.documents[0].data['Interval'];
-          medicineStartTime = data.documents[0].data['Starting Time'];
+          medicineStartTimeHours = data.documents[0].data['Starting Time Hours'];
+          medicineStartTimeMinutes = data.documents[0].data['Starting Time Minutes'];
         }
         );
       }
@@ -126,25 +128,25 @@ class _AddMedicineState extends State<AddMedicine> {
                             )
                         ),
                       ),
-    TextFormField(
-        validator: (input) {
-          if (input.isEmpty) {
-              return 'Please type the Dosage';
-          }
-        },
-    onSaved: (input) => _dosage = input,
-              decoration: InputDecoration(
-              hintText: "Type the Dosage ",
-              hintStyle: TextStyle(
-              fontFamily: "Monster",
-              color: Colors.grey,
-              ),
-              focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.teal
-              ),
-              ),
-    )
-    ),
+                          TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                    return 'Please type the Dosage';
+                                }
+                              },
+                          onSaved: (input) => _dosage = input,
+                                    decoration: InputDecoration(
+                                    hintText: "Type the Dosage ",
+                                    hintStyle: TextStyle(
+                                    fontFamily: "Monster",
+                                    color: Colors.grey,
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.teal
+                                    ),
+                                    ),
+                          )
+                          ),
                       SizedBox(
                         height: 30.0,
                       ),
@@ -436,18 +438,57 @@ class _AddMedicineState extends State<AddMedicine> {
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
-                                      flex: 2,
                                       child: Padding(
-                                        padding: EdgeInsets.only(bottom: 17, ),
+                                        padding: EdgeInsets.only(bottom: 17),
                                         child: TextFormField(
                                             validator: (input) {
                                               if (input.isEmpty) {
                                                 return 'Please type the Time';
                                               }
                                             },
-                                            onSaved: (input) => _startingTime = input,
+                                            onSaved: (input) => _startingTimeHours = input,
+                                            keyboardType: TextInputType.number,
                                             decoration: InputDecoration(
-                                              hintText: "Time (Hours:Minutes)",
+                                              hintText: "Hours",
+                                              hintStyle: TextStyle(
+                                                fontFamily: "Monster",
+                                                color: Colors.grey,
+                                              ),
+                                              focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.teal),),
+
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15.0,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 10.0),
+                                      child: Text(
+                                        ':',
+                                        style: TextStyle(
+                                          fontSize: 30
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15.0,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 17),
+                                        child: TextFormField(
+                                            validator: (input) {
+                                              if (input.isEmpty) {
+                                                return 'Please type the Time';
+                                              }
+                                            },
+                                            onSaved: (input) => _startingTimeMinutes = input,
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                              hintText: "Minutes",
                                               hintStyle: TextStyle(
                                                 fontFamily: "Monster",
                                                 color: Colors.grey,
@@ -463,7 +504,6 @@ class _AddMedicineState extends State<AddMedicine> {
                                       width: 20.0,
                                     ),
                                     Expanded(
-                                      flex: 1,
                                       child: Padding(
                                         padding: EdgeInsets.only(top: 0, left: 0),
                                         child: DropdownButton<String>(
@@ -646,15 +686,17 @@ class _AddMedicineState extends State<AddMedicine> {
                       _pills,
                       _medicineType,
                       _interval,
-                      _startingTime,
+                      _startingTimeHours,
+                    _startingTimeMinutes,
                       _startingTimeType,
                       _durationTime,
                       _durationType,
                        _uid,
                       _timeDatabase,
                   );
-
                 }
+                scheduleNotificationMedicine();
+
                           },
                           child: Center(
                             child: Text(
@@ -679,16 +721,16 @@ class _AddMedicineState extends State<AddMedicine> {
         )
     );
  }
-  Future<void> scheduleNotification(Medicine medicine) async {
+  Future<void> scheduleNotificationMedicine() async {
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
 
-    var hour = int.parse(medicineStartTime[0] + medicineStartTime[1]);
+    var hour = int.parse(medicineStartTimeHours[0] + medicineStartTimeHours[1]);
     var ogValue = hour;
-    var minute = int.parse(medicineStartTime[2] + medicineStartTime[3]);
+    var minute = int.parse(medicineStartTimeMinutes[2] + medicineStartTimeMinutes[3]);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'repeatDailyAtTime channel id',

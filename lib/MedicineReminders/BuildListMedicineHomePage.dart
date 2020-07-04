@@ -14,12 +14,12 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
       children: <Widget>[
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(60),
           ),
           shadowColor: Colors.teal,
           borderOnForeground: true,
           margin: EdgeInsets.only(right: 20, left:20),
-          elevation: 5,
+          elevation: 10,
           child: Container(
 //                  decoration: BoxDecoration(
 //                    borderRadius: BorderRadius.circular(1000),
@@ -128,13 +128,6 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
 
                   ButtonBar(
                       children: <Widget>[
-                        Text(
-                          'For more details and deleting go to the Medicine Page',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 13,
-                          ),
-                        ),
 //                              IconButton(
 //                                              icon: Icon(
 //                                                  Icons.delete,
@@ -165,6 +158,19 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                               );
                             }
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: Text(
+                            'For more details and deleting go to the Medicine Page',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ]
                   )
                 ]
@@ -173,7 +179,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 40,
         ),
       ]
   );

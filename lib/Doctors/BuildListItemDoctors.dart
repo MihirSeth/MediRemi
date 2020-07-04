@@ -10,12 +10,12 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
       children: <Widget>[
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(60),
           ),
           shadowColor: Colors.teal,
           borderOnForeground: true,
           margin: EdgeInsets.only(right: 20, left:20),
-          elevation: 5,
+          elevation: 10,
           child: Container(
             child: Column(
                 children: <Widget>[
@@ -207,7 +207,7 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
 
         ),
         SizedBox(
-          height: 10,
+          height: 40,
         ),
       ]
   );

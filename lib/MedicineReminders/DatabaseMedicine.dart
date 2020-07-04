@@ -19,7 +19,7 @@ class DatabaseService {
   get durationType => durationType;
 
 
-  Future<void> medicineData (String medicineName,String dosage,String pills,String medicineType, String interval,String startingTime, String startingTimeType,String durationTime, String durationType, String uid, timeDatabase) async {
+  Future<void> medicineData (String medicineName,String dosage,String pills,String medicineType, String interval,String startingTimeHours,String startingTimeMinutes, String startingTimeType,String durationTime, String durationType, String uid, timeDatabase) async {
     return await _medicinesCollection.document().setData({
 
       "Name": medicineName,
@@ -27,7 +27,8 @@ class DatabaseService {
       "Pills": pills,
       "Type": medicineType,
       "Interval": interval,
-      "Starting Time": startingTime,
+      "Starting Time Hours": startingTimeHours,
+      "Starting Time Minutes": startingTimeMinutes,
       "Starting Time Type": startingTimeType,
       "Duration Time": durationTime,
       "Duration Type": durationType,

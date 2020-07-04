@@ -126,7 +126,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Doctor Name';
-                                        } return '';
+                                        }
                                       },
                                       onSaved: (input) => _doctorsName = input,
                                       decoration: InputDecoration(
@@ -201,7 +201,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Appoinment Details';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _appoinmentReason = input ,
                               decoration: InputDecoration(
@@ -271,7 +271,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Doctors address';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _doctorAddress = input,
                               decoration: InputDecoration(
@@ -322,7 +322,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            } return '';
+                                            }
                                           },
                                           onSaved: (input) => _time = input,
                                           decoration: InputDecoration(
@@ -507,7 +507,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Date';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _dateAppoinment = input,
                               keyboardType: TextInputType.number,
@@ -533,7 +533,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Month';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _monthAppoinment = input,
                               keyboardType: TextInputType.number,
@@ -560,7 +560,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Year';
-                                }return '';
+                                }
                               },
                               onSaved: (input) => _yearAppoinment = input,
                               keyboardType: TextInputType.number,
@@ -593,7 +593,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                     color: Colors.teal,
                     elevation: 7.0,
                     child: FlatButton(
-                        onPressed: () async{
+                        onPressed: () async {
                           final _form = _formKey.currentState;
                           if (_form.validate()) {
                             _form.save();
@@ -617,7 +617,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               _uid,
                             );
                           }
-
+                          scheduleNotificationAppoinments();
                         },
                         child: Center(
                           child: Text(
@@ -643,7 +643,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     );
   }
 
-  Future<void> scheduleNotification(Appoinments appoinments) async {
+  Future<void> scheduleNotificationAppoinments() async {
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;

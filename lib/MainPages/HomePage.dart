@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/BuildListAppoinmentsHomePage.dart';
 import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/BuildListMedicineHomePage.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
@@ -17,7 +20,7 @@ import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
-
+import 'package:rxdart/rxdart.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
 final uid =  _auth.currentUser();
@@ -94,43 +97,116 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                  children: <Widget>  [
-                    StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection('Medicines')
-                            .where('uid',  isEqualTo: user.uid)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData)
-                            return Padding(
-                                padding: EdgeInsets.only(top: 250, left: 75),
-                                child: Text(
-                                    'Fetching your Medicines...',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.0,
-                                    )
-                                )
-                            );
-                          else errorMedicine(context);
-                          return Expanded(
-                            child: SizedBox(
-                              height: 700,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data.documents.length,
-                                itemBuilder: (context, index) =>
-                                    buildListItemMedicineHomePage(
-                                        context,
-                                        snapshot.data.documents[index]),
+                            Row(
+                              children: <Widget>[
+                                StreamBuilder<QuerySnapshot>(
+                                    stream: Firestore.instance.collection('Medicines')
+                                        .where('uid',  isEqualTo: user.uid)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData)
+                                        return Padding(
+                                            padding: EdgeInsets.only(top: 250, left: 75),
+                                            child: Text(
+                                                'Fetching your Medicines...',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20.0,
+                                                )
+                                            )
+                                        );
+                                      else errorMedicine(context);
+                                      return Expanded(
+                                        child: SizedBox(
+                                          height: 700,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data.documents.length,
+                                            itemBuilder: (context, index) =>
+                                                buildListItemMedicineHomePage(
+                                                    context,
+                                                    snapshot.data.documents[index]),
 
-                              ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                ),
+                              ],
                             ),
-                          );
-                        }
-                    ),
-                  ],
-                ),
+                        Row(
+                          children: <Widget>[
+                            StreamBuilder<QuerySnapshot>(
+                                stream: Firestore.instance.collection('Appoinments')
+                                    .where('uid',  isEqualTo: user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Padding(
+                                        padding: EdgeInsets.only(top: 250, left: 75),
+                                        child: Text(
+                                            '',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                            )
+                                        )
+                                    );
+                                  else errorAppoinments(context);
+                                  return Expanded(
+                                    child: SizedBox(
+                                      height: 700,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemAppoinmentsHomePage(
+                                                context,
+                                                snapshot.data.documents[index]),
+
+                                      ),
+                                    ),
+                                  );
+                                }
+                            ),
+                          ],
+                        ),
+                            Row(
+                              children: <Widget>[
+                                StreamBuilder<QuerySnapshot>(
+                                    stream: Firestore.instance.collection('LabTests')
+                                        .where('uid',  isEqualTo: user.uid)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData)
+                                        return Padding(
+                                            padding: EdgeInsets.only(top: 250, left: 75),
+                                            child: Text(
+                                                'Fetching your Medicines...',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20.0,
+                                                )
+                                            )
+                                        );
+                                      else errorMedicine(context);
+                                      return Expanded(
+                                        child: SizedBox(
+                                          height: 700,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data.documents.length,
+                                            itemBuilder: (context, index) =>
+                                                buildListItemLabTestsHomePage(
+                                                    context,
+                                                    snapshot.data.documents[index]),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                ),
+                              ],
+                            ),
             ],
           ),
         ],

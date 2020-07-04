@@ -13,12 +13,12 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
         children: <Widget>[
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(60),
                 ),
                 shadowColor: Colors.teal,
                 borderOnForeground: true,
                 margin: EdgeInsets.only(right: 20, left:20),
-                elevation: 5,
+                elevation: 10,
                 child: Container(
 //                  decoration: BoxDecoration(
 //                    borderRadius: BorderRadius.circular(1000),
@@ -99,7 +99,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                 Text(
                                   ' mg',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.blueGrey,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
 
@@ -212,7 +212,17 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                   ),
                                 ),
                                 Text(
-                                  document['Starting Time'],
+                                  document['Starting Time Hours'],
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Text(
+                                  ":",
+                                ),
+                                Text(
+                                  document['Starting Time Minutes'],
                                   style: TextStyle(
                                     color: Colors.blueGrey,
                                     fontSize: 15,
@@ -225,6 +235,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                   document['Starting Time Type'],
                                   style: TextStyle(
                                     color: Colors.blueGrey,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                   ),
                                 )
@@ -269,7 +280,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                 ),
               ),
           SizedBox(
-            height: 10,
+            height: 40,
           ),
         ]
     );

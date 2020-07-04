@@ -126,7 +126,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Lab Test Name';
-                                        } return '';
+                                        }
                                       },
                                       onSaved: (input) => _labtestName = input,
                                       decoration: InputDecoration(
@@ -201,7 +201,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Address';
-                                }return '';
+                                }
                               },
                               onSaved: (input) => _labtestAddress = input,
                               keyboardType: TextInputType.number,
@@ -252,7 +252,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Lab Test Time';
-                                            } return '';
+                                            }
                                           },
                                           onSaved: (input) => _time = input,
                                           keyboardType: TextInputType.number,
@@ -350,7 +350,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Reason';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _reasonLabTest = input,
                               keyboardType: TextInputType.number,
@@ -489,7 +489,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Date';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _dateLabTest = input,
                               keyboardType: TextInputType.number,
@@ -515,7 +515,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Month';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _monthLabTest = input,
                               keyboardType: TextInputType.number,
@@ -541,7 +541,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Year';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _yearLabTest = input,
                               keyboardType: TextInputType.number,
@@ -598,7 +598,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 _uid
                             );
                           }
-
+                          scheduleNotificationLabTests();
                         },
                         child: Center(
                           child: Text(
@@ -625,7 +625,7 @@ class _AddLabTestsState extends State<AddLabTests> {
 
     );
   }
-  Future<void> scheduleNotification(LabTests labTests) async {
+  Future<void> scheduleNotificationLabTests() async {
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;

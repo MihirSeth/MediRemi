@@ -16,7 +16,7 @@ class _AddDoctorsState extends State<AddDoctors> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _doctorname;
   String _speciality;
-  String _number;
+  int _number;
   String _emailID;
   String _address;
   final _timeDatabase = DateTime.now();
@@ -88,7 +88,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                                         validator: (input) {
                                           if (input.isEmpty) {
                                             return 'Please type the Doctors Name';
-                                          } return '';
+                                          }
                                         },
                                         onSaved: (input) => _doctorname = input,
                                         decoration: InputDecoration(
@@ -163,7 +163,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                             validator: (input) {
                               if (input.isEmpty) {
                                 return 'Please type the Speciality of the Doctor';
-                              }return '';
+                              }
                             },
                             onSaved: (input) => _speciality = input,
                             decoration: InputDecoration(
@@ -232,9 +232,9 @@ class _AddDoctorsState extends State<AddDoctors> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Phone Number';
-                                } return '';
+                                }
                               },
-                              onSaved: (input) => _number = input,
+                              onSaved: (input) => _number = input as int,
                               keyboardType: TextInputType.number,
                               maxLength: 11,
                               decoration: InputDecoration(
@@ -304,7 +304,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Email ID of the Doctor';
-                                } return '';
+                                }
                               },
                               onSaved: (input) => _emailID = input,
                               decoration: InputDecoration(
@@ -374,7 +374,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                             validator: (input) {
                               if (input.isEmpty) {
                                 return 'Please type the Address of the Doctor';
-                              } return '';
+                              }
                             },
                             onSaved: (input) => _address = input,
                             decoration: InputDecoration(
@@ -394,7 +394,7 @@ class _AddDoctorsState extends State<AddDoctors> {
             ),
 
             SizedBox(
-              height: 100,
+              height: 60,
             ),
             Container(
               alignment: Alignment.bottomCenter,

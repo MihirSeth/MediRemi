@@ -1,9 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-
 
 
 final databaseReference = Firestore.instance;
@@ -11,17 +8,16 @@ final now =  DateTime.now();
 String date = DateFormat('dd-MM-yyyy – kk:mm').format(now);
 
 
-
-
 buildListItemNotes(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(60),
           ),
           shadowColor: Colors.teal,
           borderOnForeground: true,
+          elevation: 10,
           child: Container(
             child: Column(
                 children: <Widget>[
@@ -39,8 +35,6 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto',
-
-
                           ),
                         ),
                         Text(
@@ -102,12 +96,13 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
                         ),
                       ]
                   )
-
                 ]
             ),
           ),
         ),
-
+        SizedBox(
+          height: 40,
+        ),
       ]
   );
 
