@@ -69,7 +69,7 @@ class _MedicineState extends State<Medicine> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Medicines",
+              "Your Medicines",
               style: TextStyle(
                   fontFamily: 'Roboto'
               ),
@@ -94,25 +94,28 @@ class _MedicineState extends State<Medicine> {
           children: [
             Column(
               children: <Widget>[
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
-                  child: Text(
-                    "Your Medicines",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(right: 20, left: 20),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2,
-                  ),
-                ),
+//                Container(
+//                  alignment: Alignment.topLeft,
+//                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+//                  child: Text(
+//                    "Your Medicines",
+//                    style: TextStyle(
+//                      fontSize: 25,
+//                      fontFamily: 'Roboto',
+//                      fontWeight: FontWeight.bold
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                  padding: EdgeInsets.only(right: 20, left: 20),
+//                  child: Divider(
+//                    color: Colors.black,
+//                    thickness: 2,
+//                  ),
+//                ),
+              SizedBox(
+                height: 20,
+              ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Row(

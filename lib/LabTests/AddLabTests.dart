@@ -22,7 +22,8 @@ class _AddLabTestsState extends State<AddLabTests> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
  String _labtestName;
   String _labtestAddress;
-  String _time;
+  String _timeHours;
+  String _timeMinutes;
   String _timeType;
   String _reasonLabTest;
   String _dayLabTest;
@@ -245,19 +246,57 @@ class _AddLabTestsState extends State<AddLabTests> {
                               child: Row(
                                 children: <Widget>[
                                   Expanded(
-                                    flex: 2,
                                     child: Padding(
-                                      padding: EdgeInsets.only(bottom: 17, ),
+                                      padding: EdgeInsets.only(bottom: 17),
                                       child: TextFormField(
                                           validator: (input) {
                                             if (input.isEmpty) {
-                                              return 'Please type the Lab Test Time';
+                                              return 'Please type the Time';
                                             }
                                           },
-                                          onSaved: (input) => _time = input,
+                                          onSaved: (input) => _timeHours = input,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
-                                            hintText: "Time (Hours:Minutes)",
+                                            hintText: "Hours",
+                                            hintStyle: TextStyle(
+                                              fontFamily: "Monster",
+                                              color: Colors.grey,
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.teal),),
+
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 10.0),
+                                    child: Text(
+                                      ':',
+                                      style: TextStyle(
+                                          fontSize: 30
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 17),
+                                      child: TextFormField(
+                                          validator: (input) {
+                                            if (input.isEmpty) {
+                                              return 'Please type the Time';
+                                            }
+                                          },
+                                          onSaved: (input) => _timeMinutes = input,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            hintText: "Minutes",
                                             hintStyle: TextStyle(
                                               fontFamily: "Monster",
                                               color: Colors.grey,
@@ -273,7 +312,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                     width: 20.0,
                                   ),
                                   Expanded(
-                                    flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 0, left: 0),
                                       child: DropdownButton<String>(
@@ -290,12 +328,12 @@ class _AddLabTestsState extends State<AddLabTests> {
                                         value: _timeType,
                                         items: [
                                           DropdownMenuItem<String>(
-                                              child:Text('AM', style: TextStyle(color: Colors.teal),
+                                              child:Text('AM', style: TextStyle(color: Colors.blueGrey),
                                               ),
                                               value: 'AM'
                                           ),
                                           DropdownMenuItem<String>(
-                                              child:Text('PM', style: TextStyle(color: Colors.teal),
+                                              child:Text('PM', style: TextStyle(color: Colors.blueGrey ),
                                               ),
                                               value: 'PM'
                                           ),
@@ -353,7 +391,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 }
                               },
                               onSaved: (input) => _reasonLabTest = input,
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Reason",
                                 hintStyle: TextStyle(
@@ -389,7 +426,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                   height: 15,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top:0, left: 25, right: 200),
+                  padding: EdgeInsets.only(top:0, left: 25, right: 260),
 
                   child: Row(
                     children: <Widget>[
@@ -577,28 +614,77 @@ class _AddLabTestsState extends State<AddLabTests> {
                           final _form = _formKey.currentState;
                           if (_form.validate()) {
                             _form.save();
+                            try {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      SuccessScreenLabTests()));
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-                                SuccessScreenLabTests()));
 
+                              String _uid = await getCurrentUser();
 
-                            String _uid = await getCurrentUser();
+                              await DatabaseService().labtestData(
+                                  _labtestName,
+                                  _labtestAddress,
+                                  _timeHours,
+                                  _timeMinutes,
+                                  _timeType,
+                                  _reasonLabTest,
+                                  _dayLabTest,
+                                  _dateLabTest,
+                                  _monthLabTest,
+                                  _yearLabTest,
+                                  _timeDatabase,
+                                  _uid
+                              );
+                            } catch (e) {
+                              setState(() {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      // return object of type Dialog
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30),
+                                        ),
+                                        elevation: 5,
+                                        title: Center(child: Text('Alert')),
+                                        titleTextStyle: TextStyle(
+                                          color: Colors.teal,
+                                          fontFamily: 'Monster',
+                                          fontSize: 20.0,
+                                          letterSpacing: 1.5,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.underline,
 
-                            await DatabaseService().labtestData(
-                                _labtestName,
-                                _labtestAddress,
-                                 _time,
-                                 _timeType,
-                                 _reasonLabTest,
-                                 _dayLabTest,
-                                 _dateLabTest,
-                                _monthLabTest,
-                                _yearLabTest,
-                                _timeDatabase,
-                                _uid
-                            );
+                                        ),
+                                        content: Text('There is a error, try again'),
+                                        contentTextStyle: TextStyle(
+                                          fontFamily: 'Monster',
+                                          color: Colors.black,
+                                        ),
+                                        actions: <Widget> [
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed('/addlabtest');
+                                            },
+                                            child: Text('Try Again'),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed('/labtest');
+                                            },
+                                            child: Text('Cancel Entry'),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                );
+                              }
+                              );
+                            }
+                            scheduleNotificationLabTests();
+
                           }
-                          scheduleNotificationLabTests();
                         },
                         child: Center(
                           child: Text(

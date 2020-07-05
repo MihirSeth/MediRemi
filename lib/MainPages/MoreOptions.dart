@@ -1,7 +1,7 @@
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
@@ -124,12 +124,12 @@ class _MedicineState extends State<MoreOptions> {
                           ),
                           ListTile(
                             leading: Icon(Icons.add_circle),
-                            title: Text('Appoinments'),
+                            title: Text('Appointments'),
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return Appoinments();
+                                    return Appointments();
                                   },
                                 ),
                               );

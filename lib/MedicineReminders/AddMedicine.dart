@@ -675,25 +675,72 @@ class _AddMedicineState extends State<AddMedicine> {
                 final _form = _formKey.currentState;
                 if (_form.validate()) {
                   _form.save();
+                  try {
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (context) =>
+                        SuccessScreenMedicine()));
 
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-                      SuccessScreenMedicine()));
-
-                  String _uid = await getCurrentUser();
-                  await DatabaseService().medicineData(
-                  _medicineName,
+                    String _uid = await getCurrentUser();
+                    await DatabaseService().medicineData(
+                      _medicineName,
                       _dosage,
                       _pills,
                       _medicineType,
                       _interval,
                       _startingTimeHours,
-                    _startingTimeMinutes,
+                      _startingTimeMinutes,
                       _startingTimeType,
                       _durationTime,
                       _durationType,
-                       _uid,
+                      _uid,
                       _timeDatabase,
-                  );
+                    );
+                  } catch (e) {
+                    setState(() {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // return object of type Dialog
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              elevation: 5,
+                              title: Center(child: Text('Alert')),
+                              titleTextStyle: TextStyle(
+                                color: Colors.teal,
+                                fontFamily: 'Monster',
+                                fontSize: 20.0,
+                                letterSpacing: 1.5,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+
+                              ),
+                              content: Text('There is a error, try again'),
+                              contentTextStyle: TextStyle(
+                                fontFamily: 'Monster',
+                                color: Colors.black,
+                              ),
+                              actions: <Widget> [
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/addmedicine');
+                                  },
+                                  child: Text('Try Again'),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/medicine');
+                                  },
+                                  child: Text('Cancel Entry'),
+                                )
+                              ],
+                            );
+                          }
+                      );
+                    }
+                    );
+                  }
                 }
                 scheduleNotificationMedicine();
 

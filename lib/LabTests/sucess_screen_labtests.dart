@@ -15,7 +15,7 @@ class _SuccessScreenLabTestsState extends State<SuccessScreenLabTests> {
     Timer(
       Duration(milliseconds: 2200),
           () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                 LabTests()));
       },
     );

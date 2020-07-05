@@ -7,30 +7,31 @@ class DatabaseService {
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _appoinmentsCollection = Firestore.instance.collection('Appoinments');
+  final CollectionReference _appointmentsCollection = Firestore.instance.collection('Appointments');
 
 
   get doctorsName => doctorsName;
-  get appoinmentReason => appoinmentReason;
+  get appointmentReason => appointmentReason;
   get doctorAddress => doctorAddress;
   get time => time;
   get timeType => timeType;
-  get dayAppoinment => dayAppoinment;
-  get dateAppoinment => dateAppoinment;
+  get dayAppointment => dayAppointment;
+  get dateAppointment => dateAppointment;
 
 
-  Future<void> appoinmentData(String doctorsName,String appoinmentReason, String doctorAddress, String time, String timeType, String dayAppoinment,String dateAppoinment, String monthAppoinment,String yearAppoinment, timeDatabase, String uid) async {
-    return await _appoinmentsCollection.document().setData({
+  Future<void> appointmentData(String doctorsName,String appointmentReason, String doctorAddress, String timeHours, String timeMinutes, String timeType, String dayAppointment,String dateAppointment, String monthAppointment,String yearAppointment, timeDatabase, String uid) async {
+    return await _appointmentsCollection.document().setData({
 
       "Doctor Name": doctorsName,
-      "Appoinment Details": appoinmentReason,
+      "Appointment Details": appointmentReason,
       "Address": doctorAddress,
-      "Time": time,
+      "Time Hours": timeHours,
+      "Time Minutes": timeMinutes,
       "Time Type": timeType,
-      "Day of Appoinment": dayAppoinment,
-      "Date of Appoinment": dateAppoinment,
-      "Month of Appoinment": monthAppoinment,
-      "Year of Appoinment": yearAppoinment,
+      "Day of Appointment": dayAppointment,
+      "Date of Appointment": dateAppointment,
+      "Month of Appointment": monthAppointment,
+      "Year of Appointment": yearAppointment,
       "Create Time Database": timeDatabase,
       "uid": uid,
 

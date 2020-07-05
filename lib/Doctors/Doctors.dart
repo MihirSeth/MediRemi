@@ -36,7 +36,7 @@ class _DoctorsState extends State<Doctors> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Doctors",
+              "Your Doctors",
               style: TextStyle(
                   fontFamily: 'Monster'
               ),
@@ -61,27 +61,27 @@ class _DoctorsState extends State<Doctors> {
           children: [
             Column(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
-                  alignment: Alignment.topLeft,
-
-                  child: Text(
-                    "Your Doctors:",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(right: 20, left: 20),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2,
-                  ),
-                ),
+//                Container(
+//                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+//                  alignment: Alignment.topLeft,
+//
+//                  child: Text(
+//                    "Your Doctors:",
+//                    style: TextStyle(
+//                      fontSize: 25,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                  padding: EdgeInsets.only(right: 20, left: 20),
+//                  child: Divider(
+//                    color: Colors.black,
+//                    thickness: 2,
+//                  ),
+//                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 30),
                   child: Row(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(

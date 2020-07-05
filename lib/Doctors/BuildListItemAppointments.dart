@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/Doctors/AddAppointment.dart';
 
 final databaseReference = Firestore.instance;
 
 
-buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
+buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
@@ -22,7 +21,7 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
 //                  Padding(
 //                    padding: EdgeInsets.only(top:10),
 //                    child: Text(
-//                      'Doctor',
+//                      'Appoinment',
 //                      style: TextStyle(
 //                          color: Colors.black,
 //                          fontSize: 20,
@@ -32,9 +31,9 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
 //                      ),
 //                    ),
 //                  ),
-                Padding(
-                  padding: EdgeInsets.only(left: 50, top: 20),
-                  child: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 20),
+                    child: Row(
                         children: <Widget>[
                           Icon(Icons.person, color: Colors.grey[700],size: 20.0,),
                           SizedBox(
@@ -46,6 +45,7 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
 //                              color: Colors.black,
 //                              fontSize: 15,
 //                              fontWeight: FontWeight.bold,
+//
 //                            ),
 //                          ),
                           Text(
@@ -57,36 +57,6 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           ),
                         ],
                       ),
-                ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
-                    child: Row(
-                        children: <Widget>[
-                          Icon(Icons.assignment, color: Colors.grey[700],size: 20.0,),
-
-                          SizedBox(
-                            width: 15,
-                          ),
-//                          Text(
-//                            'Doctor Speciality: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
-                          Text(
-                            document['Doctor Speciality'],
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
                   ),
                   SizedBox(
                     height: 0,
@@ -95,12 +65,13 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                      padding: EdgeInsets.only(left: 50, top: 15),
                      child: Row(
                         children: <Widget>[
-                          Icon(Icons.phone, color: Colors.grey[700],size: 20.0),
+                          Icon(Icons.assignment, color: Colors.grey[700],size: 20.0,),
+
                           SizedBox(
                             width: 15,
                           ),
 //                          Text(
-//                            'Phone Number of Doctor: ',
+//                            'Appoinment Details: ',
 //                            style: TextStyle(
 //                              color: Colors.black,
 //                              fontWeight: FontWeight.bold,
@@ -108,7 +79,7 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
 //                            ),
 //                          ),
                           Text(
-                            document['Phone Number'],
+                            document['Appointment Details'],
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -124,45 +95,17 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                     padding: EdgeInsets.only(left: 50, top: 15),
                     child: Row(
                         children: <Widget>[
-                          Icon(Icons.email, color: Colors.grey[700],size: 20.0),
-                          SizedBox(
-                            width: 15,
-                          ),
-//                          Text(
-//                            'Email ID of the Doctor: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
-                          Text(
-                            document['Email ID'],
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                   Padding(
-                     padding: EdgeInsets.only(left: 50, top: 15),
-                     child: Row(
-                        children: <Widget>[
                           Icon(Icons.location_on, color: Colors.grey[700],size: 20.0),
                           SizedBox(
                             width: 15,
                           ),
 //                          Text(
-//                            'Doctors Address: ',
+//                            'Appoinment Address: ',
 //                            style: TextStyle(
 //                              color: Colors.black,
 //                              fontWeight: FontWeight.bold,
 //                              fontSize: 15,
+//
 //                            ),
 //                          ),
                           Text(
@@ -174,36 +117,162 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           )
                         ],
                       ),
-                   ),
-                  ButtonBar(
-                    children: <Widget>[
-                      FlatButton(
-                          child: Text(
-                            'DELETE',
+                  ),
+                  SizedBox(
+                    height: 0,
+                  ),
+                   Padding(
+                     padding: EdgeInsets.only(left: 50, top: 15),
+                     child: Row(
+                        children: <Widget>[
+                          Icon(Icons.alarm, color: Colors.grey[700],size: 20.0),
+                          SizedBox(
+                            width: 15,
+                          ),
+//                          Text(
+//                            'Time of Appoinment: ',
+//                            style: TextStyle(
+//                              color: Colors.black,
+//                              fontWeight: FontWeight.bold,
+//                              fontSize: 15,
+//                            ),
+//                          ),
+                          Text(
+                            document['Time Hours'],
                             style: TextStyle(
-                                color: Colors.teal
+                              color: Colors.blueGrey,
+                              fontSize: 15,
                             ),
                           ),
-                          onPressed: () async {
-                            await databaseReference
-                                .collection('Doctors')
-                                .document(document.documentID)
-                                .delete();
-                          }
+                          Text(
+                            ": ",
+                          ),
+                          Text(
+                            document['Time Minutes'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          ),
+
+                          Text(
+                            document['Time Type'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
                       ),
+                   ),
+                  SizedBox(
+                    height: 0,
+                  ),
+                   Padding(
+                     padding: EdgeInsets.only(left: 50, top: 15),
+                     child: Row(
+                        children: <Widget>[
+                          Icon(Icons.assignment, color: Colors.grey[700],size: 20.0),
+                          SizedBox(
+                            width: 15,
+                          ),
+//                          Text(
+//                            'Date of Appoinment: ',
+//                            style: TextStyle(
+//                              color: Colors.black,
+//                              fontWeight: FontWeight.bold,
+//                              fontSize: 15,
+//
+//                            ),
+//                          ),
+                          Text(
+                            document['Date of Appointment'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          ),
+                          Text(
+                            '/',
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+
+                            ),
+                          ),
+                          Text(
+                            document['Month of Appointment'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          ),
+                          Text(
+                            '/',
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+
+                            ),
+                          ),
+                          Text(
+                            document['Year of Appointment'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                   ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 50, top: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.alarm, color: Colors.black,size: 20.0),
+                          SizedBox(
+                            width: 15,
+                          ),
+//                          Text(
+////                            'Day of Appoinment: ',
+////                            style: TextStyle(
+////                              color: Colors.black,
+////                              fontWeight: FontWeight.bold,
+////                              fontSize: 15,
+////
+////                            ),
+////                          ),
+                          Text(
+                            document['Day of Appointment'],
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ButtonBar(
+                    children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 15),
                         child: FlatButton(
                             child: Text(
-                              'ADD APPOINMENTS',
+                              'DELETE',
                               style: TextStyle(
                                   color: Colors.teal
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(
-                                  builder: (context) => AddAppoinments()));
+                            onPressed: () async {
+                              await databaseReference
+                                  .collection('Appointments')
+                                  .document(document.documentID)
+                                  .delete();
                             }
                         ),
                       ),

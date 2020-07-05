@@ -18,7 +18,7 @@ class DatabaseService {
 
 
 
-  Future<void> doctorData(String doctorsName,String speciality, int phoneNumber, String emailID,
+  Future<void> doctorData(String doctorsName,String speciality, String phoneNumber, String emailID,
       String doctorAddress,timeDatabase, String uid) async {
     return await _doctorsCollection.document().setData({
 

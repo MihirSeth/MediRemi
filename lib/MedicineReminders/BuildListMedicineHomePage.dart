@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
+
+import 'AddMedicine.dart';
 
 
 
@@ -26,43 +27,35 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
 //                          ),
             child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top:10),
-                    child: Text(
-                      'Medicine',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          decoration: TextDecoration.underline
-                      ),
-                    ),
+//                          Padding(
+//                            padding: EdgeInsets.only(top:10),
+//                            child: Text(
+//                              'Medicine',
+//                              style: TextStyle(
+//                                color: Colors.black,
+//                                fontSize: 20,
+//                                fontWeight: FontWeight.bold,
+//                                fontFamily: 'Roboto',
+//                                decoration: TextDecoration.underline
+//                              ),
+//                            ),
+//                          ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 10),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.assignment, color: Colors.black,size: 20.0,),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Name of the Medicine: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto',
+//                                Icon(Icons.assignment, color: Colors.black,size: 20.0,),
 
-
-                          ),
-                        ),
                         Text(
                           document['Name'],
                           style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'Roboto',
-                            fontSize: 15,
+                              color: Colors.teal,
+                              fontFamily: 'Roboto',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ],
@@ -71,13 +64,56 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                   SizedBox(
                     height: 0,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 20),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                        SizedBox(
-                          width: 15,
+//                                ImageIcon(
+//                                    AssetImage('assets/pill.png'),
+//                                    color: Colors.black,
+//                                    size: 20.0
+//                                ),
+//                                SizedBox(
+//                                  width: 15,
+//                                ),
+                        Text(
+                          'Dosage: ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
                         ),
+                        Text(
+                          document['Dosage'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          ' mg',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 10),
+                    child: Row(
+                      children: <Widget>[
+//                                Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+//                                SizedBox(
+//                                  width: 15,
+//                                ),
                         Text(
                           'Medicine Type: ',
                           style: TextStyle(
@@ -99,13 +135,14 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                   SizedBox(
                     height: 0,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 10),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                        SizedBox(
-                          width: 15,
-                        ),
+//                                Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+//                                SizedBox(
+//                                  width: 15,
+//                                ),
                         Text(
                           'Pills: ',
                           style: TextStyle(
@@ -128,6 +165,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
 
                   ButtonBar(
                       children: <Widget>[
+
 //                              IconButton(
 //                                              icon: Icon(
 //                                                  Icons.delete,
@@ -159,12 +197,12 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                             }
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: EdgeInsets.only(right:10),
                           child: Text(
                             'For more details and deleting go to the Medicine Page',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                           ),
                         ),

@@ -16,7 +16,7 @@ class _AddDoctorsState extends State<AddDoctors> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _doctorname;
   String _speciality;
-  int _number;
+  String _number;
   String _emailID;
   String _address;
   final _timeDatabase = DateTime.now();
@@ -65,11 +65,9 @@ class _AddDoctorsState extends State<AddDoctors> {
                                       padding:  EdgeInsets.only(top: 20),
                                       child: CircleAvatar(
                                         child:
-                                        ImageIcon(
-                                            AssetImage(
-                                            'assets/Doctor.png',
-                                            ),
-                                          size: 40,
+                                        Icon(
+                                          Icons.person,
+                                          size: 25,
                                           color: Colors.white,
                                         ),
                                         backgroundColor: Colors.black,
@@ -234,7 +232,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                                   return 'Please type the Phone Number';
                                 }
                               },
-                              onSaved: (input) => _number = input as int,
+                              onSaved: (input) => _number = input,
                               keyboardType: TextInputType.number,
                               maxLength: 11,
                               decoration: InputDecoration(
@@ -411,21 +409,70 @@ class _AddDoctorsState extends State<AddDoctors> {
                         if (_form.validate()) {
                           _form.save();
 
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-                              SuccessScreenDoctors()));
+                          try {
+                            Navigator.pushReplacement(
+                                context, MaterialPageRoute(builder: (context) =>
+                                SuccessScreenDoctors()));
 
-                          String _uid = await getCurrentUser();
+                            String _uid = await getCurrentUser();
 
-                          await DatabaseService().doctorData(
-                               _doctorname,
-                            _speciality,
-                             _number,
-                              _emailID,
-                               _address,
-                            _timeDatabase,
-                            _uid
-                          );
+                            await DatabaseService().doctorData(
+                                _doctorname,
+                                _speciality,
+                                _number,
+                                _emailID,
+                                _address,
+                                _timeDatabase,
+                                _uid
+                            );
+                          } catch (e) {
+                            setState(() {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    // return object of type Dialog
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      elevation: 5,
+                                      title: Center(child: Text('Alert')),
+                                      titleTextStyle: TextStyle(
+                                        color: Colors.teal,
+                                        fontFamily: 'Monster',
+                                        fontSize: 20.0,
+                                        letterSpacing: 1.5,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+
+                                      ),
+                                      content: Text('There is a error, try again'),
+                                      contentTextStyle: TextStyle(
+                                        fontFamily: 'Monster',
+                                        color: Colors.black,
+                                      ),
+                                      actions: <Widget> [
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pushNamed('/adddoctor');
+                                          },
+                                          child: Text('Try Again'),
+                                        ),
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pushNamed('/doctors');
+                                          },
+                                          child: Text('Cancel Entry'),
+                                        )
+                                      ],
+                                    );
+                                  }
+                              );
+                            }
+                            );
+                          }
                         }
+
 
                       },
                       child: Center(

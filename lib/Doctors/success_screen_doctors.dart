@@ -17,7 +17,7 @@ class _SuccessScreenDoctorsState extends State<SuccessScreenDoctors> {
     Timer(
       Duration(milliseconds: 2200),
           () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
                 Doctors()));
       },
     );

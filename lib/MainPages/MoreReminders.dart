@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
+import 'package:healthreminders/Doctors/Appointments.dart';
+import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
@@ -167,7 +167,7 @@ class _MedicineState extends State<MoreReminders> {
                                                   shrinkWrap: true,
                                                   itemCount: snapshot.data.documents.length,
                                                   itemBuilder: (context, index) =>
-                                                      buildListItemAppoinments(
+                                                      buildListItemAppointments(
                                                           context,
                                                           snapshot.data.documents[index]),
                                                 ),

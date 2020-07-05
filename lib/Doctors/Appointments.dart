@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/AddAppoinment.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
+import 'package:healthreminders/Doctors/AddAppointment.dart';
+import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:healthreminders/Models/User.dart';
@@ -12,12 +12,12 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final uid =  _auth.currentUser();
 
 
-class Appoinments extends StatefulWidget {
+class Appointments extends StatefulWidget {
   @override
-  _AppoinmentsState createState() => _AppoinmentsState();
+  _AppointmentsState createState() => _AppointmentsState();
 }
 
-class _AppoinmentsState extends State<Appoinments> {
+class _AppointmentsState extends State<Appointments> {
 
   Future<void> _signOut() async {
     try {
@@ -36,7 +36,7 @@ class _AppoinmentsState extends State<Appoinments> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Appoinments",
+              "Your Appointments",
               style: TextStyle(
                   fontFamily: 'Monster'
               ),
@@ -61,30 +61,30 @@ class _AppoinmentsState extends State<Appoinments> {
           children: [
             Column(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 15, right: 155, top: 20),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Your Appoinments:",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(right: 20, left: 20),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2,
-                  ),
-                ),
+//                Container(
+//                  padding: EdgeInsets.only(left: 15, right: 155, top: 20),
+//                  alignment: Alignment.topLeft,
+//                  child: Text(
+//                    "Your Appoinments:",
+//                    style: TextStyle(
+//                      fontSize: 25,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                  padding: EdgeInsets.only(right: 20, left: 20),
+//                  child: Divider(
+//                    color: Colors.black,
+//                    thickness: 2,
+//                  ),
+//                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 30),
                   child: Row(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance.collection("Appoinments")
+                          stream: Firestore.instance.collection("Appointments")
                               .where('uid',  isEqualTo: user.uid)
                               .snapshots(),
                           builder: (context, snapshot) {
@@ -92,7 +92,7 @@ class _AppoinmentsState extends State<Appoinments> {
                               return Padding(
                                   padding: EdgeInsets.only(top: 150, right: 25),
                                   child: Text(
-                                      'Fetching your Appoinments...',
+                                      'Fetching your Appointments...',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20.0,
@@ -107,7 +107,7 @@ class _AppoinmentsState extends State<Appoinments> {
                                     shrinkWrap: true,
                                     itemCount: snapshot.data.documents.length,
                                     itemBuilder: (context, index) =>
-                                        buildListItemAppoinments(
+                                        buildListItemAppointments(
                                             context,
                                             snapshot.data.documents[index]),
 
@@ -147,7 +147,7 @@ errorAppoinments(BuildContext context) {
       decoration: TextDecoration.underline,
 
     ),
-    content: Text('Add Appoinments'),
+    content: Text('Add Appointments'),
     contentTextStyle: TextStyle(
       fontFamily: 'Monster',
       color: Colors.black,
@@ -159,7 +159,7 @@ errorAppoinments(BuildContext context) {
   context, MaterialPageRoute(
   builder: (context) => AddAppoinments()));
         },
-        child: Text('ADD APPOINMENTS'),
+        child: Text('ADD APPOINTMENTS'),
       )
     ],
   );

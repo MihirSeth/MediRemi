@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
+import 'package:healthreminders/Doctors/Appointments.dart';
 
 class SuccessScreenAppoinments extends StatefulWidget {
   @override
@@ -16,8 +16,8 @@ class _SuccessScreenAppoinmentsState extends State<SuccessScreenAppoinments> {
     Timer(
       Duration(milliseconds: 2200),
           () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-              Appoinments()));
+        Navigator.pop(context, MaterialPageRoute(builder: (context) =>
+              Appointments()));
       },
     );
   }

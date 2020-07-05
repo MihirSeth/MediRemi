@@ -35,16 +35,63 @@ class _AddNotesState extends State<AddNotes> {
                 final _form = _formKey.currentState;
                 if (_form.validate()) {
                   _form.save();
+                  try {
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (context) =>
+                        SuccessScreenNotes()));
 
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-                      SuccessScreenNotes()));
+                    String _uid = await getCurrentUser();
+                    await DatabaseService().notesData(
+                      _notes,
+                      _uid,
+                      _timeDatabase,
+                    );
+                  } catch (e) {
+                    setState(() {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // return object of type Dialog
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              elevation: 5,
+                              title: Center(child: Text('Alert')),
+                              titleTextStyle: TextStyle(
+                                color: Colors.teal,
+                                fontFamily: 'Monster',
+                                fontSize: 20.0,
+                                letterSpacing: 1.5,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
 
-                  String _uid = await getCurrentUser();
-                  await DatabaseService().notesData(
-                    _notes,
-                    _uid,
-                    _timeDatabase,
-                  );
+                              ),
+                              content: Text('There is a error, try again'),
+                              contentTextStyle: TextStyle(
+                                fontFamily: 'Monster',
+                                color: Colors.black,
+                              ),
+                              actions: <Widget> [
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/addnotes');
+                                  },
+                                  child: Text('Try Again'),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/notes');
+                                  },
+                                  child: Text('Cancel Entry'),
+                                )
+                              ],
+                            );
+                          }
+                      );
+                    }
+                    );
+                  }
                 }
               },
               child: Text(

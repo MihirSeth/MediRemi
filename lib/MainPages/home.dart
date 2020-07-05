@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MainPages/MoreOptions.dart';
 import 'package:healthreminders/MainPages/HomePage.dart';
@@ -54,7 +55,6 @@ class HomeState extends State<Home> {
         )
   ],
         selectedItemColor: Colors.teal,
-        backgroundColor: Colors.black,
         unselectedItemColor: Colors.grey[800],
         unselectedLabelStyle: TextStyle(color:Colors.black),
 

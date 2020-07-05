@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthreminders/MainPages/HomePage.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/MainPages/home.dart';
@@ -258,7 +259,7 @@ class _SignupPageState extends State<SignupPage> {
                                                       fontWeight: FontWeight.bold,
                                                       decoration: TextDecoration.underline,
                                                     ),
-                                                    content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. Kindly also put in your name and phone number before doing either.'),
+                                                    content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal wayKindly also put in your name and phone number before doing either.'),
                                                     contentTextStyle: TextStyle(
                                                       fontFamily: 'Monster',
                                                       color: Colors.black,
@@ -371,6 +372,45 @@ class _SignupPageState extends State<SignupPage> {
         setState(() => loading = true);
         print("Successfully Registered!");
         Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+        setState(() {
+          loading = false;
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
+                  title: Center(child: Text('Successfully Registered')),
+                  titleTextStyle: TextStyle(
+                    color: Colors.teal,
+                    fontFamily: 'Monster',
+                    fontSize: 20.0,
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                  content: Text(
+                      'Congratulations...you have signed up to make sure that you never miss anything to do with health. We would also ask to keep your notification sound on always for a better experience'),
+                  contentTextStyle: TextStyle(
+                    fontFamily: 'Monster',
+                    color: Colors.black,
+                  ),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) =>
+                            Home()));                      },
+                      child: Text('Great...Move On'),
+                    )
+                  ],
+                );
+              }
+          );
+        }
+        );
       } catch (e) {
         setState(() {
           loading = false;

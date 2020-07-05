@@ -35,7 +35,7 @@ class _LabTestsState extends State<LabTests> {
         appBar: AppBar(
           title: Center(
             child: Text(
-              "Lab Tests",
+              "Your Lab Tests",
               style: TextStyle(
                   fontFamily: 'Monster'
               ),
@@ -60,26 +60,26 @@ class _LabTestsState extends State<LabTests> {
           children: [
             Column(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Your Lab Tests:",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(right: 20, left: 20),
-                  child: Divider(
-                    color: Colors.black,
-                    thickness: 2,
-                  ),
-                ),
+//                Container(
+//                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+//                  alignment: Alignment.topLeft,
+//                  child: Text(
+//                    "Your Lab Tests:",
+//                    style: TextStyle(
+//                      fontSize: 25,
+//                      fontWeight: FontWeight.bold,
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                  padding: EdgeInsets.only(right: 20, left: 20),
+//                  child: Divider(
+//                    color: Colors.black,
+//                    thickness: 2,
+//                  ),
+//                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 30),
                   child: Row(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/Appoinments.dart';
-import 'package:healthreminders/Doctors/BuildListAppoinmentsHomePage.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppoinments.dart';
+import 'package:healthreminders/Doctors/Appointments.dart';
+import 'package:healthreminders/Doctors/BuildListAppointmentsHomePage.dart';
+import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
 import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
@@ -18,9 +18,11 @@ import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:intl/intl.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
 final uid =  _auth.currentUser();
@@ -36,7 +38,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-//  int selectedDay;
+  get data => StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('Medicines')
+          .where('uid', isEqualTo: uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Padding(
+              padding: EdgeInsets.only(
+                  top: 250, left: 75),
+              child: Text(
+                  'Fetching your Medicines...',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  )
+              )
+          );
+        else
+          errorMedicine(context);
+        return Expanded(
+          child: SizedBox(
+            height: 700,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) =>
+                  buildListItemMedicineHomePage(
+                      context,
+                      snapshot.data.documents[index]),
+
+            ),
+          ),
+        );}
+  );
+  int selectedDay;
 
   Future<void> _signOut() async {
     try {
@@ -45,18 +81,23 @@ class _HomePageState extends State<HomePage> {
       print(e); //
     }
   }
+  Stream getData() {
+    Stream stream1 = Firestore.instance.collection('Medicines').where('uid', isEqualTo: uid).snapshots();
+    Stream stream2 = Firestore.instance.collection('Appointments').where('uid', isEqualTo: uid).snapshots();
 
-//  Widget pageItems = Text('');
-//  DateTime selectedDate = DateTime.now();
-//  DateTime startDate = DateTime.now().subtract(Duration(days: 31));
-//  DateTime endDate = DateTime.now().add(Duration(days: 31));
-//  String widgetKeyFormat = "dd-MM-yyyy";
-//  Map<String, Widget> widgets = Map();
+    return Observable.merge(([stream1, stream2]));
+  }
+
+  Widget pageItems = Text('');
+  DateTime selectedDate = DateTime.now();
+  DateTime startDate = DateTime.now().subtract(Duration(days: 31));
+  DateTime endDate = DateTime.now().add(Duration(days: 31));
+  String widgetKeyFormat = "dd/MM/yyyy";
+  Map<String, Widget> widgets = Map();
 
 
   @override
   Widget build(BuildContext context) {
-
     final user = Provider.of<User>(context);
 
     return Scaffold(
@@ -72,145 +113,145 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.teal,
         ),
 
-      body: ListView(
-        children: [
-          Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(left: 15, right: 185, top: 20),
-                child: Text(
-                  "Your Reminders:",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'Roboto',
+        body: ListView(
+          children: [
+            Column(
+              children: <Widget>[
+//                ScrollingDayCalendar(
+//                    startDate: startDate,
+//                    endDate: endDate,
+//                    selectedDate: selectedDate,
+//                    onDateChange: (direction, DateTime selectedDate) {
+//                      setState(() {
+//                        pageItems = widgetBuilder(selectedDate);
+//                      });
+//                    },
+//                    dateStyle: TextStyle(
+//                      fontWeight: FontWeight.bold,
+//                      color: Colors.white,
+//                    ),
+//                    displayDateFormat: "dd MMM, yyyy",
+//                    dateBackgroundColor: Colors.grey,
+//                    forwardIcon: Icons.arrow_forward,
+//                    backwardIcon: Icons.arrow_back,
+//                    pageChangeDuration: Duration(
+//                      milliseconds: 200,
+//                    ),
+//                    pageItems: pageItems,
+//                    widgets: widgets,
+//                    widgetKeyFormat: widgetKeyFormat,
+//                    noItemsWidget:
+//                    Center(
+//                        child: Container(
+//                          child: Text(
+//                            'NO REMINDERS ADDED. ADD REMINDERS TO BEGIN',
+//                            style: TextStyle(
+//                                color: Colors.teal
+//                            ),
+//                          ),
+//                        )
+//                    )
+//                ),
+
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(left: 15, right: 185, top: 20),
+                  child: Text(
+                    "Your Reminders:",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontFamily: 'Roboto',
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 20, left: 20),
-                child: Divider(
-                  color: Colors.black,
-                  thickness: 2,
-                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-                            Row(
-                              children: <Widget>[
-                                StreamBuilder<QuerySnapshot>(
-                                    stream: Firestore.instance.collection('Medicines')
-                                        .where('uid',  isEqualTo: user.uid)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData)
-                                        return Padding(
-                                            padding: EdgeInsets.only(top: 250, left: 75),
-                                            child: Text(
-                                                'Fetching your Medicines...',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20.0,
-                                                )
-                                            )
-                                        );
-                                      else errorMedicine(context);
-                                      return Expanded(
-                                        child: SizedBox(
-                                          height: 700,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: snapshot.data.documents.length,
-                                            itemBuilder: (context, index) =>
-                                                buildListItemMedicineHomePage(
-                                                    context,
-                                                    snapshot.data.documents[index]),
+                Container(
+                  padding: EdgeInsets.only(right: 20, left: 20),
+                  child: Divider(
+                    color: Colors.black,
+                    thickness: 2,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
 
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                ),
-                              ],
-                            ),
-                        Row(
-                          children: <Widget>[
-                            StreamBuilder<QuerySnapshot>(
-                                stream: Firestore.instance.collection('Appoinments')
-                                    .where('uid',  isEqualTo: user.uid)
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData)
-                                    return Padding(
-                                        padding: EdgeInsets.only(top: 250, left: 75),
-                                        child: Text(
-                                            '',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20.0,
-                                            )
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        StreamBuilder<QuerySnapshot>(
+                            stream: getData(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData)
+                                return Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 250, left: 75),
+                                    child: Text(
+                                          'Fetching your Reminders...',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20.0,
                                         )
-                                    );
-                                  else errorAppoinments(context);
-                                  return Expanded(
-                                    child: SizedBox(
-                                      height: 700,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data.documents.length,
-                                        itemBuilder: (context, index) =>
-                                            buildListItemAppoinmentsHomePage(
-                                                context,
-                                                snapshot.data.documents[index]),
+                                    )
+                                );
 
-                                      ),
-                                    ),
-                                  );
-                                }
-                            ),
-                          ],
-                        ),
-                            Row(
-                              children: <Widget>[
-                                StreamBuilder<QuerySnapshot>(
-                                    stream: Firestore.instance.collection('LabTests')
-                                        .where('uid',  isEqualTo: user.uid)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData)
-                                        return Padding(
-                                            padding: EdgeInsets.only(top: 250, left: 75),
-                                            child: Text(
-                                                'Fetching your Medicines...',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20.0,
-                                                )
-                                            )
-                                        );
-                                      else errorMedicine(context);
-                                      return Expanded(
-                                        child: SizedBox(
-                                          height: 700,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: snapshot.data.documents.length,
-                                            itemBuilder: (context, index) =>
-                                                buildListItemLabTestsHomePage(
-                                                    context,
-                                                    snapshot.data.documents[index]),
-                                          ),
-                                        ),
-                                      );
-                                    }
+                              return Expanded(
+                                child: SizedBox(
+                                  height: 700,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data.documents.length,
+                                    itemBuilder: (context, index) =>
+                                        buildListItemMedicineHomePage(
+                                            context,
+                                            snapshot.data.documents[index]),
+
+                                  ),
                                 ),
-                              ],
-                            ),
-            ],
-          ),
-        ],
-      ),
+                              );
+                            }
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        StreamBuilder<QuerySnapshot>(
+                            stream: Firestore.instance.collection('Appointments')
+                                .where('uid', isEqualTo: uid)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData)
+                                return Text(
+                                  '',
+                                );
+                              else
+                                errorMedicine(context);
+                              return Expanded(
+                                child: SizedBox(
+                                  height: 700,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data.documents.length,
+                                    itemBuilder: (context, index) =>
+                                        buildListItemAppointmentsHomePage(
+                                            context,
+                                            snapshot.data.documents[index]),
+
+                                  ),
+                                ),
+                              );
+                            }
+                        ),
+                      ],
+
+                    )
+                  ],
+                ),
+
+              ],
+            ),
+          ],
+        ),
 
 
         drawer: Drawer(
@@ -221,13 +262,14 @@ class _HomePageState extends State<HomePage> {
                 DrawerHeader(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: Firestore.instance.collection("Users")
-                          .where('uid',  isEqualTo: user.uid)
+                          .where('uid', isEqualTo: user.uid)
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
                           return Text('Loading...');
-                        else googleName();
-                          Loading();
+                        else
+                          googleName();
+                        Loading();
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) =>
@@ -253,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                           ListTile(
                               leading: ImageIcon(
                                   AssetImage('assets/Whatsapp.png'),
-                                color: Colors.green
+                                  color: Colors.green
                               ),
                               title: Text('Whatsapp')
                           ),
@@ -288,66 +330,92 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-//  Widget widgetBuilder(DateTime selectedDate) {
-//    Container(
-//      alignment: Alignment.bottomCenter,
-//      height: 60,
-//      width: 250,
-//      child: Material(
-//        borderRadius: BorderRadius.circular(1000),
-//        shadowColor: Colors.tealAccent,
-//        color: Colors.teal,
-//        elevation: 7.0,
-//        child: FlatButton(
-//            onPressed: () {
-//              Navigator.push(
-//                  context, MaterialPageRoute(builder: (context) => AddMedicine()));
-//            },
-//            child: Center(
-//              child: Text(
-//                "Add a Med",
-//                style: TextStyle(
-//                  color: Colors.white,
-//                  fontWeight: FontWeight.bold,
-//                  fontFamily: "Monster",
-//                  fontSize: 20.0,
-//
-//                ),
-//              ),
-//            )
-//        ),
-//      ),
-//    );
-//  }
-//}
+  void errorNames() {
+    Column(
+        children: <Widget>[
+          Text(
+              'Signed Up with not enough information. Go back to sign up page and sign up again'
+          ),
+
+          InkWell(
+              onTap: () {
+                BuildContext context;
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignupPage()));
+              },
+
+              child: Text(
+                "Login with Google",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Monster",
+
+                ),
+
+              )
+          )
+        ]
+    );
+  }
+
+  Widget widgetBuilder(DateTime selectedDate) {
+    String dateString = DateFormat(widgetKeyFormat).format(selectedDate);
+    if (data.containsKey(dateString)) {
+      List items = data[dateString];
+      return ListView(
+        children: [
+          Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  StreamBuilder<QuerySnapshot>(
+                      stream: Firestore.instance.collection('Appointments')
+                          .where('uid', isEqualTo: uid)
+                          .where('Date of Appointment', isEqualTo: dateString)
+                          .where('Month of Appointment', isEqualTo: dateString)
+                          .where('Year of Appointment', isEqualTo: dateString)
+
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Padding(
+                              padding: EdgeInsets.only(
+                                  top: 250, left: 75),
+                              child: Text(
+                                  'Fetching your Reminders...',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                  )
+                              )
+                          );
+                        else
+                          errorMedicine(context);
+                        return Expanded(
+                          child: SizedBox(
+                            height: 700,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (context, index) =>
+                                  buildListItemAppointmentsHomePage(
+                                      context,
+                                      snapshot.data.documents[index]),
+
+                            ),
+                          ),
+                        );
+                      }
+                  ),
+                ],
+
+              )
+            ],
 
 
-
-void errorNames() {
-  Column(
-    children: <Widget>[
-      Text(
-        'Signed Up with not enough information. Go back to sign up page and sign up again'
-      ),
-  
-  InkWell(
-      onTap: () {
-    BuildContext context;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
-  },
-  
-      child: Text(
-      "Login with Google",
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontFamily: "Monster",
-
-      ),
-
-    )
-  )
-    ]
-  );
-    
-}
+          ),
+        ],
+      );
+    }
+  }
 }

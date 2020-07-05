@@ -25,7 +25,7 @@ class _NotesState extends State<Notes> {
         appBar: AppBar(
         title: Center(
         child: Text(
-        "Notes",
+        "Your Notes",
         style: TextStyle(
         fontFamily: 'Roboto'
     ),
@@ -50,26 +50,26 @@ class _NotesState extends State<Notes> {
       children: [
         Column(
           children: <Widget>[
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top:15, left: 10),
-              child: Text(
-                "Your Notes:",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontFamily: 'Roboto'
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(right: 20, left: 20),
-              child: Divider(
-                color: Colors.black,
-                thickness: 2,
-              ),
-            ),
+//            Container(
+//              alignment: Alignment.topLeft,
+//              padding: EdgeInsets.only(top:15, left: 10),
+//              child: Text(
+//                "Your Notes:",
+//                style: TextStyle(
+//                  fontSize: 25,
+//                  fontFamily: 'Roboto'
+//                ),
+//              ),
+//            ),
+//            Container(
+//              padding: EdgeInsets.only(right: 20, left: 20),
+//              child: Divider(
+//                color: Colors.black,
+//                thickness: 2,
+//              ),
+//            ),
             Padding(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 30),
               child: Row(
                 children: <Widget>  [
                   StreamBuilder<QuerySnapshot>(
