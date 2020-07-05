@@ -97,7 +97,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     padding: EdgeInsets.only(left: 50, top: 15),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.alarm, color: Colors.grey[700], size: 20.0),
+                        Icon(Icons.alarm, color: Colors.grey[700],size: 20.0),
                         SizedBox(
                           width: 15,
                         ),
@@ -110,15 +110,23 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
 //                            ),
 //                          ),
                         Text(
-                          document['Time'],
+                          document['Time Hours'],
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          " ",
+                          ":",
                         ),
+                        Text(
+                          document['Time Minutes'],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+
                         Text(
                           document['Time Type'],
                           style: TextStyle(

@@ -431,8 +431,12 @@ class _SignupPageState extends State<SignupPage> {
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                   ),
-                  content: Text(
-                      'Check your Email ID and make sure password is over 6 letters'),
+                  content: Column(
+                    children: <Widget>[
+                      Text(
+                          'Check your Email ID and make sure password is over 6 letters'),
+                    ],
+                  ),
                   contentTextStyle: TextStyle(
                     fontFamily: 'Monster',
                     color: Colors.black,

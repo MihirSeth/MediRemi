@@ -151,10 +151,18 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                       ),
                                     ),
                                     Text(
-                                      document['Interval'],
+                                      document['Interval'].toString(),
                                       style: TextStyle(
                                         color: Colors.blueGrey,
                                         fontSize: 15,
+                                      ),
+                                    ),
+                                    Text(
+                                      ' Hours',
+                                      style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontSize: 15,
+
                                       ),
                                     ),
                                   ],
@@ -255,17 +263,10 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     ),
                                   ),
                                   Text(
-                                    document['Duration Time'],
-                                    style: TextStyle(
-                                      color: Colors.blueGrey,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
+                                    " ",
                                   ),
                                   Text(
-                                    document['Duration Type'],
+                                    document['Duration Time'],
                                     style: TextStyle(
                                       color: Colors.blueGrey,
                                       fontSize: 15,
@@ -275,12 +276,13 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                     " ",
                                   ),
                                   Text(
-                                    document['Starting Time Type'],
+                                    document['Duration Type'],
                                     style: TextStyle(
                                       color: Colors.blueGrey,
                                       fontSize: 15,
                                     ),
-                                  )
+                                  ),
+
                                 ],
                               ),
                             ),

@@ -145,7 +145,7 @@ buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            ": ",
+                            ":",
                           ),
                           Text(
                             document['Time Minutes'],

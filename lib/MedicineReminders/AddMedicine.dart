@@ -21,7 +21,7 @@ class _AddMedicineState extends State<AddMedicine> {
   String _dosage;
   String _pills;
   String _medicineType;
-  String _interval;
+  int _interval;
   String _startingTimeHours;
   String _startingTimeMinutes;
   String _startingTimeType;
@@ -323,7 +323,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 200),
-                                child: DropdownButton<String>(
+                                child: DropdownButton<int>(
                                   underline: Container(
                                     height: 2,
                                     color: Colors.teal,
@@ -336,7 +336,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                   ),
                                   value: _interval,
                                   items: [
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('2 Hours', style: TextStyle(color: Colors.black),
@@ -344,9 +344,9 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '2 Hours'
+                                        value: 2
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('4 Hours', style: TextStyle(color: Colors.black),
@@ -354,10 +354,10 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                      value: '4 Hours'
+                                      value: 4
 
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('6 Hours' , style: TextStyle(color: Colors.black),
@@ -365,9 +365,9 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '6 Hours'
+                                        value: 6
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('8 Hours', style: TextStyle(color: Colors.black),
@@ -375,9 +375,9 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '8 Hours'
+                                        value: 8
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('12 Hours', style: TextStyle(color: Colors.black),
@@ -385,9 +385,9 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '12 Hours'
+                                        value: 12
                                     ),
-                                    DropdownMenuItem<String>(
+                                    DropdownMenuItem<int>(
                                         child: Row(
                                           children: <Widget>[
                                             Text('24 Hours', style: TextStyle(color: Colors.black),
@@ -395,10 +395,10 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                           ],
                                         ),
-                                        value: '24 Hours'
+                                        value: 24
                                     )
                                   ],
-                                  onChanged: (String newValue) {
+                                  onChanged: (int newValue) {
                                     setState(() {
                                       _interval = newValue;
                                     });
@@ -775,9 +775,9 @@ class _AddMedicineState extends State<AddMedicine> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
 
-    var hour = int.parse(medicineStartTimeHours[0] + medicineStartTimeHours[1]);
+    var hour = int.parse(_startingTimeHours[0] + _startingTimeHours[1]);
     var ogValue = hour;
-    var minute = int.parse(medicineStartTimeMinutes[2] + medicineStartTimeMinutes[3]);
+    var minute = int.parse(_startingTimeMinutes + _startingTimeMinutes);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'repeatDailyAtTime channel id',
@@ -794,17 +794,17 @@ class _AddMedicineState extends State<AddMedicine> {
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    for (int i = 0; i < (24 / medicineInterval).floor(); i++) {
-      if ((hour + (medicineInterval * i) > 23)) {
-        hour = hour + (medicineInterval * i) - 24;
+    for (int i = 0; i < (24 / _interval).floor(); i++) {
+      if ((hour + (_interval * i) > 23)) {
+        hour = hour + (_interval * i) - 24;
       } else {
-        hour = hour + (medicineInterval * i);
+        hour = hour + (_interval * i);
       }
       await flutterLocalNotificationsPlugin.showDailyAtTime(
           0,
-          'Medicine Reminder: $medicineName',
-          medicineType.toString() != medicineType.toString()
-              ? 'It is time to take your $medicineName, according to schedule'
+          'Medicine Reminder: $_medicineName',
+          _medicineType.toString() != _medicineType.toString()
+              ? 'It is time to take your $_medicineName, according to schedule'
               : 'It is time to take your medicine, according to schedule',
           Time(hour, minute, 0),
           platformChannelSpecifics);

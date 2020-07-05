@@ -96,6 +96,7 @@ class _HomePageState extends State<HomePage> {
   Map<String, Widget> widgets = Map();
 
 
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -180,8 +181,9 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: <Widget>[
                         StreamBuilder<QuerySnapshot>(
-                            stream: getData(),
-                            builder: (context, snapshot) {
+                            stream: Firestore.instance.collection('Medicines').where('uid', isEqualTo: user.uid).snapshots(),
+
+                           builder: (context, snapshot) {
                               if (!snapshot.hasData)
                                 return Padding(
                                     padding: EdgeInsets.only(
@@ -213,11 +215,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
+
                     Row(
                       children: <Widget>[
                         StreamBuilder<QuerySnapshot>(
                             stream: Firestore.instance.collection('Appointments')
-                                .where('uid', isEqualTo: uid)
+                                .where('uid', isEqualTo: user.uid)
                                 .snapshots(),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData)
