@@ -110,7 +110,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
 //                            ),
 //                          ),
                         Text(
-                          document['Time Hours'],
+                          document['Time Hours'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -120,7 +120,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                           ":",
                         ),
                         Text(
-                          document['Time Minutes'],
+                          document['Time Minutes'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -144,13 +144,13 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     padding: EdgeInsets.only(left: 50, top: 15),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.assignment, color: Colors.grey[700],
+                        Icon(Icons.alarm, color: Colors.grey[700],
                             size: 20.0),
                         SizedBox(
                           width: 15,
                         ),
 //                          Text(
-//                            'Date of Appoinment: ',
+//                            'Date of Appointment: ',
 //                            style: TextStyle(
 //                              color: Colors.black,
 //                              fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
 //                            ),
 //                          ),
                         Text(
-                          document['Date of Appointment'],
+                          document['Date of Appointment'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -175,7 +175,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                           ),
                         ),
                         Text(
-                          document['Month of Appointment'],
+                          document['Month of Appointment'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -191,7 +191,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                           ),
                         ),
                         Text(
-                          document['Year of Appointment'],
+                          document['Year of Appointment'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -209,14 +209,14 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                           width: 15,
                         ),
 //                          Text(
-////                            'Day of Appoinment: ',
-////                            style: TextStyle(
-////                              color: Colors.black,
-////                              fontWeight: FontWeight.bold,
-////                              fontSize: 15,
-////
-////                            ),
-////                          ),
+//                            'Day of Appointment: ',
+//                            style: TextStyle(
+//                              color: Colors.black,
+//                              fontWeight: FontWeight.bold,
+//                              fontSize: 15,
+//
+//                            ),
+//                          ),
                         Text(
                           document['Day of Appointment'],
                           style: TextStyle(
@@ -224,9 +224,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
+
                       ],
                     ),
                   ),

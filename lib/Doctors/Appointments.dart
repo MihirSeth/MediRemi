@@ -90,7 +90,7 @@ class _AppointmentsState extends State<Appointments> {
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
                               return Padding(
-                                  padding: EdgeInsets.only(top: 150, right: 25),
+                                  padding: EdgeInsets.only(top: 250, right: 75),
                                   child: Text(
                                       'Fetching your Appointments...',
                                       style: TextStyle(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/Doctors/AppoinmentStreamBuilder.dart';
 import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/BuildListAppointmentsHomePage.dart';
 import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
@@ -13,6 +14,7 @@ import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/BuildListMedicineHomePage.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
+import 'package:healthreminders/MedicineReminders/Models/MedicineStreamBuilder.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
@@ -81,11 +83,16 @@ class _HomePageState extends State<HomePage> {
       print(e); //
     }
   }
-  Stream getData() {
-    Stream stream1 = Firestore.instance.collection('Medicines').where('uid', isEqualTo: uid).snapshots();
-    Stream stream2 = Firestore.instance.collection('Appointments').where('uid', isEqualTo: uid).snapshots();
 
-    return Observable.merge(([stream1, stream2]));
+  Stream getData(BuildContext context) {
+    final user = Provider.of<User>(context);
+    Stream stream1 = Firestore.instance.collection('Medicines').where(
+        'uid', isEqualTo: user.uid).snapshots();
+    Stream stream2 = Firestore.instance.collection('Appointments').where(
+        'uid', isEqualTo: user.uid).snapshots();
+    Stream stream3 = Firestore.instance.collection('LabTests').where(
+        'uid', isEqualTo: user.uid).snapshots();
+    return Observable.merge(([stream1, stream2, stream3]));
   }
 
   Widget pageItems = Text('');
@@ -178,76 +185,78 @@ class _HomePageState extends State<HomePage> {
 
                 Column(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance.collection('Medicines').where('uid', isEqualTo: user.uid).snapshots(),
-
-                           builder: (context, snapshot) {
-                              if (!snapshot.hasData)
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 250, left: 75),
-                                    child: Text(
-                                          'Fetching your Reminders...',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20.0,
+                        Row(
+                          children: <Widget>[
+                            StreamBuilder<QuerySnapshot>(
+                                stream:  Firestore.instance.collection('Medicines')
+                                    .where('uid', isEqualTo: user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 250, left: 75),
+                                        child: Text(
+                                            'Fetching your Reminders...',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                            )
                                         )
-                                    )
-                                );
+                                    );
 
-                              return Expanded(
-                                child: SizedBox(
-                                  height: 700,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (context, index) =>
-                                        buildListItemMedicineHomePage(
-                                            context,
-                                            snapshot.data.documents[index]),
+                                  return Expanded(
+                                    child: SizedBox(
+                                      height: 700,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemMedicineHomePage(
+                                                context,
+                                                snapshot.data.documents[index]),
 
-                                  ),
-                                ),
-                              );
-                            }
+                                      ),
+                                    ),
+                                  );
+                                }
+                            ),
+                            StreamBuilder<QuerySnapshot>(
+                                stream:  Firestore.instance.collection('Appointments')
+                                    .where('uid', isEqualTo: user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Text(
+                                      'Fetching your Appointments...',
+                                    );
+
+                                  return Expanded(
+                                    child: SizedBox(
+                                      height: 700,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemAppointmentsHomePage(
+                                                context,
+                                                snapshot.data.documents[index]),
+
+                                      ),
+                                    ),
+                                  );
+                                }
+                            ),
+
+
+                          ],
                         ),
-                      ],
-                    ),
+//                    Row(
+//                      children: <Widget>[
+//                      ],
+//                    )
 
-                    Row(
-                      children: <Widget>[
-                        StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance.collection('Appointments')
-                                .where('uid', isEqualTo: user.uid)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData)
-                                return Text(
-                                  '',
-                                );
-                              else
-                                errorMedicine(context);
-                              return Expanded(
-                                child: SizedBox(
-                                  height: 700,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.documents.length,
-                                    itemBuilder: (context, index) =>
-                                        buildListItemAppointmentsHomePage(
-                                            context,
-                                            snapshot.data.documents[index]),
 
-                                  ),
-                                ),
-                              );
-                            }
-                        ),
-                      ],
-
-                    )
                   ],
                 ),
 
@@ -361,64 +370,65 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget widgetBuilder(DateTime selectedDate) {
-    String dateString = DateFormat(widgetKeyFormat).format(selectedDate);
-    if (data.containsKey(dateString)) {
-      List items = data[dateString];
-      return ListView(
-        children: [
-          Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('Appointments')
-                          .where('uid', isEqualTo: uid)
-                          .where('Date of Appointment', isEqualTo: dateString)
-                          .where('Month of Appointment', isEqualTo: dateString)
-                          .where('Year of Appointment', isEqualTo: dateString)
+//  Widget widgetBuilder(DateTime selectedDate) {
+//    String dateString = DateFormat(widgetKeyFormat).format(selectedDate);
+//    if (data.containsKey(dateString)) {
+//      List items = data[dateString];
+//      return ListView(
+//        children: [
+//          Column(
+//            children: <Widget>[
+//              Row(
+//                children: <Widget>[
+//                  StreamBuilder<QuerySnapshot>(
+//                      stream: Firestore.instance.collection('Appointments')
+//                          .where('uid', isEqualTo: uid)
+//                          .where('Date of Appointment', isEqualTo: dateString)
+//                          .where('Month of Appointment', isEqualTo: dateString)
+//                          .where('Year of Appointment', isEqualTo: dateString)
+//
+//                          .snapshots(),
+//                      builder: (context, snapshot) {
+//                        if (!snapshot.hasData)
+//                          return Padding(
+//                              padding: EdgeInsets.only(
+//                                  top: 250, left: 75),
+//                              child: Text(
+//                                  'Fetching your Reminders...',
+//                                  style: TextStyle(
+//                                    color: Colors.black,
+//                                    fontSize: 20.0,
+//                                  )
+//                              )
+//                          );
+//                        else
+//                          errorMedicine(context);
+//                        return Expanded(
+//                          child: SizedBox(
+//                            height: 700,
+//                            child: ListView.builder(
+//                              shrinkWrap: true,
+//                              itemCount: snapshot.data.documents.length,
+//                              itemBuilder: (context, index) =>
+//                                  buildListItemAppointmentsHomePage(
+//                                      context,
+//                                      snapshot.data.documents[index]),
+//
+//                            ),
+//                          ),
+//                        );
+//                      }
+//                  ),
+//                ],
+//
+//              )
+//            ],
+//
+//
+//          ),
+//        ],
+//      );
+//    }
+//  }
 
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return Padding(
-                              padding: EdgeInsets.only(
-                                  top: 250, left: 75),
-                              child: Text(
-                                  'Fetching your Reminders...',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                  )
-                              )
-                          );
-                        else
-                          errorMedicine(context);
-                        return Expanded(
-                          child: SizedBox(
-                            height: 700,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.documents.length,
-                              itemBuilder: (context, index) =>
-                                  buildListItemAppointmentsHomePage(
-                                      context,
-                                      snapshot.data.documents[index]),
-
-                            ),
-                          ),
-                        );
-                      }
-                  ),
-                ],
-
-              )
-            ],
-
-
-          ),
-        ],
-      );
-    }
   }
-}

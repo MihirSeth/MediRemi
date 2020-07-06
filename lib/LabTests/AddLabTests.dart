@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/LabTests/sucess_screen_labtests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,9 +28,9 @@ class _AddLabTestsState extends State<AddLabTests> {
   String _timeType;
   String _reasonLabTest;
   String _dayLabTest;
-  String _dateLabTest;
-  String _monthLabTest;
-  String _yearLabTest;
+  int _dateLabTest;
+  int _monthLabTest;
+  int _yearLabTest;
   final _timeDatabase = DateTime.now();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -528,7 +529,8 @@ class _AddLabTestsState extends State<AddLabTests> {
                                   return 'Please type the Date';
                                 }
                               },
-                              onSaved: (input) => _dateLabTest = input,
+                              onSaved: (input) => _dateLabTest = input as int,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Date",
@@ -554,7 +556,9 @@ class _AddLabTestsState extends State<AddLabTests> {
                                   return 'Please type the Month';
                                 }
                               },
-                              onSaved: (input) => _monthLabTest = input,
+                              onSaved: (input) => _monthLabTest = input as int,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Month",
@@ -580,7 +584,8 @@ class _AddLabTestsState extends State<AddLabTests> {
                                   return 'Please type the Year';
                                 }
                               },
-                              onSaved: (input) => _yearLabTest = input,
+                              onSaved: (input) => _yearLabTest = input as int,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Year",
@@ -718,7 +723,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.utc(labtestYear, labtestMonth, labtestYear,7,0,0,0,0).add(Duration(seconds: 5));
+    DateTime.utc(_yearLabTest, _monthLabTest, _dateLabTest,7,0,0,0,0).add(Duration(seconds: 5));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'your other channel id',
@@ -736,7 +741,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     await flutterLocalNotificationsPlugin.schedule(
         0,
         'Reminder for Lab Test',
-        'Today is your Lab Test for $labtestName at $labtestTime and the location is $labtestLocation. ',
+        'Today is your Lab Test for $_labtestName at $_timeHours:$_timeMinutes and the location is $_labtestAddress. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
   }

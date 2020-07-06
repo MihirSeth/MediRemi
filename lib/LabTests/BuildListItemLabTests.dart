@@ -109,7 +109,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Time Hours'],
+                            document['Time Hours'].toString(),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -119,7 +119,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ":",
                           ),
                           Text(
-                            document['Time Minutes'],
+                            document['Time Minutes'].toString(),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -159,7 +159,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Date of Lab Test'],
+                            document['Date of Lab Test'].toString(),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -175,7 +175,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Month of Lab Test'],
+                            document['Month of Lab Test'].toString(),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -191,7 +191,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Year of Lab Test'],
+                            document['Year of Lab Test'].toString(),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,

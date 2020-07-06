@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/Doctors/success_screen_appointments.dart';
 
@@ -27,7 +28,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   String _timeHours;
   String _timeMinutes;
   String _timeType;
-  String _dayAppoinment;
+  String _dayAppointment;
   String _dateAppointment;
   String _monthAppointment;
   String _yearAppointment;
@@ -49,9 +50,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         setState(() {
           appoinmentDoctorName = data.documents[0].data['Doctor Name'];
           appoinmentTime = data.documents[0].data['Time'];
-          appoinmentDate = data.documents[0].data['Date of Appoinment'];
-          appoinmentMonth = data.documents[0].data['Date of Appoinment'];
-          appoinmentYear = data.documents[0].data['Date of Appoinment'];
+          appoinmentDate = data.documents[0].data['Date of Appointment'];
+          appoinmentMonth = data.documents[0].data['Date of Appointment'];
+          appoinmentYear = data.documents[0].data['Date of Appointment'];
 
         }
         );
@@ -431,7 +432,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 Padding(
                   padding: EdgeInsets.only(right: 170),
                   child: Text(
-                      "Day of Appoinment",
+                      "Day of Appointment",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -463,7 +464,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                   color: Colors.grey
                               ),
                             ),
-                            value: _dayAppoinment,
+                            value: _dayAppointment,
                             items: [
                               DropdownMenuItem<String>(
                                   child:Text('Monday', style: TextStyle(color: Colors.black),
@@ -503,7 +504,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                             ],
                             onChanged: (String newValue) {
                               setState(() {
-                                _dayAppoinment = newValue;
+                                _dayAppointment = newValue;
                               });
                             },
                           ),
@@ -547,6 +548,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _dateAppointment = input,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Date",
@@ -573,6 +575,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _monthAppointment = input,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Month",
@@ -600,6 +603,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 }
                               },
                               onSaved: (input) => _yearAppointment = input,
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Year",
@@ -649,7 +653,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                 _timeHours,
                                 _timeMinutes,
                                 _timeType,
-                                _dayAppoinment,
+                                _dayAppointment,
                                 _dateAppointment,
                                 _monthAppointment,
                                 _yearAppointment,
@@ -737,7 +741,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.utc(appoinmentYear, appoinmentMonth, appoinmentYear,7,0,0,0,0).add(Duration(seconds: 5));
+    DateTime.utc(appoinmentDate, appoinmentDate, appoinmentDate,7,0,0,0,0).add(Duration(seconds: 5));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'your other channel id',
@@ -754,8 +758,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
         0,
-          'Appoinment Reminder with $appoinmentDoctorName',
-          'Today is your Appoinment with $appoinmentDoctorName at $appoinmentTime. ',
+          'Appoinment Reminder with $_doctorsName',
+          'Today is your Appoinment with $_doctorsName at $_timeHours:$_timeMinutes and the location is $_doctorAddress. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
 }

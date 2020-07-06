@@ -695,6 +695,8 @@ class _AddMedicineState extends State<AddMedicine> {
                       _uid,
                       _timeDatabase,
                     );
+                    scheduleNotificationMedicine();
+
                   } catch (e) {
                     setState(() {
                       showDialog(
@@ -742,7 +744,6 @@ class _AddMedicineState extends State<AddMedicine> {
                     );
                   }
                 }
-                scheduleNotificationMedicine();
 
                           },
                           child: Center(
@@ -777,7 +778,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
     var hour = int.parse(_startingTimeHours[0] + _startingTimeHours[1]);
     var ogValue = hour;
-    var minute = int.parse(_startingTimeMinutes + _startingTimeMinutes);
+    var minute = int.parse(_startingTimeMinutes[2] + _startingTimeMinutes[3]);
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'repeatDailyAtTime channel id',
@@ -812,6 +813,7 @@ class _AddMedicineState extends State<AddMedicine> {
     }
     await flutterLocalNotificationsPlugin.cancelAll();
   }
+
 }
 
 loading() async {
@@ -833,4 +835,3 @@ Future getCurrentUser() async {
   print(_uid);
   return _uid.toString();
 }
-

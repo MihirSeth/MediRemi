@@ -19,7 +19,7 @@ class DatabaseService {
   get dateLabTest => dateLabTest;
 
 
-  Future<void> labtestData(String labtestName,String labtestAddress, String timeHours, String timeMinutes, String timeType, String reasonLabTest, String dayLabTest,String dateLabTest,String monthLabTest, String yearLabTest, timeDatabase, String uid) async {
+  Future<void> labtestData(String labtestName,String labtestAddress, String timeHours, String timeMinutes, String timeType, String reasonLabTest, String dayLabTest,int dateLabTest,int monthLabTest, int yearLabTest, timeDatabase, String uid) async {
     return await _appoinmentsCollection.document().setData({
 
       "Lab Tests Name": labtestName,

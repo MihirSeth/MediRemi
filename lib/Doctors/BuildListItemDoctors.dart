@@ -40,14 +40,14 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           SizedBox(
                             width: 10,
                           ),
-//                          Text(
-//                            'Name of the Doctor: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontSize: 15,
-//                              fontWeight: FontWeight.bold,
-//                            ),
-//                          ),
+                          Text(
+                            'Name of the Doctor: ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Text(
                             document['Doctor Name'],
                             style: TextStyle(
@@ -70,14 +70,14 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           SizedBox(
                             width: 15,
                           ),
-//                          Text(
-//                            'Doctor Speciality: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
+                          Text(
+                            'Doctor Speciality: ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                           Text(
                             document['Doctor Speciality'],
                             style: TextStyle(
@@ -99,14 +99,14 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           SizedBox(
                             width: 15,
                           ),
-//                          Text(
-//                            'Phone Number of Doctor: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
+                          Text(
+                            'Phone Number of Doctor: ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                           Text(
                             document['Phone Number'],
                             style: TextStyle(
@@ -128,14 +128,14 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           SizedBox(
                             width: 15,
                           ),
-//                          Text(
-//                            'Email ID of the Doctor: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
+                          Text(
+                            'Email ID of the Doctor: ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                           Text(
                             document['Email ID'],
                             style: TextStyle(
@@ -157,14 +157,14 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                           SizedBox(
                             width: 15,
                           ),
-//                          Text(
-//                            'Doctors Address: ',
-//                            style: TextStyle(
-//                              color: Colors.black,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 15,
-//                            ),
-//                          ),
+                          Text(
+                            'Doctors Address: ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                           Text(
                             document['Address'],
                             style: TextStyle(

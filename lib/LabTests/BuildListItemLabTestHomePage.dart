@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final databaseReference = Firestore.instance;
 
 
-buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
+buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
@@ -19,33 +19,33 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
           child: Container(
             child: Column(
                 children: <Widget>[
+//                  Padding(
+//                    padding: EdgeInsets.only(top:10),
+//                    child: Text(
+//                      'Lab Test',
+//                      style: TextStyle(
+//                          color: Colors.black,
+//                          fontSize: 20,
+//                          fontWeight: FontWeight.bold,
+//                          fontFamily: 'Roboto',
+//                          decoration: TextDecoration.underline
+//                      ),
+//                    ),
+//                  ),
                   Padding(
-                    padding: EdgeInsets.only(top:10),
-                    child: Text(
-                      'Lab Test',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          decoration: TextDecoration.underline
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    title: Row(
+                    padding: EdgeInsets.only(left: 50, top: 20),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.assessment, color: Colors.black,size: 20.0,),
-                        SizedBox(
-                          width: 10,
-                        ),
+//                          Icon(Icons.assessment, color: Colors.black,size: 20.0,),
+//                          SizedBox(
+//                            width: 10,
+//                          ),
                         Text(
-                          'Lab Test Name: ',
+                          'Lab Test: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
 
                           ),
                         ),
@@ -62,24 +62,34 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                   SizedBox(
                     height: 0,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 15),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                        SizedBox(
-                          width: 15,
-                        ),
+//                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+//                          SizedBox(
+//                            width: 15,
+//                          ),
                         Text(
                           'Time of Lab Test: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          document['Time'],
+                          document['Time Hours'].toString(),
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          ":",
+                        ),
+                        Text(
+                          document['Time Minutes'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -101,25 +111,25 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                   SizedBox(
                     height: 0,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 15),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
-                        SizedBox(
-                          width: 15,
-                        ),
+//                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
+//                          SizedBox(
+//                            width: 15,
+//                          ),
                         Text(
                           'Date of Lab Test: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
-                            decoration: TextDecoration.underline,
 
                           ),
                         ),
                         Text(
-                          document['Date of Lab Test'],
+                          document['Date of Lab Test'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -135,7 +145,7 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                           ),
                         ),
                         Text(
-                          document['Month of Lan Test'],
+                          document['Month of Lab Test'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -151,7 +161,7 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                           ),
                         ),
                         Text(
-                          document['Year of Lab Test'],
+                          document['Year of Lab Test'].toString(),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -160,25 +170,25 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                       ],
                     ),
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 15),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
-
-                        SizedBox(
-                          width: 15,
-                        ),
+//                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
+//
+//                          SizedBox(
+//                            width: 15,
+//                          ),
                         Text(
                           'Day of Lab Test: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
                         Text(
-                          document['Day for Lab Test'],
+                          document['Day of Lab Test'],
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -190,20 +200,20 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                   SizedBox(
                     height: 0,
                   ),
-                  ListTile(
-                    title: Row(
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 15),
+                    child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
+//                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
 
-                        SizedBox(
-                          width: 15,
-                        ),
+//                          SizedBox(
+//                            width: 15,
+//                          ),
                         Text(
-                          'Reason for Lab Tests Lab Test: ',
+                          'Reason: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
                             fontSize: 15,
                           ),
                         ),
@@ -219,19 +229,22 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
                   ),
                   ButtonBar(
                     children: <Widget>[
-                      FlatButton(
-                          child: Text(
-                            'DELETE',
-                            style: TextStyle(
-                                color: Colors.teal
+                      Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: FlatButton(
+                            child: Text(
+                              'DELETE',
+                              style: TextStyle(
+                                  color: Colors.teal
+                              ),
                             ),
-                          ),
-                          onPressed: () async {
-                            await databaseReference
-                                .collection('LabTests')
-                                .document(document.documentID)
-                                .delete();
-                          }
+                            onPressed: () async {
+                              await databaseReference
+                                  .collection('LabTests')
+                                  .document(document.documentID)
+                                  .delete();
+                            }
+                        ),
                       ),
                     ],
                   )
@@ -247,5 +260,6 @@ buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
   );
 
 }
+
 
 
