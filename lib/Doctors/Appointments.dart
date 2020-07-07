@@ -18,14 +18,14 @@ class Appointments extends StatefulWidget {
 }
 
 class _AppointmentsState extends State<Appointments> {
-
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e); //
-    }
-  }
+//
+//  Future<void> _signOut() async {
+//    try {
+//      await FirebaseAuth.instance.signOut();
+//    } catch (e) {
+//      print(e); //
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {

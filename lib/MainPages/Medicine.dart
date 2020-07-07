@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
@@ -14,12 +13,12 @@ import 'package:provider/provider.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final uid =  _auth.currentUser();
 
-GoogleSignIn _googleSignIn;
-FirebaseUser _user;
-homePageWidget(FirebaseUser user, GoogleSignIn signIn) {
-  _user = user;
-  _googleSignIn = signIn;
-}
+//GoogleSignIn _googleSignIn;
+//FirebaseUser _user;
+//homePageWidget(FirebaseUser user, GoogleSignIn signIn) {
+//  _user = user;
+//  _googleSignIn = signIn;
+//}
 
 class Medicine extends StatefulWidget {
   @override

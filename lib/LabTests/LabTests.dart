@@ -19,13 +19,13 @@ class LabTests extends StatefulWidget {
 
 class _LabTestsState extends State<LabTests> {
 
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e); //
-    }
-  }
+//  Future<void> _signOut() async {
+//    try {
+//      await FirebaseAuth.instance.signOut();
+//    } catch (e) {
+//      print(e); //
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {

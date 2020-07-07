@@ -126,7 +126,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Doctor Name';
-                                        }
+                                        } return null;
                                       },
                                       onSaved: (input) => _doctorsName = input,
                                       decoration: InputDecoration(
@@ -201,7 +201,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Appoinment Details';
-                                }
+                                } return null;
                               },
                               onSaved: (input) => _appointmentReason = input ,
                               decoration: InputDecoration(
@@ -271,7 +271,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Doctors address';
-                                }
+                                } return null;
                               },
                               onSaved: (input) => _doctorAddress = input,
                               decoration: InputDecoration(
@@ -321,7 +321,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            }
+                                            } return null;
                                           },
                                           onSaved: (input) => _timeHours = input,
                                           keyboardType: TextInputType.number,
@@ -360,7 +360,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            }
+                                            } return null;
                                           },
                                           onSaved: (input) => _timeMinutes = input,
                                           keyboardType: TextInputType.number,
@@ -1222,7 +1222,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        0,
+           2,
           'Appointment Reminder with $_doctorsName',
           'Today is your Appointment with $_doctorsName at $_timeHours:$_timeMinutes and the location is $_doctorAddress. ',
         scheduledNotificationDateTime,

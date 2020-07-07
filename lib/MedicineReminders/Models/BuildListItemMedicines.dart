@@ -232,16 +232,16 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                           fontSize: 15,
                                         ),
                                       ),
-                                      Text(
-                                        " ",
-                                      ),
-                                      Text(
-                                        document['Starting Time Type'],
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontSize: 15,
-                                        ),
-                                      )
+//                                      Text(
+//                                        " ",
+//                                      ),
+//                                      Text(
+//                                        document['Starting Time Type'],
+//                                        style: TextStyle(
+//                                          color: Colors.blueGrey,
+//                                          fontSize: 15,
+//                                        ),
+//                                      )
                                     ],
                                   ),
                               ),

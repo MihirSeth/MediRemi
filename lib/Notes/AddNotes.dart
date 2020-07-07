@@ -135,7 +135,7 @@ class _AddNotesState extends State<AddNotes> {
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Please type your notes';
-                            }
+                            } return null;
                           },
                           onSaved: (input) => _notes = input,
                           decoration: InputDecoration(

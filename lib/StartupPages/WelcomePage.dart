@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 validator: (input) {
                                   if (input.isEmpty){
                                     return 'Please type a email';
-                                  }
+                                  } return null;
                                 },
 
                                 onSaved: (input) => _emailID = input,
@@ -332,11 +332,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_form.validate()) {
       _form.save();
       try {
-        AuthResult user = await FirebaseAuth.instance
+        AuthResult result = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _emailID, password: _password);
-//        final FirebaseUser currentUser = await _auth.currentUser();
+        FirebaseUser user = result.user;
+
+//        final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
         setState(() => loading = true);
-        final AuthCredential credential = EmailAuthProvider.getCredential(email: _emailID,password: _password);
+//        final AuthCredential credential = EmailAuthProvider.getCredential(email: _emailID,password: _password);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {

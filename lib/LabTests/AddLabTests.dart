@@ -128,7 +128,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type the Lab Test Name';
-                                        }
+                                        } return null;
                                       },
                                       onSaved: (input) => _labtestName = input,
                                       decoration: InputDecoration(
@@ -203,7 +203,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Address';
-                                }
+                                } return null;
                               },
                               onSaved: (input) => _labtestAddress = input,
                               keyboardType: TextInputType.number,
@@ -253,7 +253,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            }
+                                            } return null;
                                           },
                                           onSaved: (input) => _timeHours = input,
                                           keyboardType: TextInputType.number,
@@ -292,7 +292,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                           validator: (input) {
                                             if (input.isEmpty) {
                                               return 'Please type the Time';
-                                            }
+                                            } return null;
                                           },
                                           onSaved: (input) => _timeMinutes = input,
                                           keyboardType: TextInputType.number,
@@ -389,7 +389,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return 'Please type the Lab Test Reason';
-                                }
+                                } return null;
                               },
                               onSaved: (input) => _reasonLabTest = input,
                               decoration: InputDecoration(
@@ -1205,7 +1205,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        0,
+        1,
         'Reminder for Lab Test',
         'Today is your Lab Test for $_labtestName at $_timeHours:$_timeMinutes and the location is $_labtestAddress. ',
         scheduledNotificationDateTime,

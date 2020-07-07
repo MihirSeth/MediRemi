@@ -87,7 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                                 validator: (input) {
                                   if (input.isEmpty) {
                                     return 'Please type a Name';
-                                  }
+                                  } return null;
                                 },
                                 onSaved: (input) => _name = input,
                                 decoration: InputDecoration(
@@ -114,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type a Phone Number';
-                                        }
+                                        } return null;
                                       },
                                       onSaved: (input) => _phoneNumber = input,
                                       decoration: InputDecoration(
@@ -137,7 +137,7 @@ class _SignupPageState extends State<SignupPage> {
                                       validator: (input) {
                                         if (input.isEmpty) {
                                           return 'Please type a valid email';
-                                        }
+                                        } return null;
                                       },
                                       onSaved: (input) => _emailID = input,
                                       decoration: InputDecoration(
@@ -160,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
                                     validator: (input) {
                                       if (input.length < 6){
                                         return 'Please type a longer password';
-                                      }
+                                      } return null;
                                     },
                                     onSaved: (input) => _password = input,
                                     decoration: InputDecoration(

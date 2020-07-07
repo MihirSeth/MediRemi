@@ -98,7 +98,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'Please type a Name';
-                    }
+                    } return null;
                   },
                   onSaved: (input) => _medicineName = input,
               decoration: InputDecoration(
@@ -132,7 +132,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               validator: (input) {
                                 if (input.isEmpty) {
                                     return 'Please type the Dosage';
-                                }
+                                } return null;
                               },
                           onSaved: (input) => _dosage = input,
                                     decoration: InputDecoration(
@@ -167,7 +167,7 @@ class _AddMedicineState extends State<AddMedicine> {
                           validator: (input) {
                             if (input.isEmpty) {
                               return 'Please type the number of pills';
-                            }
+                            } return null;
                           },
                           onSaved: (input) => _pills = input,
                           keyboardType: TextInputType.number,
@@ -571,6 +571,127 @@ class _AddMedicineState extends State<AddMedicine> {
                                             ),
                                             value: 12
                                         ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('13', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 13
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('14', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 14
+
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('15' , style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 15
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('16', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 16
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('17', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 17
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('18', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 18
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('19', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 19
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('20', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 20
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('21', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 21
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('22', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 22
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('23', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 23
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('24', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 24
+                                        ),
                                       ],
                                       onChanged: (int newValue) {
                                         setState(() {
@@ -590,6 +711,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                         ),
                                       ),
                                     ),
+
                                     SizedBox(
                                       width: 15.0,
                                     ),
@@ -952,16 +1074,6 @@ class _AddMedicineState extends State<AddMedicine> {
                                         DropdownMenuItem<int>(
                                             child: Row(
                                               children: <Widget>[
-                                                Text('34', style: TextStyle(color: Colors.black),
-                                                ),
-
-                                              ],
-                                            ),
-                                            value: 34
-                                        ),
-                                        DropdownMenuItem<int>(
-                                            child: Row(
-                                              children: <Widget>[
                                                 Text('35', style: TextStyle(color: Colors.black),
                                                 ),
 
@@ -1229,46 +1341,46 @@ class _AddMedicineState extends State<AddMedicine> {
                                         });
                                       },
                                     ),
-                                    SizedBox(
-                                      width: 20.0,
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 0, right: 45),
-                                        child: DropdownButton<String>(
-                                          underline: Container(
-                                            height: 2,
-                                            color: Colors.teal,
-                                          ),
-                                          hint: Text(
-                                              'AM/PM?',
-                                            style: TextStyle(
-                                                color: Colors.grey
-                                            ),
-                                          ),
-                                          value: _startingTimeType,
-                                          items: [
-                                            DropdownMenuItem<String>(
-                                                child:Text('AM', style: TextStyle(color: Colors.blueGrey),
-                                                ),
-                                                value: 'AM'
-                                            ),
-                                            DropdownMenuItem<String>(
-                                                child:Text('PM', style: TextStyle(color: Colors.blueGrey ),
-                                                ),
-                                                value: 'PM'
-                                            ),
-
-
-                                          ],
-                                          onChanged: (String newValue) {
-                                            setState(() {
-                                              _startingTimeType = newValue;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ),
+//                                    SizedBox(
+//                                      width: 20.0,
+//                                    ),
+//                                    Expanded(
+//                                      child: Padding(
+//                                        padding: EdgeInsets.only(top: 0, right: 45),
+//                                        child: DropdownButton<String>(
+//                                          underline: Container(
+//                                            height: 2,
+//                                            color: Colors.teal,
+//                                          ),
+//                                          hint: Text(
+//                                              'AM/PM?',
+//                                            style: TextStyle(
+//                                                color: Colors.grey
+//                                            ),
+//                                          ),
+//                                          value: _startingTimeType,
+//                                          items: [
+//                                            DropdownMenuItem<String>(
+//                                                child:Text('AM', style: TextStyle(color: Colors.blueGrey),
+//                                                ),
+//                                                value: 'AM'
+//                                            ),
+//                                            DropdownMenuItem<String>(
+//                                                child:Text('PM', style: TextStyle(color: Colors.blueGrey ),
+//                                                ),
+//                                                value: 'PM'
+//                                            ),
+//
+//
+//                                          ],
+//                                          onChanged: (String newValue) {
+//                                            setState(() {
+//                                              _startingTimeType = newValue;
+//                                            });
+//                                          },
+//                                        ),
+//                                      ),
+//                                    ),
                                   ],
 
                                 ),
@@ -1313,7 +1425,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                             validator: (input) {
                                               if (input.isEmpty) {
                                                 return 'Please type the Duration number';
-                                              }
+                                              } return null;
                                             },
                                             onSaved: (input) => _durationTime = input,
                                             keyboardType: TextInputType.number,
@@ -1517,7 +1629,7 @@ class _AddMedicineState extends State<AddMedicine> {
         'repeatDailyAtTime channel id',
         'repeatDailyAtTime channel name',
         'repeatDailyAtTime description',
-        importance: Importance.Max,
+        importance : Importance.Max,
         sound: RawResourceAndroidNotificationSound('notification'),
         ledColor: Color(0xFF3EB16F),
         ledOffMs: 1000,
@@ -1537,13 +1649,13 @@ class _AddMedicineState extends State<AddMedicine> {
         _startingTimeHours = _startingTimeHours + (_interval * i);
       }
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0,
+         0,
         'Medicine Reminder: $_medicineName',
         'It is time to take your medicine - $_medicineName which is a $_medicineType. It is supposed to be taken every $_interval Hours',
         time,
-        platformChannelSpecifics);
+        platformChannelSpecifics
+    );
   }
-
   }
 
 }

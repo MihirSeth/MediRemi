@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
-import 'package:healthreminders/Models/User.dart';
+//import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/Wrapper.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 final uid =  FirebaseAuth.instance.currentUser();
 
@@ -74,7 +74,7 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+//    final user = Provider.of<User>(context);
     return Scaffold();
   }
 
