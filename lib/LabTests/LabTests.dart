@@ -101,7 +101,7 @@ class _LabTestsState extends State<LabTests> {
                             else errorLabTests(context);
                               return Expanded(
                                 child: SizedBox(
-                                  height: 700,
+                                  height: 800,
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: snapshot.data.documents.length,

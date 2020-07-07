@@ -1,29 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/AppoinmentStreamBuilder.dart';
-import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/BuildListAppointmentsHomePage.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
-import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
-import 'package:healthreminders/Doctors/Doctors.dart';
-import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
-import 'package:healthreminders/LabTests/BuildListItemLabTests.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
-import 'package:healthreminders/MedicineReminders/BuildListMedicineHomePage.dart';
-import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
-import 'package:healthreminders/MedicineReminders/Models/MedicineStreamBuilder.dart';
+import 'package:healthreminders/MedicineReminders/Models/BuildListMedicineHomePage.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
 import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
-import 'package:intl/intl.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
@@ -183,8 +171,7 @@ class _HomePageState extends State<HomePage> {
                   height: 10,
                 ),
 
-                Column(
-                  children: <Widget>[
+
                         Row(
                           children: <Widget>[
                             StreamBuilder<QuerySnapshot>(
@@ -221,45 +208,33 @@ class _HomePageState extends State<HomePage> {
                                   );
                                 }
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                                stream:  Firestore.instance.collection('Appointments')
-                                    .where('uid', isEqualTo: user.uid)
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData)
-                                    return Text(
-                                      'Fetching your Appointments...',
-                                    );
+                                StreamBuilder<QuerySnapshot>(
+                                    stream:  Firestore.instance.collection('Appointments')
+                                        .where('uid', isEqualTo: user.uid)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData)
+                                        return Text('');
 
-                                  return Expanded(
-                                    child: SizedBox(
-                                      height: 700,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data.documents.length,
-                                        itemBuilder: (context, index) =>
-                                            buildListItemAppointmentsHomePage(
-                                                context,
-                                                snapshot.data.documents[index]),
+                                      return Expanded(
+                                        child: SizedBox(
+                                          height: 700,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data.documents.length,
+                                            itemBuilder: (context, index) =>
+                                                buildListItemAppointmentsHomePage(
+                                                    context,
+                                                    snapshot.data.documents[index]),
 
-                                      ),
-                                    ),
-                                  );
-                                }
-                            ),
-
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                ),
 
                           ],
                         ),
-//                    Row(
-//                      children: <Widget>[
-//                      ],
-//                    )
-
-
-                  ],
-                ),
-
               ],
             ),
           ],

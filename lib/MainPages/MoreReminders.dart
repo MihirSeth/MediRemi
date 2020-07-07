@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/Appointments.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
-import 'package:healthreminders/Doctors/BuildListItemDoctors.dart';
-import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/Doctors/BuildListDoctorsHomePage.dart';
+import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
@@ -89,7 +87,7 @@ class _MedicineState extends State<MoreReminders> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 15, right: 15, top: 20),
                   child: Text(
-                    "More Reminders (Doctors and Appoinments):",
+                    "More Reminders (Doctors and Appointments):",
                     style: TextStyle(
                       fontSize: 25,
                       fontFamily: 'Roboto',
@@ -106,81 +104,60 @@ class _MedicineState extends State<MoreReminders> {
                   SizedBox(
                     height: 10,
                   ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                StreamBuilder<QuerySnapshot>(
-                                    stream: Firestore.instance.collection('Doctors')
-                                        .where('uid',  isEqualTo: user.uid)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData)
-                                        return Padding(
-                                            padding: EdgeInsets.only(top: 250, right: 75),
-                                            child: Text(
-                                                'Fetching your Reminders...',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20.0,
-                                                )
-                                            )
-                                        );
-                                      else errorDoctors(context);
-                                      return Expanded(
-                                        child: SizedBox(
-                                          height: 700,
-                                          child: ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount: snapshot.data.documents.length,
-                                                    itemBuilder: (context, index) =>
-                                                        buildListItemDoctors(
-                                                            context,
-                                                            snapshot.data.documents[index]),
-                                                ),
-                                        ),
-                                      );
-                                    }
-                                ),
-                              ],
+
+                        Row(
+                          children: <Widget>[
+                            StreamBuilder<QuerySnapshot>(
+                                stream:  Firestore.instance.collection('Doctors')
+                                    .where('uid', isEqualTo: user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Text(" ");
+
+                                  return Expanded(
+                                    child: SizedBox(
+                                      height: 700,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemDoctorsHomePage(
+                                                context,
+                                                snapshot.data.documents[index]),
+
+                                      ),
+                                    ),
+                                  );
+                                }
                             ),
-                        SizedBox(
-                          height: 10,
+                            StreamBuilder<QuerySnapshot>(
+                                stream:  Firestore.instance.collection('LabTests')
+                                    .where('uid', isEqualTo: user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Text('');
+
+                                  return Expanded(
+                                    child: SizedBox(
+                                      height: 700,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.documents.length,
+                                        itemBuilder: (context, index) =>
+                                            buildListItemLabTestsHomePage(
+                                                context,
+                                                snapshot.data.documents[index]),
+
+                                      ),
+                                    ),
+                                  );
+                                }
+                            ),
+                          ],
                         ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  StreamBuilder<QuerySnapshot>(
-                                      stream: Firestore.instance.collection("Appoinments")
-                                          .where('uid',  isEqualTo: user.uid)
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData)
-                                          return Text('');
-                                        else errorAppoinments(context);
-                                        return Expanded(
-                                          child: SizedBox(
-                                            height: 700,
-                                            child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: snapshot.data.documents.length,
-                                                  itemBuilder: (context, index) =>
-                                                      buildListItemAppointments(
-                                                          context,
-                                                          snapshot.data.documents[index]),
-                                                ),
-                                          ),
-                                        );
 
-                                      }
-                                  ),
-                                ],
-                              ),
-
-                      ],
-                    ),
               ],
             ),
           ],

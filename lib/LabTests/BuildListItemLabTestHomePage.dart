@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthreminders/LabTests/AddLabTests.dart';
 
 final databaseReference = Firestore.instance;
 
 
-buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
+buildListItemLabTestsHomePage(BuildContext context, DocumentSnapshot document) {
   return Column(
       children: <Widget>[
         Card(
@@ -33,7 +34,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
 //                    ),
 //                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 20),
+                    padding: EdgeInsets.only(left: 20, top: 20),
                     child: Row(
                       children: <Widget>[
 //                          Icon(Icons.assessment, color: Colors.black,size: 20.0,),
@@ -63,7 +64,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
 //                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
@@ -71,7 +72,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
 //                            width: 15,
 //                          ),
                         Text(
-                          'Time of Lab Test: ',
+                          'Time: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -112,7 +113,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
 //                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
@@ -120,7 +121,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
 //                            width: 15,
 //                          ),
                         Text(
-                          'Date of Lab Test: ',
+                          'Date: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -171,7 +172,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
 //                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
@@ -180,7 +181,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
 //                            width: 15,
 //                          ),
                         Text(
-                          'Day of Lab Test: ',
+                          'Day: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -197,54 +198,80 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
-                    child: Row(
-                      children: <Widget>[
-//                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
-
-//                          SizedBox(
-//                            width: 15,
+//                  SizedBox(
+//                    height: 0,
+//                  ),
+//                  Padding(
+//                    padding: EdgeInsets.only(left: 20, top: 15),
+//                    child: Row(
+//                      children: <Widget>[
+////                          Icon(Icons.arrow_forward, color: Colors.black,size: 20.0,),
+//
+////                          SizedBox(
+////                            width: 15,
+////                          ),
+//                        Text(
+//                          'Reason: ',
+//                          style: TextStyle(
+//                            color: Colors.black,
+//                            fontWeight: FontWeight.bold,
+//                            fontSize: 15,
 //                          ),
-                        Text(
-                          'Reason: ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Text(
-                          document['Reason for Lab Test'],
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+//                        ),
+//                        Text(
+//                          document['Reason for Lab Test'],
+//                          style: TextStyle(
+//                            color: Colors.blueGrey,
+//                            fontSize: 15,
+//                          ),
+//                        )
+//                      ],
+//                    ),
+//                  ),
                   ButtonBar(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: EdgeInsets.only(right: 23),
                         child: FlatButton(
-                            child: Text(
-                              'DELETE',
-                              style: TextStyle(
-                                  color: Colors.teal
-                              ),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  'ADD',
+                                  style: TextStyle(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                Text(
+                                  'LAB TESTS',
+                                  style: TextStyle(
+                                      color: Colors.teal
+                                  ),
+                                ),
+                              ],
                             ),
                             onPressed: () async {
-                              await databaseReference
-                                  .collection('LabTests')
-                                  .document(document.documentID)
-                                  .delete();
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return AddLabTests();
+                                    },
+                                  )
+                              );
                             }
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 14),
+                        child: Text(
+                          'For more details and deleting go to the Lab Tests Page',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                     ],
                   )

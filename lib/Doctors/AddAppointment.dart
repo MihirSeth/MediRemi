@@ -29,9 +29,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   String _timeMinutes;
   String _timeType;
   String _dayAppointment;
-  String _dateAppointment;
-  String _monthAppointment;
-  String _yearAppointment;
+  int _dateAppointment;
+  int _monthAppointment;
+  int _yearAppointment;
 
   final _timeDatabase = DateTime.now();
 
@@ -158,7 +158,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 Padding(
                   padding: EdgeInsets.only(right: 170),
                   child: Text(
-                      "Appoinment Details",
+                      "Appointment Details",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -516,7 +516,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 SizedBox(
                   height: 20,
                 ),
-
                 Padding(
                   padding: EdgeInsets.only(right: 170),
                   child: Text(
@@ -529,95 +528,564 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                       )
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  padding: EdgeInsets.only(top:0, left: 20, right: 150),
 
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child:
-                        Expanded(
-
-                          child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Please type the Date';
-                                }
-                              },
-                              onSaved: (input) => _dateAppointment = input,
-                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "Date",
-                                hintStyle: TextStyle(
-                                  fontFamily: "Monster",
-                                  color: Colors.grey,
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.teal),),
-                              )
+                 Padding(
+                   padding: EdgeInsets.only(top:0, left: 25, right: 115),
+                   child: Row(
+                     children: <Widget>[
+                       DropdownButton<int>(
+                          underline: Container(
+                            height: 2,
+                            color: Colors.teal,
                           ),
+                          hint: Text(
+                            'Day',
+                            style: TextStyle(
+                                color: Colors.grey
+                            ),
+                          ),
+                          value: _dateAppointment,
+                          items: [
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('1st', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 1
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('2nd', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 3
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('4th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 4
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('5th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 5
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('6th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 6
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('7th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 7
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('8th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 8
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('9th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 9
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('10th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 10
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('11th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 11
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('12th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 12
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('13th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 13
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('14th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 14
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('15th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 15
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('16th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 16
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('17th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 17
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('18th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 18
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('19th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 19
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('20th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 20
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('21st', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 21
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('22nd', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 22
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('23rd', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 23
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('24th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 24
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('25th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 25
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('26th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 26
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('27th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 27
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('28th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 28
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('29th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 29
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('30th', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 30
+                            ),
+                            DropdownMenuItem<int>(
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('31st', style: TextStyle(color: Colors.black),
+                                    ),
+
+                                  ],
+                                ),
+                                value: 31
+                            ),
+
+                          ],
+                          onChanged: (int newValue) {
+                            setState(() {
+                              _dateAppointment = newValue;
+                            });
+                          },
+                        ),
+
+                        SizedBox(
+                          width: 15,
+                        ),
+                DropdownButton<int>(
+                      underline: Container(
+                        height: 2,
+                        color: Colors.teal,
+                      ),
+                      hint: Text(
+                        'Month',
+                        style: TextStyle(
+                            color: Colors.grey
                         ),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
-                        child:
-                        Expanded(
-                          child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Please type the Month';
-                                }
-                              },
-                              onSaved: (input) => _monthAppointment = input,
-                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "Month",
-                                hintStyle: TextStyle(
-                                  fontFamily: "Monster",
-                                  color: Colors.grey,
+                      value: _monthAppointment,
+                      items: [
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('January', style: TextStyle(color: Colors.black),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.teal),),
-                              )
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
-                        child:
-                        Expanded(
 
-                          child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Please type the Year';
-                                }
-                              },
-                              onSaved: (input) => _yearAppointment = input,
-                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "Year",
-                                hintStyle: TextStyle(
-                                  fontFamily: "Monster",
-                                  color: Colors.grey,
+                              ],
+                            ),
+                            value: 1
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('February', style: TextStyle(color: Colors.black),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.teal),),
-                              )
-                          ),
+
+                              ],
+                            ),
+                            value: 2
+
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('March' , style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 3
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('April', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 4
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('May', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 5
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('June', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 6
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('July', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 7
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('August', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 8
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('September', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 9
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                  Text('October', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 10
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('November', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 11
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('December', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 12
+                        )
+                      ],
+                      onChanged: (int newValue) {
+                        setState(() {
+                          _monthAppointment = newValue;
+                        });
+                      },
+                    ),
+
+                        SizedBox(
+                          width: 15,
+                        ),
+               DropdownButton<int>(
+                      underline: Container(
+                        height: 2,
+                        color: Colors.teal,
+                      ),
+                      hint: Text(
+                        'Year',
+                        style: TextStyle(
+                            color: Colors.grey
                         ),
                       ),
-                    ],
+                      value: _yearAppointment,
+                      items: [
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2019', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2019
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2020', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2020
+
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2021' , style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2021
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2022', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2022
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2023', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2023
+                        ),
+                        DropdownMenuItem<int>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('2024', style: TextStyle(color: Colors.black),
+                                ),
+
+                              ],
+                            ),
+                            value: 2024
+                        )
+                      ],
+                      onChanged: (int newValue) {
+                        setState(() {
+                          _yearAppointment = newValue;
+                        });
+                      },
+                    ),
+                   ]),
+                 )],
                   ),
                 ),
 
@@ -728,10 +1196,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
               ],
 
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 
   Future<void> scheduleNotificationAppointments() async {
@@ -741,7 +1206,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.utc(appoinmentDate, appoinmentDate, appoinmentDate,7,0,0,0,0).add(Duration(seconds: 5));
+    DateTime.utc(_yearAppointment, _monthAppointment, _dateAppointment,7,0,0,0,0).add(Duration(seconds: 5));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'your other channel id',
@@ -758,8 +1223,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
         0,
-          'Appoinment Reminder with $_doctorsName',
-          'Today is your Appoinment with $_doctorsName at $_timeHours:$_timeMinutes and the location is $_doctorAddress. ',
+          'Appointment Reminder with $_doctorsName',
+          'Today is your Appointment with $_doctorsName at $_timeHours:$_timeMinutes and the location is $_doctorAddress. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
 }

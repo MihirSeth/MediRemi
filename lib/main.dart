@@ -30,8 +30,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
 //    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  @override
-  void initState() {
+ Future<void> main() async{
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     super.initState();
     var initializationSettingsAndroid =

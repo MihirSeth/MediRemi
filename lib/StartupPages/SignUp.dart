@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/MainPages/HomePage.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Services/Database.dart';
 import 'package:healthreminders/MainPages/home.dart';
@@ -422,7 +421,7 @@ class _SignupPageState extends State<SignupPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   elevation: 5,
-                  title: Center(child: Text('SignUp Failed')),
+                  title: Center(child: Text('Sign Up Failed')),
                   titleTextStyle: TextStyle(
                     color: Colors.teal,
                     fontFamily: 'Monster',

@@ -45,7 +45,7 @@ class _MedicineState extends State<MoreOptions> {
     text: 'example@example.com',
   );
 
-  final _subjectController = TextEditingController(text: 'The subject');
+  final _subjectController = TextEditingController(text: 'Reminder');
 
   final _bodyController = TextEditingController(
     text: 'Mail body.',
@@ -181,6 +181,11 @@ class _MedicineState extends State<MoreOptions> {
                           ListTile(
                               leading: Icon(Icons.email),
                               title: Text('Email'),
+                            onTap: () async {
+
+//                                await FlutterEmailSender.send(email);
+
+                            },
                           ),
                           ListTile(
                             leading: Icon(Icons.directions_walk),

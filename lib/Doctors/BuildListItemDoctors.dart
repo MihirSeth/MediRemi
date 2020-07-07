@@ -195,7 +195,7 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                         padding: EdgeInsets.only(right: 15),
                         child: FlatButton(
                             child: Text(
-                              'ADD APPOINMENTS',
+                              'ADD APPOINTMENTS',
                               style: TextStyle(
                                   color: Colors.teal
                               ),

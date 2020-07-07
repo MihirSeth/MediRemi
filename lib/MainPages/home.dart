@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MainPages/MoreOptions.dart';
 import 'package:healthreminders/MainPages/HomePage.dart';

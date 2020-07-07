@@ -102,7 +102,7 @@ class _AppointmentsState extends State<Appointments> {
                             else errorAppoinments(context);
                               return Expanded(
                                 child: SizedBox(
-                                  height: 700,
+                                  height: 800,
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: snapshot.data.documents.length,

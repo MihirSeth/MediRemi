@@ -216,7 +216,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                         ),
                                       ),
                                       Text(
-                                        document['Starting Time Hours'],
+                                        document['Starting Time Hours'].toString(),
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 15,
@@ -226,7 +226,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                         ":",
                                       ),
                                       Text(
-                                        document['Starting Time Minutes'],
+                                        document['Starting Time Minutes'].toString() ,
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 15,

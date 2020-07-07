@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthreminders/Doctors/AddAppointment.dart';
 
 final databaseReference = Firestore.instance;
 
@@ -32,7 +33,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
 //                    ),
 //                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 20),
+                    padding: EdgeInsets.only(left: 20, top: 20),
                     child: Row(
                       children: <Widget>[
                         Icon(
@@ -63,7 +64,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
                         Icon(Icons.assignment, color: Colors.grey[700],
@@ -94,7 +95,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
                         Icon(Icons.alarm, color: Colors.grey[700],size: 20.0),
@@ -141,10 +142,10 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.alarm, color: Colors.grey[700],
+                        Icon(Icons.arrow_forward, color: Colors.grey[700],
                             size: 20.0),
                         SizedBox(
                           width: 15,
@@ -201,10 +202,10 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 15),
+                    padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.alarm, color: Colors.black, size: 20.0),
+                        Icon(Icons.arrow_forward, color: Colors.black, size: 20.0),
                         SizedBox(
                           width: 15,
                         ),
@@ -231,22 +232,48 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                   ButtonBar(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: EdgeInsets.only(right: 8),
                         child: FlatButton(
-                            child: Text(
-                              'DELETE',
-                              style: TextStyle(
-                                  color: Colors.teal
-                              ),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  'ADD',
+                                  style: TextStyle(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                Text(
+                                  'APPOINTMENTS',
+                                  style: TextStyle(
+                                      color: Colors.teal
+                                  ),
+                                ),
+                              ],
                             ),
                             onPressed: () async {
-                              await databaseReference
-                                  .collection('Appointments')
-                                  .document(document.documentID)
-                                  .delete();
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return AddAppoinments();
+                                    },
+                                  )
+                              );
                             }
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 18),
+                        child: Text(
+                          'For more details and deleting go to the Appointments Page',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                       ),
                     ],
                   )
                 ]

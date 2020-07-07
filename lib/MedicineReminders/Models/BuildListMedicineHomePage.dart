@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'AddMedicine.dart';
+import '../AddMedicine.dart';
 
 
 
@@ -44,7 +44,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                     height: 10,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 10),
+                    padding: EdgeInsets.only(left: 20, top: 10),
                     child: Row(
                       children: <Widget>[
 //                                Icon(Icons.assignment, color: Colors.black,size: 20.0,),
@@ -65,7 +65,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 20),
+                    padding: EdgeInsets.only(left: 20, top: 20),
                     child: Row(
                       children: <Widget>[
 //                                ImageIcon(
@@ -107,7 +107,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 10),
+                    padding: EdgeInsets.only(left: 20, top: 10),
                     child: Row(
                       children: <Widget>[
 //                                Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
@@ -115,7 +115,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
 //                                  width: 15,
 //                                ),
                         Text(
-                          'Medicine Type: ',
+                          'Type: ',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                     height: 0,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 50, top: 10),
+                    padding: EdgeInsets.only(left: 20, top: 10),
                     child: Row(
                       children: <Widget>[
 //                                Icon(Icons.arrow_forward, color: Colors.black,size: 20.0),
@@ -164,27 +164,19 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                   ),
 
                   ButtonBar(
-                      children: <Widget>[
-
-//                              IconButton(
-//                                              icon: Icon(
-//                                                  Icons.delete,
-//                                                color: Colors.teal,
-//                                                size: 30,
-//                                              ),
-//                                              onPressed: () async {
-//                                                  await databaseReference
-//                                                    .collection('Medicines')
-//                                                    .document(document.documentID)
-//                                                    .delete();
-//                                              }
-//                                          )
-                        FlatButton(
-                            child: Text(
-                              'ADD MEDICINES',
-                              style: TextStyle(
-                                color: Colors.teal,
-                              ),
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 7),
+                        child: FlatButton(
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  'ADD MEDICINES',
+                                  style: TextStyle(
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                              ],
                             ),
                             onPressed: () async {
                               Navigator.of(context).push(
@@ -196,20 +188,21 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                               );
                             }
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Text(
-                            'For more details and deleting go to the Medicine Page',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 18),
+                        child: Text(
+                          'For more details and deleting go to the Medicines Page',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ]
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   )
                 ]
             ),
