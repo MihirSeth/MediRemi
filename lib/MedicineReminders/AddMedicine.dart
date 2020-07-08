@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/MedicineReminders/success_screen_medicines.dart';
+import 'package:healthreminders/AddedSuccessScreens/success_screen_medicines.dart';
 import 'DatabaseMedicine.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -17,6 +17,9 @@ class AddMedicine extends StatefulWidget {
 }
 
 class _AddMedicineState extends State<AddMedicine> {
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
   String _medicineName;
   String _dosage;
   String _pills;
@@ -31,14 +34,12 @@ class _AddMedicineState extends State<AddMedicine> {
   String dropdownValue = 'Tablet';
   final myController = TextEditingController();
    final _timeDatabase = DateTime.now();
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  String medicineName;
-  String medicineType;
-  String medicineDosage;
-  int medicineInterval;
-  String medicineStartTimeHours;
-  String medicineStartTimeMinutes;
+   String medicineName;
+   String medicineType;
+   String medicineDosage;
+   int medicineInterval;
+   String medicineStartTimeHours;
+   String medicineStartTimeMinutes;
   void getInfoMedicine () async{
     var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
     medicineDetails.getDocuments().then((data) {
@@ -55,6 +56,22 @@ class _AddMedicineState extends State<AddMedicine> {
       }
     });
   }
+  @override
+  void initState() {
+    super.initState();
+    _requestIOSPermissions();
+  }
+  void _requestIOSPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +152,8 @@ class _AddMedicineState extends State<AddMedicine> {
                                 } return null;
                               },
                           onSaved: (input) => _dosage = input,
-                                    decoration: InputDecoration(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
                                     hintText: "Type the Dosage ",
                                     hintStyle: TextStyle(
                                     fontFamily: "Monster",
@@ -453,12 +471,22 @@ class _AddMedicineState extends State<AddMedicine> {
                                         DropdownMenuItem<int>(
                                             child: Row(
                                               children: <Widget>[
+                                                Text('00', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 00
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
                                                 Text('01', style: TextStyle(color: Colors.black),
                                                 ),
 
                                               ],
                                             ),
-                                            value: 1
+                                            value: 01
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -468,7 +496,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 2
+                                            value: 02
 
                                         ),
                                         DropdownMenuItem<int>(
@@ -479,7 +507,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 3
+                                            value: 03
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -489,7 +517,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 4
+                                            value: 04
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -499,7 +527,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 5
+                                            value: 05
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -509,7 +537,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 6
+                                            value: 06
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -519,7 +547,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 7
+                                            value: 07
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -529,7 +557,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 8
+                                            value: 08
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -539,17 +567,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 9
-                                        ),
-                                        DropdownMenuItem<int>(
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text('10', style: TextStyle(color: Colors.black),
-                                                ),
-
-                                              ],
-                                            ),
-                                            value: 10
+                                            value: 09
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -731,12 +749,22 @@ class _AddMedicineState extends State<AddMedicine> {
                                         DropdownMenuItem<int>(
                                             child: Row(
                                               children: <Widget>[
+                                                Text('00', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 00
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
                                                 Text('01', style: TextStyle(color: Colors.black),
                                                 ),
 
                                               ],
                                             ),
-                                            value: 1
+                                            value: 01
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -746,7 +774,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 2
+                                            value: 02
 
                                         ),
                                         DropdownMenuItem<int>(
@@ -757,7 +785,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 3
+                                            value: 03
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -767,7 +795,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 4
+                                            value: 04
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -777,7 +805,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 5
+                                            value: 05
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -787,7 +815,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 6
+                                            value: 06
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -797,7 +825,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 7
+                                            value: 07
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -807,7 +835,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 8
+                                            value: 08
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -817,7 +845,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 9
+                                            value: 09
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -1402,10 +1430,10 @@ class _AddMedicineState extends State<AddMedicine> {
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(right: 300),
+                                padding: EdgeInsets.only(right: 100),
                                 child:
                                 Text(
-                                    "Duration",
+                                    "Duration (Just for your Reference)",
                                     style: TextStyle(
                                       color: Colors.teal,
                                       fontSize: 15.0,
@@ -1587,7 +1615,6 @@ class _AddMedicineState extends State<AddMedicine> {
                     );
                   }
                 }
-
                           },
                           child: Center(
                             child: Text(
@@ -1629,6 +1656,7 @@ class _AddMedicineState extends State<AddMedicine> {
         'repeatDailyAtTime channel id',
         'repeatDailyAtTime channel name',
         'repeatDailyAtTime description',
+
         importance : Importance.Max,
         sound: RawResourceAndroidNotificationSound('notification'),
         ledColor: Color(0xFF3EB16F),
@@ -1650,8 +1678,8 @@ class _AddMedicineState extends State<AddMedicine> {
       }
     await flutterLocalNotificationsPlugin.showDailyAtTime(
          0,
-        'Medicine Reminder: $_medicineName',
-        'It is time to take your medicine - $_medicineName which is a $_medicineType. It is supposed to be taken every $_interval Hours',
+        'Medicine Reminder',
+        'Time to take your medicine - $_medicineName, you are supposed to take $_pills $_medicineType',
         time,
         platformChannelSpecifics
     );

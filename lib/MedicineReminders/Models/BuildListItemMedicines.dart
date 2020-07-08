@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 
 
 final databaseReference = Firestore.instance;
-
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 
 buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
@@ -60,10 +62,14 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                 ),
                              ),
                             SizedBox(
-                              height: 0,
+                              height: 5,
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.black,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 50, top: 30),
+                              padding: EdgeInsets.only(left: 50, top: 15),
                               child: Row(
                                   children: <Widget>[
 //                                ImageIcon(
@@ -216,7 +222,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                         ),
                                       ),
                                       Text(
-                                        document['Starting Time Hours'].toString(),
+                                        document['Starting Time Hours'].toString().padLeft(2, '0'),
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 15,
@@ -226,7 +232,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                         ":",
                                       ),
                                       Text(
-                                        document['Starting Time Minutes'].toString() ,
+                                        document['Starting Time Minutes'].toString().padLeft(2, '0') ,
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 15,
@@ -317,6 +323,8 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                               .collection('Medicines')
                                               .document(document.documentID)
                                               .delete();
+                                          await flutterLocalNotificationsPlugin.cancel(0);
+
                                         }
                                     ),
                                   ),

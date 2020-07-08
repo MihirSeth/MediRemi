@@ -62,10 +62,14 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                     ),
                   ),
                   SizedBox(
-                    height: 0,
+                    height: 5,
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.black,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 20, top: 20),
+                    padding: EdgeInsets.only(left: 20, top: 12),
                     child: Row(
                       children: <Widget>[
 //                                ImageIcon(

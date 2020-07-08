@@ -1,6 +1,7 @@
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
@@ -9,11 +10,11 @@ import 'package:healthreminders/MainPages/Steps.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Notes/Notes.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
-import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 
 
 
@@ -36,7 +37,8 @@ class _MedicineState extends State<MoreOptions> {
       print(e); //
     }
   }
-
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
 
   List<String> attachments = [];
   bool isHTML = false;
@@ -77,7 +79,7 @@ class _MedicineState extends State<MoreOptions> {
       content: Text(platformResponse),
     ));
   }
-
+  String msg = 'Download my Medicine Reminders App';
 
 
   @override
@@ -173,10 +175,11 @@ class _MedicineState extends State<MoreOptions> {
                                   AssetImage('assets/Whatsapp.png'),
                                   color: Colors.green
                               ),
-                              title: Text('Whatsapp'),
-                            onTap: () {
-                              FlutterOpenWhatsapp.sendSingleMessage("919811098770", "Hello");
-                            },
+                              title: Text('Share us on WhatsApp'),
+                              onTap: () {
+                                FlutterShareMe()
+                                    .shareToWhatsApp(msg: msg);
+                              }
                           ),
                           ListTile(
                               leading: Icon(Icons.email),
@@ -245,15 +248,10 @@ class _MedicineState extends State<MoreOptions> {
                               title: Text('Settings')
                           ),
                           ListTile(
-                              leading: ImageIcon(
-                                  AssetImage('assets/Whatsapp.png'),
-                                  color: Colors.green
-                              ),
-                              title: Text('Whatsapp')
-                          ),
-                          ListTile(
                               leading: Icon(Icons.email),
-                              title: Text('Email')
+                              title: Text('Email'),
+                            onTap: () {
+                            },
                           ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
@@ -279,6 +277,7 @@ class _MedicineState extends State<MoreOptions> {
         )
     );
   }
+
 }
 
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/AddAppointment.dart';
-import 'package:healthreminders/Doctors/BuildListItemAppointments.dart';
+import 'package:healthreminders/Doctors/Models/BuildListItemAppointments.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:healthreminders/Models/User.dart';

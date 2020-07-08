@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/BuildListAppointmentsHomePage.dart';
+import 'package:healthreminders/Doctors/Models/BuildListAppointmentsHomePage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListMedicineHomePage.dart';
@@ -11,7 +11,7 @@ import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
@@ -191,7 +191,6 @@ class _HomePageState extends State<HomePage> {
                                             )
                                         )
                                     );
-
                                   return Expanded(
                                     child: SizedBox(
                                       height: 700,
@@ -215,7 +214,6 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData)
                                         return Text('');
-
                                       return Expanded(
                                         child: SizedBox(
                                           height: 700,

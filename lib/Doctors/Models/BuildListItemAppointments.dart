@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final databaseReference = Firestore.instance;
-
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
   return Column(
@@ -138,7 +140,7 @@ buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Time Hours'].toString(),
+                            document['Time Hours'].toString().padLeft(2, '0'),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -148,20 +150,20 @@ buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
                             ":",
                           ),
                           Text(
-                            document['Time Minutes'].toString(),
+                            document['Time Minutes'].toString().padLeft(2, '0'),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
                             ),
                           ),
 
-                          Text(
-                            document['Time Type'],
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                            ),
-                          )
+//                          Text(
+//                            document['Time Type'],
+//                            style: TextStyle(
+//                              color: Colors.blueGrey,
+//                              fontSize: 15,
+//                            ),
+//                          )
                         ],
                       ),
                    ),
@@ -273,6 +275,9 @@ buildListItemAppointments(BuildContext context, DocumentSnapshot document) {
                                   .collection('Appointments')
                                   .document(document.documentID)
                                   .delete();
+                              await flutterLocalNotificationsPlugin.cancel(1);
+                              await flutterLocalNotificationsPlugin.cancel(2);
+
                             }
                         ),
                       ),

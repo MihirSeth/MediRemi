@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/Notes/success_screen_notes.dart';
+import 'package:healthreminders/AddedSuccessScreens/success_screen_notes.dart';
 
 import 'DatabaseNotes.dart';
 

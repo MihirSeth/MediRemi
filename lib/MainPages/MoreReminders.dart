@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthreminders/Doctors/BuildListDoctorsHomePage.dart';
+import 'package:healthreminders/Doctors/Models/BuildListDoctorsHomePage.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
-import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +87,7 @@ class _MedicineState extends State<MoreReminders> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 15, right: 15, top: 20),
                   child: Text(
-                    "More Reminders (Doctors and Appointments):",
+                    "More Reminders:",
                     style: TextStyle(
                       fontSize: 25,
                       fontFamily: 'Roboto',

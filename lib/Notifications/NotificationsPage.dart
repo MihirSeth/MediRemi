@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:healthreminders/MedicineReminders/Models/medicine_type.dart';
 //import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/Wrapper.dart';
 //import 'package:provider/provider.dart';
@@ -116,7 +115,7 @@ class _NotificationsState extends State<Notifications> {
       await flutterLocalNotificationsPlugin.showDailyAtTime(
           int.parse(medicine.notificationIDs[i]),
           'Medicine Reminder: $medicineName',
-          medicineType.toString() != MedicineType.None.toString()
+          medicineType.toString() != medicineType.toString()
               ? 'It is time to take your $medicineName, according to schedule'
               : 'It is time to take your medicine, according to schedule',
           Time(hour, minute, 0),

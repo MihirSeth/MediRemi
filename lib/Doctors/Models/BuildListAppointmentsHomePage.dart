@@ -111,7 +111,7 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
 //                            ),
 //                          ),
                         Text(
-                          document['Time Hours'].toString(),
+                          document['Time Hours'].toString().padLeft(2, '0'),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
@@ -121,20 +121,20 @@ buildListItemAppointmentsHomePage(BuildContext context, DocumentSnapshot documen
                           ":",
                         ),
                         Text(
-                          document['Time Minutes'].toString(),
+                          document['Time Minutes'].toString().padLeft(2, '0'),
                           style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 15,
                           ),
                         ),
 
-                        Text(
-                          document['Time Type'],
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 15,
-                          ),
-                        )
+//                        Text(
+//                          document['Time Type'],
+//                          style: TextStyle(
+//                            color: Colors.blueGrey,
+//                            fontSize: 15,
+//                          ),
+//                        )
                       ],
                     ),
                   ),

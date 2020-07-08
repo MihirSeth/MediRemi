@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/Models/buildListItemGoogle.dart';
+import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
-import 'package:healthreminders/Models/buildListItem(NameEmail).dart';
+import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
@@ -113,7 +113,7 @@ class _MedicineState extends State<Medicine> {
 //                  ),
 //                ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),

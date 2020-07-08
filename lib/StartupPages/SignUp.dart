@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Models/User.dart';
@@ -134,11 +135,9 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
 
                                   TextFormField(
-                                      validator: (input) {
-                                        if (input.isEmpty) {
-                                          return 'Please type a valid email';
-                                        } return null;
-                                      },
+                                      validator: (input) => !EmailValidator.validate(input, true)
+                                          ? 'Not a valid email.'
+                                          : null,
                                       onSaved: (input) => _emailID = input,
                                       decoration: InputDecoration(
                                         hintText: "Email ID",
@@ -268,12 +267,12 @@ class _SignupPageState extends State<SignupPage> {
                                                         onPressed: () {
                                                           Navigator.of(context).pushNamed('/signup');
                                                         },
-                                                        child: Text('Try Again'),
+                                                        child: Text('Normal Sign Up'),
                                                       ),
                                                       FlatButton(
                                                         onPressed: () async {
                                                           String _uid = await getCurrentUser();
-                                                          await DatabaseServiceGoogle(uid: user.uid).googleDatabase(_name,_emailID,_uid);
+                                                          await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
                                                           signInWithGoogle().whenComplete(() {
                                                             Navigator.of(context).push(
                                                               MaterialPageRoute(
@@ -292,7 +291,7 @@ class _SignupPageState extends State<SignupPage> {
                                             );
 
                                             String _uid = await getCurrentUser();
-                                        await DatabaseServiceGoogle(uid: user.uid).googleDatabase(_name,_emailID,_uid);
+                                        await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
 
                                           signInWithGoogle().whenComplete(() {
                                               Navigator.of(context).push(
@@ -401,7 +400,8 @@ class _SignupPageState extends State<SignupPage> {
                       onPressed: () {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) =>
-                            Home()));                      },
+                            Home()));
+                        },
                       child: Text('Great...Move On'),
                     )
                   ],

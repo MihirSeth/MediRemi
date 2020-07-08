@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Doctors/AddAppointment.dart';
 import 'package:healthreminders/Doctors/AddDoctors.dart';
 import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
+import 'package:healthreminders/MainPages/HomePage.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Notes/AddNotes.dart';
@@ -27,27 +29,33 @@ class HealthRemindersApp extends StatefulWidget {
 }
 
 class _HealthRemindersAppState extends State<HealthRemindersApp> {
-//    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
- Future<void> main() async{
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+
+  void initState() {
     super.initState();
+    initializing();
+  }
+
+  void initializing() async {
     var initializationSettingsAndroid =
     new AndroidInitializationSettings('app_logo');
-    var initializationSettingsIOS = new IOSInitializationSettings(
+    var initializationSettingsIOS = IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
-//      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
-    var initializationSettings = new InitializationSettings(
+    var initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-
   }
+
   Future onSelectNotification(String payload) async {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
@@ -57,6 +65,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
       new MaterialPageRoute(builder: (context) => Wrapper()),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
@@ -64,8 +73,8 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          "/signup" : (BuildContext context) => new SignupPage(),
-          "/passwordreset" : (BuildContext context) => new PasswordReset(),
+          "/signup": (BuildContext context) => new SignupPage(),
+          "/passwordreset": (BuildContext context) => new PasswordReset(),
           '/addmedicine': (context) => AddMedicine(),
           '/adddoctor': (context) => AddDoctors(),
           '/addappointments': (context) => AddAppoinments(),
@@ -74,7 +83,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
           '/medicines': (context) => Medicine(),
           '/doctors': (context) => Doctors(),
           '/appointments': (context) => Appointments(),
-          '/notes': (context) =>  Notes(),
+          '/notes': (context) => Notes(),
           '/labtest': (context) => LabTests(),
         },
         title: 'Flutter Demo',
@@ -86,6 +95,34 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
       ),
     );
   }
+
+  Future onDidReceiveLocalNotification(int id, String title, String body,
+      String payload) async {
+    // display a dialog with the notification details, tap ok to go to another page
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(body),
+            actions: [
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                child: Text('Ok'),
+                onPressed: () async {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+    );
+  }
+
+
 }
-
-

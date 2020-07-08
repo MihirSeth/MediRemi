@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final databaseReference = Firestore.instance;
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
   return Column(
@@ -125,16 +128,16 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                               fontSize: 15,
                             ),
                           ),
-                          Text(
-                            " ",
-                          ),
-                          Text(
-                            document['Time Type'],
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                            ),
-                          )
+//                          Text(
+//                            " ",
+//                          ),
+//                          Text(
+//                            document['Time Type'],
+//                            style: TextStyle(
+//                              color: Colors.blueGrey,
+//                              fontSize: 15,
+//                            ),
+//                          )
                         ],
                       ),
                  ),
@@ -175,7 +178,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Month of Lab Test'].toString(),
+                            document['Month of Lab Test'].toString().padLeft(2, '0'),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -191,7 +194,7 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                             ),
                           ),
                           Text(
-                            document['Year of Lab Test'].toString(),
+                            document['Year of Lab Test'].toString().padLeft(2, '0'),
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 15,
@@ -273,6 +276,8 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                                   .collection('LabTests')
                                   .document(document.documentID)
                                   .delete();
+                              await flutterLocalNotificationsPlugin.cancel(3);
+                              await flutterLocalNotificationsPlugin.cancel(4);
                             }
                         ),
                       ),
@@ -281,14 +286,12 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                 ]
             ),
           ),
-
         ),
         SizedBox(
           height: 40,
         ),
       ]
   );
-
 }
 
 

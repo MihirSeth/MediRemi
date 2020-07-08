@@ -79,27 +79,6 @@ buildListItemDoctorsHomePage(BuildContext context, DocumentSnapshot document) {
                     padding: EdgeInsets.only(left: 20, top: 15),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.email, color: Colors.grey[700],size: 20.0),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          document['Email ID'],
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, top: 15),
-                    child: Row(
-                      children: <Widget>[
                         Icon(Icons.phone, color: Colors.grey[700],size: 20.0),
                         SizedBox(
                           width: 15,

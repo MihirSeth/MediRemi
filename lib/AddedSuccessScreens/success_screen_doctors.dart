@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
-import 'Doctors.dart';
+import '../Doctors/Doctors.dart';
 
 class SuccessScreenDoctors extends StatefulWidget {
   @override

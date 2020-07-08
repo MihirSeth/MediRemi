@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Doctors/Services/DoctorDatabase.dart';
-import 'package:healthreminders/Doctors/success_screen_doctors.dart';
+import 'package:healthreminders/AddedSuccessScreens/success_screen_doctors.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

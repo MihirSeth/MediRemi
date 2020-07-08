@@ -332,13 +332,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_form.validate()) {
       _form.save();
       try {
-        AuthResult result = await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _emailID, password: _password);
-        FirebaseUser user = result.user;
 
 //        final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
         setState(() => loading = true);
 //        final AuthCredential credential = EmailAuthProvider.getCredential(email: _emailID,password: _password);
+        FirebaseAuth.instance.fetchSignInMethodsForEmail(email: _emailID);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       } catch (e) {
