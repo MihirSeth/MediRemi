@@ -113,7 +113,17 @@ class _MedicineState extends State<MoreReminders> {
                                     .snapshots(),
                                 builder: (context, snapshot) {
                                   if (!snapshot.hasData)
-                                    return Text(" ");
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 250, left: 75),
+                                        child: Text(
+                                            'Fetching More Reminders...',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.0,
+                                            )
+                                        )
+                                    );
 
                                   return Expanded(
                                     child: SizedBox(
@@ -197,13 +207,6 @@ class _MedicineState extends State<MoreReminders> {
                           ListTile(
                               leading: Icon(Icons.settings),
                               title: Text('Settings')
-                          ),
-                          ListTile(
-                              leading: ImageIcon(
-                                  AssetImage('assets/Whatsapp.png'),
-                                  color: Colors.green
-                              ),
-                              title: Text('Whatsapp')
                           ),
                           ListTile(
                               leading: Icon(Icons.email),

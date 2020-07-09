@@ -486,7 +486,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 01
+                                            value: 0
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -496,7 +496,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 02
+                                            value: 0
 
                                         ),
                                         DropdownMenuItem<int>(

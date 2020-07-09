@@ -44,7 +44,7 @@ dependencies:
   flutter_open_whatsapp: ^0.1.2
   flutter_local_notifications: ^1.4.4+2
   flutter_email_sender: ^3.0.1
-  pedometer: ^1.2.0
+#  pedometer: ^1.2.0
   intl: ^0.16.1
   email_validator: ^1.0.0
   flutter_share_me: ^0.9.1

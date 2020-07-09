@@ -32,7 +32,6 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: ListView(
@@ -216,118 +215,31 @@ class _SignupPageState extends State<SignupPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            Center(
-                              child: Container(
-                                height: 40,
-                                width: 340,
-                                color: Colors.transparent,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      style: BorderStyle.solid,
-                                    ),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Center(
-                                        child: ImageIcon(AssetImage('assets/google.png')),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      InkWell(
-                                          onTap: () async {
-                                            await showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                                  return AlertDialog(
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(30),
-                                                    ),
-                                                    elevation: 5,
-                                                    title: Center(child: Text('Notification')),
-                                                    titleTextStyle: TextStyle(
-                                                      color: Colors.teal,
-                                                      fontFamily: 'Monster',
-                                                      fontSize: 20.0,
-                                                      letterSpacing: 1.5,
-                                                      fontWeight: FontWeight.bold,
-                                                      decoration: TextDecoration.underline,
-                                                    ),
-                                                    content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal wayKindly also put in your name and phone number before doing either.'),
-                                                    contentTextStyle: TextStyle(
-                                                      fontFamily: 'Monster',
-                                                      color: Colors.black,
-                                                    ),
-                                                    actions: [
-                                                      FlatButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context).pushNamed('/signup');
-                                                        },
-                                                        child: Text('Normal Sign Up'),
-                                                      ),
-                                                      FlatButton(
-                                                        onPressed: () async {
-                                                          String _uid = await getCurrentUser();
-                                                          await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
-                                                          signInWithGoogle().whenComplete(() {
-                                                            Navigator.of(context).push(
-                                                              MaterialPageRoute(
-                                                                builder: (context) {
-                                                                  return Home();
-                                                                },
-                                                              ),
-                                                            );
-                                                          }
-                                                          );},
-                                                        child: Text('Move On'),
-                                                      )
-                                                    ],
-                                                  );
-                                                }
-                                            );
 
-                                            String _uid = await getCurrentUser();
-                                        await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
+                            Container(
+                              height: 50,
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
 
-                                          signInWithGoogle().whenComplete(() {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return Home();
-                                                  },
-                                                ),
-                                              );
-                                            }
-                                            );
-                                          },
-                                          child: Text(
-                                            "Sign Up with Google",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Monster",
-
-                                            ),
-
-                                          )
-                                      )
-                                    ],
-
+                                  Center(
+                                    child: _googleButton(),
                                   ),
 
-                                ),
+
+                                ],
+
                               ),
-                            ),
 
+
+                            ),
                             SizedBox(
-                              height: 20,
+                              height: 15,
                             ),
                             FlatButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
+                                  borderRadius: BorderRadius.circular(20.0),
                                   side: BorderSide(color: Colors.black)),
                               color: Colors.white,
                               onPressed: () {
@@ -455,6 +367,101 @@ class _SignupPageState extends State<SignupPage> {
         );
       }
     }
+    Widget _googleButton(){
+      final user = Provider.of<User>(context);
+      return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: () async {
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                elevation: 5,
+                title: Center(child: Text('Notification')),
+                titleTextStyle: TextStyle(
+                  color: Colors.teal,
+                  fontFamily: 'Monster',
+                  fontSize: 20.0,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+                content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal wayKindly also put in your name and phone number before doing either.'),
+                contentTextStyle: TextStyle(
+                  fontFamily: 'Monster',
+                  color: Colors.black,
+                ),
+                actions: [
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/signup');
+                    },
+                    child: Text('Normal Sign Up'),
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      String _uid = await getCurrentUser();
+                      await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
+                      signInWithGoogle().whenComplete(() {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Home();
+                            },
+                          ),
+                        );
+                      }
+                      );},
+                    child: Text('Move On'),
+                  )
+                ],
+              );
+            }
+        );
+
+        String _uid = await getCurrentUser();
+        await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
+
+        signInWithGoogle().whenComplete(() {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return Home();
+              },
+            ),
+          );
+        }
+        );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.black),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+  }
 
   }
 

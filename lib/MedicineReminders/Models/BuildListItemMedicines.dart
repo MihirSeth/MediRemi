@@ -296,19 +296,7 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
 
                             ButtonBar(
                                 children: <Widget>[
-//                              IconButton(
-//                                              icon: Icon(
-//                                                  Icons.delete,
-//                                                color: Colors.teal,
-//                                                size: 30,
-//                                              ),
-//                                              onPressed: () async {
-//                                                  await databaseReference
-//                                                    .collection('Medicines')
-//                                                    .document(document.documentID)
-//                                                    .delete();
-//                                              }
-//                                          )
+//
                                   Padding(
                                     padding: EdgeInsets.only(right: 15),
                                     child: FlatButton(
@@ -324,7 +312,6 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
                                               .document(document.documentID)
                                               .delete();
                                           await flutterLocalNotificationsPlugin.cancel(0);
-
                                         }
                                     ),
                                   ),

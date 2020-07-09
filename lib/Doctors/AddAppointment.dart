@@ -95,7 +95,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                   color: Colors.black,
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
+//                                  decoration: TextDecoration.underline,
                                 )
                             ),
                           ),
@@ -133,7 +133,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                       onSaved: (input) => _doctorsName = input,
                                       decoration: InputDecoration(
 
-                                        hintText: "Appointment Name",
+                                        hintText: "Doctor Name",
                                         hintStyle: TextStyle(
                                           fontFamily: "Monster",
                                           color: Colors.grey,
@@ -2078,7 +2078,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime=
-    DateTime.now().add(Duration(days: difference));
+    DateTime.now().subtract(Duration(days: difference, hours:16));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'your other channel id',
@@ -2102,6 +2102,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         platformChannelSpecifics);
 
     print('Time: ' + difference.toString());
+    print('Hello -' + scheduledNotificationDateTime.toString());
 }
   Future<void> scheduleNotificationAppointmentsTwo() async {
     final now = DateTime(_yearAppointment, _monthAppointment, _dateAppointment);
@@ -2114,7 +2115,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.now().add(Duration(days: difference)).add(Duration(hours: 2));
+    DateTime.now().subtract(Duration(days: difference, hours:18));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'your other channel id',

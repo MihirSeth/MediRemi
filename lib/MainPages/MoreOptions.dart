@@ -7,6 +7,7 @@ import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
 import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:healthreminders/MainPages/Steps.dart';
+import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Notes/Notes.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
@@ -90,13 +91,16 @@ class _MedicineState extends State<MoreOptions> {
     return Scaffold(
 //      backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  Center(
-          child: Text(
-                "More Options",
-                style: TextStyle(
-                    fontFamily: 'Monster'
+        title:  Padding(
+          padding: EdgeInsets.only(left: 75, right: 105 ),
+          child: Center(
+            child: Text(
+                  "More Options",
+                  style: TextStyle(
+                      fontFamily: 'Monster'
+                  ),
                 ),
-              ),
+          ),
         ),
         backgroundColor: Colors.teal,
       ),
@@ -183,11 +187,66 @@ class _MedicineState extends State<MoreOptions> {
                           ),
                           ListTile(
                               leading: Icon(Icons.email),
-                              title: Text('Email'),
+                              title: Text('Share us'),
                             onTap: () async {
-
-//                                await FlutterEmailSender.send(email);
-
+                              FlutterShareMe()
+                                  .shareToSystem(msg: msg);
+                              FirebaseUser user = await FirebaseAuth.instance.currentUser();
+                              user.delete();
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.delete),
+                            title: Text('Delete Account'),
+                            onTap: () async {
+                              AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation: 5,
+                                title: Center(child: Text('Alert')),
+                                titleTextStyle: TextStyle(
+                                  color: Colors.teal,
+                                  fontFamily: 'Monster',
+                                  fontSize: 20.0,
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                content: Text('Are you sure you want to delete your account. Please delete all your data before moving on with deleting your Account.'),
+                                contentTextStyle: TextStyle(
+                                  fontFamily: 'Monster',
+                                  color: Colors.black,
+                                ),
+                                actions: [
+                                  FlatButton(
+                                    onPressed: () async {
+                                      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+                                      user.delete();
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return LoginPage();
+                                          },
+                                        ),
+                                      );
+                                      },
+                                    child: Text('Delete your Account'),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () async {
+                                      Navigator.of(context).pop(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return Home();
+                                          },
+                                        ),
+                                      );
+                                      },
+                                    child: Text('Go back to the screen to delete your Documents'),
+                                  ),
+                                ],
+                              );
                             },
                           ),
                           ListTile(

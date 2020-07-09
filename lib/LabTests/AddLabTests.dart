@@ -1,12 +1,10 @@
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/AddedSuccessScreens/sucess_screen_labtests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'LabTests.dart';
 import 'LabTestsDatabase.dart';
 
@@ -2060,14 +2058,13 @@ class _AddLabTestsState extends State<AddLabTests> {
     final now = DateTime(_yearLabTest, _monthLabTest, _dateLabTest);
     final labTestDate = DateTime.now();
     final difference = labTestDate.difference(now).inDays;
-
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.now().add(Duration(days: difference));
+    DateTime.now().subtract(Duration(days: difference, hours:16));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'your other channel id',
@@ -2102,7 +2099,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.now().add(Duration(days: difference)).add(Duration(hours: 2));
+    DateTime.now().subtract(Duration(days: difference, hours:18));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'your other channel id',

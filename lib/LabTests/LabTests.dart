@@ -89,7 +89,7 @@ class _LabTestsState extends State<LabTests> {
                           builder: (context, snapshot) {
                             if (!snapshot.hasData)
                               return Padding(
-                                padding: EdgeInsets.only(top: 150, right: 25),
+                                  padding: EdgeInsets.only(top: 250, left: 75),
                             child: Text(
                             'Fetching your Lab Tests...',
                             style: TextStyle(

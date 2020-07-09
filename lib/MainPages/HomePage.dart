@@ -278,13 +278,6 @@ class _HomePageState extends State<HomePage> {
                               title: Text('Settings')
                           ),
                           ListTile(
-                              leading: ImageIcon(
-                                  AssetImage('assets/Whatsapp.png'),
-                                  color: Colors.green
-                              ),
-                              title: Text('Whatsapp')
-                          ),
-                          ListTile(
                               leading: Icon(Icons.email),
                               title: Text('Email')
                           ),

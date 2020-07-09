@@ -232,56 +232,74 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 10,
               ),
-              Center(
-                child: Container(
-                  height: 40,
-                  width: 340,
-                  color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        style: BorderStyle.solid,
-                      ),
-                      borderRadius: BorderRadius.circular(18),
+//              Center(
+//                child: Container(
+//                  height: 40,
+//                  width: 340,
+//                  color: Colors.transparent,
+//                  child: Container(
+//                    decoration: BoxDecoration(
+//                      border: Border.all(
+//                        color: Colors.black,
+//                        style: BorderStyle.solid,
+//                      ),
+//                      borderRadius: BorderRadius.circular(18),
+//                    ),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.center,
+//                      children: <Widget>[
+//                        Center(
+//                          child: ImageIcon(AssetImage('assets/google.png')),
+//                        ),
+//                        SizedBox(
+//                          width: 10,
+//                        ),
+//                        InkWell(
+//                            onTap: () {
+//                              signInWithGoogle().whenComplete(() {
+//                                Navigator.of(context).push(
+//                                  MaterialPageRoute(
+//                                    builder: (context) {
+//                                      return Home();
+//                                    },
+//                                  ),
+//                                );
+//                              });
+//                            },
+//                            child: Text(
+//                              "Login with Google",
+//                              style: TextStyle(
+//                                fontWeight: FontWeight.bold,
+//                                fontFamily: "Monster",
+//
+//                              ),
+//
+//                            )
+//                        )
+//                      ],
+//
+//                    ),
+//
+//                  ),
+//                ),
+//              ),
+              Container(
+                height: 50,
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+
+                    Center(
+                      child: _googleButton(),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          child: ImageIcon(AssetImage('assets/google.png')),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
-                            onTap: () {
-                              signInWithGoogle().whenComplete(() {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Home();
-                                    },
-                                  ),
-                                );
-                              });
-                            },
-                            child: Text(
-                              "Login with Google",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Monster",
 
-                              ),
 
-                            )
-                        )
-                      ],
+                  ],
 
-                    ),
-
-                  ),
                 ),
+
+
               ),
               SizedBox(
                 height: 15,
@@ -390,22 +408,42 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
-//    Future<FirebaseUser> getUser() async {
-//      return await _auth.currentUser();
-//    }
-//    @override
-//    void initState() {
-//      super.initState();
-//      getUser().then((user) {
-//        if (user != null) {
-//          // send the user to the home page
-//          // homePage();
-//        }
-//      });
-//    }
-
 
   }
+
+
+  Widget _googleButton(){
+
+    return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed:  () => signInWithGoogle(),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.black),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google.png"), height: 35.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+  }
+
 
 }
 

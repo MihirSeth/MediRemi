@@ -53,7 +53,6 @@ class _AddDoctorsState extends State<AddDoctors> {
                                     color: Colors.black,
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
                                   )
                               ),
                             ),
