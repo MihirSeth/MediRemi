@@ -15,7 +15,7 @@ class _SuccessScreenWrapperState extends State<SuccessScreenWrapper> {
     Timer(
       Duration(milliseconds: 2200),
           () {
-        Navigator.pop(context, MaterialPageRoute(builder: (context) =>
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
             Home()));
       },
     );

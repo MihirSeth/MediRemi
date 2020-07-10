@@ -98,14 +98,15 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Center(
-            child: Text(
-              "Home Screen",
-              style: TextStyle(
-                  fontFamily: 'Monster'
+          title:
+            Center(
+              child: Text(
+                "Home Page",
+                style: TextStyle(
+                    fontFamily: 'Monster'
+                ),
               ),
             ),
-          ),
           backgroundColor: Colors.teal,
         ),
 

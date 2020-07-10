@@ -212,14 +212,12 @@ buildListItemDoctors(BuildContext context, DocumentSnapshot document) {
                 ]
             ),
           ),
-
         ),
         SizedBox(
           height: 40,
         ),
       ]
   );
-
 }
 
 

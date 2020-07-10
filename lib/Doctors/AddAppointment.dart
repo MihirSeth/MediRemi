@@ -104,7 +104,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding:  EdgeInsets.only(top: 20),
+                                    padding:  EdgeInsets.only(top: 10),
                                     child: CircleAvatar(
                                       child:
                                         Icon(
@@ -833,7 +833,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                             children: <Widget>[
                                               Text('21', style: TextStyle(color: Colors.black),
                                               ),
-
                                             ],
                                           ),
                                           value: 21
@@ -843,7 +842,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                             children: <Widget>[
                                               Text('22', style: TextStyle(color: Colors.black),
                                               ),
-
                                             ],
                                           ),
                                           value: 22
@@ -853,7 +851,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                             children: <Widget>[
                                               Text('23', style: TextStyle(color: Colors.black),
                                               ),
-
                                             ],
                                           ),
                                           value: 23
@@ -863,7 +860,6 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                                             children: <Widget>[
                                               Text('24', style: TextStyle(color: Colors.black),
                                               ),
-
                                             ],
                                           ),
                                           value: 24
@@ -2096,8 +2092,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
           1,
-        'Appointment Reminder with $_doctorsName',
-        'Today is your Appointment with $_doctorsName at $_timeHours:$_timeMinutes. ',
+        'Appointment Reminder for $_doctorsName',
+        'Today is your Appointment with $_doctorsName for $_appointmentReason ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
 
@@ -2133,7 +2129,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
         2,
-        'Appointment Reminder with $_doctorsName',
+        'Appointment Reminder for $_doctorsName',
         'Your Appointment with $_doctorsName is in 2 hours and the location is $_doctorAddress. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);

@@ -189,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.of(context).pushNamed("/passwordreset");
                           },
                           child: Text(
-                            "Forgot Password",
+                            "Forgot Password?",
                             style: TextStyle(
                               color: Colors.teal,
                               fontWeight: FontWeight.bold,
@@ -204,23 +204,26 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 40,
                       ),
 
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.teal)),
-                        color: Colors.teal,
+                      Container(
+                        height: 40,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.teal)),
+                          color: Colors.teal,
 
-                        onPressed: () {
-                          signIn(context);
+                          onPressed: () {
+                            signIn(context);
 
-                        },
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Monster",
+                          },
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monster",
+                              ),
                             ),
                           ),
                         ),
@@ -230,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
               SizedBox(
-                height: 10,
+                height: 20,
               ),
 //              Center(
 //                child: Container(

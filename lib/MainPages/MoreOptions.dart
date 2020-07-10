@@ -80,7 +80,7 @@ class _MedicineState extends State<MoreOptions> {
       content: Text(platformResponse),
     ));
   }
-  String msg = 'Download my Medicine Reminders App';
+  String msg = 'Download my Medicine Reminders App through https://drive.google.com/file/d/1IGeEAbc4UlmIIO0cJT5RJ310RMlHuSPi/view?usp=sharing';
 
 
   @override
@@ -91,9 +91,7 @@ class _MedicineState extends State<MoreOptions> {
     return Scaffold(
 //      backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  Padding(
-          padding: EdgeInsets.only(left: 75, right: 105 ),
-          child: Center(
+        title:  Center(
             child: Text(
                   "More Options",
                   style: TextStyle(
@@ -101,7 +99,6 @@ class _MedicineState extends State<MoreOptions> {
                   ),
                 ),
           ),
-        ),
         backgroundColor: Colors.teal,
       ),
 
@@ -230,7 +227,7 @@ class _MedicineState extends State<MoreOptions> {
                                           },
                                         ),
                                       );
-                                      },
+                                         },
                                     child: Text('Delete your Account'),
                                   ),
                                   FlatButton(
@@ -249,19 +246,19 @@ class _MedicineState extends State<MoreOptions> {
                               );
                             },
                           ),
-                          ListTile(
-                            leading: Icon(Icons.directions_walk),
-                            title: Text('Steps'),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Steps();
-                                  },
-                                ),
-                              );
-                        }
-                        )
+//                          ListTile(
+//                            leading: Icon(Icons.directions_walk),
+//                            title: Text('Steps'),
+//                            onTap: () {
+//                              Navigator.of(context).push(
+//                                MaterialPageRoute(
+//                                  builder: (context) {
+//                                    return Steps();
+//                                  },
+//                                ),
+//                              );
+//                        }
+//                        )
                         ]
                     ),
                   ),

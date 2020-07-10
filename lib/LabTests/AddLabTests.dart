@@ -2083,7 +2083,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     await flutterLocalNotificationsPlugin.schedule(
         3,
         'Reminder for Lab Test',
-        'Today is your Lab Test for $_labtestName at $_timeHours:$_timeMinutes. ',
+        'Today is your Lab Test for $_labtestName for $_reasonLabTest. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
   }

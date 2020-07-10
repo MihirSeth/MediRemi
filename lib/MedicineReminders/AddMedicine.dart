@@ -486,7 +486,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 0
+                                            value: 01
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -496,7 +496,7 @@ class _AddMedicineState extends State<AddMedicine> {
 
                                               ],
                                             ),
-                                            value: 0
+                                            value: 02
 
                                         ),
                                         DropdownMenuItem<int>(
@@ -1656,7 +1656,6 @@ class _AddMedicineState extends State<AddMedicine> {
         'repeatDailyAtTime channel id',
         'repeatDailyAtTime channel name',
         'repeatDailyAtTime description',
-
         importance : Importance.Max,
         sound: RawResourceAndroidNotificationSound('notification'),
         ledColor: Color(0xFF3EB16F),

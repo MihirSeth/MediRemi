@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:healthreminders/AddedSuccessScreens/success_screen_wrapper.dart';
+import 'package:healthreminders/AddedSuccessScreens/loading_screen_wrapper.dart';
+//import 'package:healthreminders/AddedSuccessScreens/loading_screen_wrapper.dart';
 import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/StartupPages/WelcomePage.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class Wrapper extends StatelessWidget {
     if (user == null){
       return LoginPage();
     } else {
-      return Home();
+      return SuccessScreenWrapper();
     }
 
   }

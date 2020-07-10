@@ -34,30 +34,30 @@ class _MedicineState extends State<Medicine> {
       print(e); //
     }
   }
-
-  String medicineName;
-  String medicineType;
-  String medicineDosage;
-  int medicineInterval;
-  String medicineStartTime;
-
-  void getInfoMedicine () async{
-    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
-    medicineDetails.getDocuments().then((data) {
-      if (data.documents.length > 0) {
-        setState(() {
-          medicineName = data.documents[0].data['Name'];
-          medicineType = data.documents[0].data['Type'];
-          medicineDosage = data.documents[0].data['Dosage'];
-          medicineInterval = data.documents[0].data['Interval'];
-          medicineStartTime = data.documents[0].data['Starting Time'];
-
-
-        }
-        );
-      }
-    });
-  }
+//
+//  String medicineName;
+//  String medicineType;
+//  String medicineDosage;
+//  int medicineInterval;
+//  String medicineStartTime;
+//
+//  void getInfoMedicine () async{
+//    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+//    medicineDetails.getDocuments().then((data) {
+//      if (data.documents.length > 0) {
+//        setState(() {
+//          medicineName = data.documents[0].data['Name'];
+//          medicineType = data.documents[0].data['Type'];
+//          medicineDosage = data.documents[0].data['Dosage'];
+//          medicineInterval = data.documents[0].data['Interval'];
+//          medicineStartTime = data.documents[0].data['Starting Time'];
+//
+//
+//        }
+//        );
+//      }
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +67,13 @@ class _MedicineState extends State<Medicine> {
     return Scaffold(
         appBar: AppBar(
           title: Center(
-            child: Text(
-              "Your Medicines",
-              style: TextStyle(
-                  fontFamily: 'Roboto'
+              child: Text(
+                "Your Medicines",
+                style: TextStyle(
+                    fontFamily: 'Roboto'
+                ),
               ),
             ),
-          ),
           backgroundColor: Colors.teal,
            actions: <Widget>[
              Padding(

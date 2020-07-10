@@ -323,8 +323,6 @@ class _SignupPageState extends State<SignupPage> {
         }
         );
       } catch (e) {
-        setState(() {
-          loading = false;
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -363,8 +361,6 @@ class _SignupPageState extends State<SignupPage> {
                 );
               }
           );
-        }
-        );
       }
     }
     Widget _googleButton(){
@@ -389,7 +385,7 @@ class _SignupPageState extends State<SignupPage> {
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
                 ),
-                content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal wayKindly also put in your name and phone number before doing either.'),
+                content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal way. Kindly also put in your name and phone number before doing either.'),
                 contentTextStyle: TextStyle(
                   fontFamily: 'Monster',
                   color: Colors.black,

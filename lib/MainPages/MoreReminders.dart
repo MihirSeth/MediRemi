@@ -33,51 +33,17 @@ class _MedicineState extends State<MoreReminders> {
     final user = Provider.of<User>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title:  Center(
-          child: Text(
+        appBar: AppBar(
+          title:   Center(
+              child: Text(
                 "More Reminders",
                 style: TextStyle(
                     fontFamily: 'Monster'
                 ),
               ),
+            ),
+          backgroundColor: Colors.teal,
         ),
-
-        backgroundColor: Colors.teal,
-//        actions: <Widget>[
-//          Padding(
-//            padding:  EdgeInsets.only(right: 15.0),
-//            child: Row(
-//              children: <Widget>[
-//                FlatButton(
-//                  onPressed: () async {
-//                      Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-//                          AddDoctors()));
-//                  },
-//                  child: Text(
-//                    'Add Doctors',
-//                    style: TextStyle(
-//                        color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//                FlatButton(
-//                  onPressed: () async {
-//                    Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-//                        AddAppoinments()));
-//                  },
-//                  child: Text(
-//                    'Add Medicines',
-//                    style: TextStyle(
-//                        color: Colors.white
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//        ],
-      ),
         body:
         ListView(
           children: [
