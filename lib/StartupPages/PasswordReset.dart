@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/LoginPage.dart';
 
 String _emailID;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -53,9 +53,9 @@ class PasswordReset extends StatelessWidget {
                             ),
                             Container(
                               alignment: Alignment(-1.1, -0.2),
-                              padding: EdgeInsets.fromLTRB(80, 320, 0, 0),
+                              padding: EdgeInsets.fromLTRB(80, 320, 10, 0),
                               child: Text(
-                                "Please input your Email ID ",
+                                "Please input your Email ID",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -105,9 +105,10 @@ class PasswordReset extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.grey,
                                                   ),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.teal),),
+                                                  border: OutlineInputBorder(),
+//                                                  focusedBorder: UnderlineInputBorder(
+//                                                    borderSide: BorderSide(
+//                                                        color: Colors.teal),),
                                                 )
                                             ),
                                             SizedBox(
@@ -131,12 +132,13 @@ class PasswordReset extends StatelessWidget {
                                                         builder: (BuildContext context) {
                                                           // return object of type Dialog
                                                           return AlertDialog(
-                                                            content: Text('Email sent'),
+                                                            content: Text('Email sent, follow the instructions on the mail to rest your password.'),
                                                             actions: <Widget> [
                                                               FlatButton(
                                                                 onPressed: () {
                                                                   Navigator.pop(
-                                                                      context, MaterialPageRoute(builder: (context) => MyHomePage()));                                                            },
+                                                                      context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                                                                  },
                                                                 child: Text('Okay'),
                                                               )
                                                             ],
@@ -169,7 +171,8 @@ class PasswordReset extends StatelessWidget {
                                                             FlatButton(
                                                               onPressed: () {
                                                                 Navigator.push(
-                                                                    context, MaterialPageRoute(builder: (context) => PasswordReset()));                                                          },
+                                                                    context, MaterialPageRoute(builder: (context) => PasswordReset()));
+                                                                },
                                                               child: Text('Try Again'),
                                                             )
                                                           ],
@@ -200,7 +203,8 @@ class PasswordReset extends StatelessWidget {
                                               color: Colors.white,
                                               onPressed: () {
                                                 Navigator.pop(
-                                                    context, MaterialPageRoute(builder: (context) => MyHomePage()));                                          },
+                                                    context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                                                },
                                               child: Center(
                                                 child: Text(
                                                   "Go back",
@@ -228,6 +232,5 @@ class PasswordReset extends StatelessWidget {
                     ],
         )
               );
-
   }
 }

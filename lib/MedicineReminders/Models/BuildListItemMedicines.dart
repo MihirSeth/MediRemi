@@ -260,7 +260,38 @@ buildListItemMedicine(BuildContext context, DocumentSnapshot document) {
 //                                  width: 15,
 //                                ),
                                   Text(
-                                    'Duration ',
+                                    'Starting Date:',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+
+                                    ),
+                                  ),
+                                  Text(
+                                    " ",
+                                  ),
+                                  Text(
+                                    document['Starting Date'],
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 50, top: 10),
+                              child: Row(
+                                children: <Widget>[
+//                                Icon(Icons.alarm, color: Colors.black,size: 20.0),
+//                                SizedBox(
+//                                  width: 15,
+//                                ),
+                                  Text(
+                                    'Duration:',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,

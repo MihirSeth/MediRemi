@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/AddedSuccessScreens/sucess_screen_labtests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -97,7 +96,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                   color: Colors.black,
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
                                 )
                             ),
                           ),
@@ -136,7 +134,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                                       onSaved: (input) => _labtestName = input,
                                       decoration: InputDecoration(
 
-                                        hintText: "Name",
+                                        hintText: "Lab Test Name",
                                         hintStyle: TextStyle(
                                           fontFamily: "Monster",
                                           color: Colors.grey,
@@ -159,9 +157,9 @@ class _AddLabTestsState extends State<AddLabTests> {
                   height: 30,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(right: 90),
+                  padding: EdgeInsets.only(right: 280),
                   child: Text(
-                      "The Address of the Lab Test",
+                      "Address",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -209,7 +207,6 @@ class _AddLabTestsState extends State<AddLabTests> {
                                 } return null;
                               },
                               onSaved: (input) => _labtestAddress = input,
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: "Address",
                                 hintStyle: TextStyle(
@@ -1240,7 +1237,7 @@ class _AddLabTestsState extends State<AddLabTests> {
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 5,
                 ),
                 Container(
                   padding: EdgeInsets.only(top:0, left: 25, right: 25),
@@ -1968,7 +1965,7 @@ class _AddLabTestsState extends State<AddLabTests> {
 
                               String _uid = await getCurrentUser();
 
-                              await DatabaseService().labtestData(
+                              await DatabaseService().labTestData(
                                   _labtestName,
                                   _labtestAddress,
                                   _timeHours,

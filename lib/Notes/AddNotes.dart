@@ -111,7 +111,7 @@ class _AddNotesState extends State<AddNotes> {
             child: Column(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 150, left: 25, right: 25),
+                  padding: EdgeInsets.only(top: 130, left: 25, right: 25),
 
                   child: Column(
                     children: <Widget>[
@@ -123,12 +123,9 @@ class _AddNotesState extends State<AddNotes> {
                               color: Colors.black,
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
-
-                            )
+                          )
                         ),
                       ),
-
-
                    Padding(
                      padding: EdgeInsets.only(top: 50),
                      child: TextFormField(
@@ -145,8 +142,9 @@ class _AddNotesState extends State<AddNotes> {
                               fontWeight: FontWeight.bold,
                               color: Colors.grey,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),),
+                            border: OutlineInputBorder(),
+//                            focusedBorder: UnderlineInputBorder(
+//                              borderSide: BorderSide(color: Colors.teal),),
                           )
                       ),
                    ),

@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 buildListItem(BuildContext context, DocumentSnapshot document) {
   return ListTile(
       title: Container(
-        padding: EdgeInsets.fromLTRB(0, 25, 0, 45),
+        padding: EdgeInsets.fromLTRB(0, 15, 0, 45),
         child: Column(
             children: <Widget>[
               Row(

@@ -45,7 +45,7 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
                             ],
                           ),
                      Padding(
-                       padding: EdgeInsets.only(right: 260.0, top:10),
+                       padding: EdgeInsets.only(top:10),
                        child: Text(
                          document['Notes'],
                          style: TextStyle(
@@ -106,7 +106,7 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
                                     .document(document.documentID)
                                     .delete();
                               }
-                          ),
+                        ),
                         ),
                       ]
                   )
@@ -119,7 +119,6 @@ buildListItemNotes(BuildContext context, DocumentSnapshot document) {
         ),
       ]
   );
-
 }
 
 

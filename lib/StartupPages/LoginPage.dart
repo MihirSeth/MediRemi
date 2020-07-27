@@ -146,8 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey,
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.teal),),
+                                  border: OutlineInputBorder(),
+//                                  focusedBorder: UnderlineInputBorder(
+//                                    borderSide: BorderSide(color: Colors.teal),),
                                 )
                             ),
 
@@ -170,8 +171,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.teal),),
+                                border: OutlineInputBorder(),
+
+
+//                                focusedBorder: UnderlineInputBorder(
+//                                  borderSide: BorderSide(color: Colors.teal),),
                               ),
                               obscureText: true,
                             ),
@@ -419,7 +423,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed:  () => signInWithGoogle(),
+      onPressed:  () =>  signInWithGoogle().whenComplete(() {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return Home();
+            },
+          ),
+        );
+      }),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.black),

@@ -13,7 +13,7 @@ class _SuccessScreenWrapperState extends State<SuccessScreenWrapper> {
   void initState() {
     super.initState();
     Timer(
-      Duration(milliseconds: 2200),
+      Duration(milliseconds: 1500),
           () {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
             Home()));

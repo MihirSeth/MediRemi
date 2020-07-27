@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/Services/Database.dart';
+import 'package:healthreminders/Services/DatabaseSignUp.dart';
 import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/Services/SignUpGoogle.dart';
 import 'package:healthreminders/Services/GoogleDatabase.dart';
@@ -24,6 +24,13 @@ class _SignupPageState extends State<SignupPage> {
   String _password;
   String _name;
   String _phoneNumber;
+  String _weight;
+  String _height;
+  String _age;
+  String _bloodGroup;
+  String _gender;
+
+
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -80,7 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.only(top: 35, left: 35, right: 35),
+                      padding: EdgeInsets.only(top: 15, left: 35, right: 35),
                       child: Column(
                           children: <Widget>[
                             TextFormField(
@@ -97,8 +104,10 @@ class _SignupPageState extends State<SignupPage> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey,
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.teal),),
+                                  border: OutlineInputBorder(),
+
+//                                  focusedBorder: UnderlineInputBorder(
+//                                    borderSide: BorderSide(color: Colors.teal),),
                                 )
                             ),
 
@@ -118,14 +127,15 @@ class _SignupPageState extends State<SignupPage> {
                                       },
                                       onSaved: (input) => _phoneNumber = input,
                                       decoration: InputDecoration(
-                                        hintText: "Phone Number (Kindly add 91)",
+                                        hintText: "Phone Number",
                                         hintStyle: TextStyle(
                                           fontFamily: "Monster",
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey,
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.teal),),
+                                        border: OutlineInputBorder(),
+//                                        focusedBorder: UnderlineInputBorder(
+//                                          borderSide: BorderSide(color: Colors.teal),),
                                       )
                                   ),
 
@@ -145,8 +155,9 @@ class _SignupPageState extends State<SignupPage> {
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey,
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.green),),
+                                        border: OutlineInputBorder(),
+//                                        focusedBorder: UnderlineInputBorder(
+//                                          borderSide: BorderSide(color: Colors.green),),
                                       )
                                   ),
 
@@ -168,11 +179,128 @@ class _SignupPageState extends State<SignupPage> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey,
                                       ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.green),),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
                                     ),
                                     obscureText: true,
                                   ),
+
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+
+                                  TextFormField(
+                                    validator: (input) {
+                                      if (input.isEmpty){
+                                        return 'Please type your weight';
+                                      } return null;
+                                    },
+                                    onSaved: (input) => _weight = input,
+                                    decoration: InputDecoration(
+                                      hintText: "Weight",
+                                      hintStyle: TextStyle(
+                                        fontFamily: "Monster",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+
+                                  TextFormField(
+                                    validator: (input) {
+                                      if (input.isEmpty){
+                                        return 'Please type your height';
+                                      } return null;
+                                    },
+                                    onSaved: (input) => _height = input,
+                                    decoration: InputDecoration(
+                                      hintText: "Height",
+                                      hintStyle: TextStyle(
+                                        fontFamily: "Monster",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  TextFormField(
+                                    validator: (input) {
+                                      if (input.isEmpty){
+                                        return 'Please type your age';
+                                      } return null;
+                                    },
+                                    onSaved: (input) => _age = input,
+                                    decoration: InputDecoration(
+                                      hintText: "Age",
+                                      hintStyle: TextStyle(
+                                        fontFamily: "Monster",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+
+                                  TextFormField(
+                                    validator: (input) {
+                                      if (input.isEmpty){
+                                        return 'Please type your blood group ';
+                                      } return null;
+                                    },
+                                    onSaved: (input) => _bloodGroup = input,
+                                    decoration: InputDecoration(
+                                      hintText: "Blood Group",
+                                      hintStyle: TextStyle(
+                                        fontFamily: "Monster",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+
+                                  TextFormField(
+                                    validator: (input) {
+                                      if (input.isEmpty){
+                                        return 'Please type your Gender ';
+                                      } return null;
+                                    },
+                                    onSaved: (input) => _gender = input,
+                                    decoration: InputDecoration(
+                                      hintText: "Gender",
+                                      hintStyle: TextStyle(
+                                        fontFamily: "Monster",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(),
+//                                      focusedBorder: UnderlineInputBorder(
+//                                        borderSide: BorderSide(color: Colors.green),),
+                                    ),
+                                  ),
+
                                 ],
 
                               ),
@@ -255,7 +383,10 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ]
                       )
                   )
@@ -274,14 +405,12 @@ class _SignupPageState extends State<SignupPage> {
         AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailID, password: _password);
         FirebaseUser user = result.user;
 
-        String _uid = await getCurrentUser();
-
-
-        await DatabaseService(uid: user.uid).updateUserData(_name,_emailID,_uid, _phoneNumber);
 
         setState(() => loading = true);
+        String _uid = user.uid;
+        await DatabaseService(uid: user.uid).updateUserData(_name,_emailID,_uid, _phoneNumber,_weight,_height, _age,_bloodGroup, _gender);
         print("Successfully Registered!");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
         setState(() {
           loading = false;
           showDialog(
@@ -302,14 +431,14 @@ class _SignupPageState extends State<SignupPage> {
                     decoration: TextDecoration.underline,
                   ),
                   content: Text(
-                      'Congratulations...you have signed up to make sure that you never miss anything to do with health. We would also ask to keep your notification sound on always for a better experience'),
+                      'Congratulations...you have signed up to make sure that you never miss anything to do with your health. We would also request you to keep the app always running to receive notifications. '),
                   contentTextStyle: TextStyle(
                     fontFamily: 'Monster',
                     color: Colors.black,
                   ),
                   actions: [
                     FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (context) =>
                             Home()));
@@ -385,7 +514,7 @@ class _SignupPageState extends State<SignupPage> {
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
                 ),
-                content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you can Login through any method. We recommend using the normal way. Kindly also put in your name and phone number before doing either.'),
+                content: Text('If you use Google to Signup then Google must always be used to Login, but if you Sign Up in the normal way then you cannot use Google to sign in. We recommend using the normal way. Kindly also put in your name and phone number before doing either.'),
                 contentTextStyle: TextStyle(
                   fontFamily: 'Monster',
                   color: Colors.black,
@@ -400,7 +529,7 @@ class _SignupPageState extends State<SignupPage> {
                   FlatButton(
                     onPressed: () async {
                       String _uid = await getCurrentUser();
-                      await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
+                      await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID, _uid, _weight,_height,_age,_bloodGroup);
                       signInWithGoogle().whenComplete(() {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -417,20 +546,20 @@ class _SignupPageState extends State<SignupPage> {
               );
             }
         );
-
-        String _uid = await getCurrentUser();
-        await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
-
-        signInWithGoogle().whenComplete(() {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return Home();
-              },
-            ),
-          );
-        }
-        );
+//
+//        String _uid = await getCurrentUser();
+//        await DatabaseServiceGoogle(uid: user.uid).googleUserData(_name,_emailID,_uid);
+//
+//        signInWithGoogle().whenComplete(() {
+//          Navigator.of(context).push(
+//            MaterialPageRoute(
+//              builder: (context) {
+//                return Home();
+//              },
+//            ),
+//          );
+//        }
+//        );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
@@ -445,7 +574,7 @@ class _SignupPageState extends State<SignupPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Sign in with Google',
+                'Sign up with Google',
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.black,
@@ -463,7 +592,6 @@ class _SignupPageState extends State<SignupPage> {
 
 Future getCurrentUser() async {
   final FirebaseUser user = await _auth.currentUser();
-  final _uid = user.uid;
-  print(_uid);
+  final _uid = user;
   return _uid.toString();
 }

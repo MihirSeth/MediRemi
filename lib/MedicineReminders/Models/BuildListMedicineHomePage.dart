@@ -54,7 +54,7 @@ buildListItemMedicineHomePage(BuildContext context, DocumentSnapshot document) {
                           style: TextStyle(
                               color: Colors.teal,
                               fontFamily: 'Roboto',
-                              fontSize: 25,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold
                           ),
                         ),

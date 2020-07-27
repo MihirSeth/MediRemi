@@ -19,7 +19,10 @@ import 'StartupPages/PasswordReset.dart';
 import 'StartupPages/SignUp.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() => runApp(HealthRemindersApp());
+void main() async {
+
+  runApp(HealthRemindersApp());
+}
 
 class HealthRemindersApp extends StatefulWidget {
 
@@ -86,7 +89,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
           '/notes': (context) => Notes(),
           '/labtest': (context) => LabTests(),
         },
-        title: 'Flutter Demo',
+        title: 'MediRemi',
         theme: ThemeData(
           primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,

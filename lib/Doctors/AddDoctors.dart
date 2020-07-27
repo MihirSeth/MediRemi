@@ -90,7 +90,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                                         onSaved: (input) => _doctorname = input,
                                         decoration: InputDecoration(
 
-                                          hintText: " Doctor's Name",
+                                          hintText: "Doctor's Name",
                                           hintStyle: TextStyle(
                                             fontFamily: "Monster",
                                             color: Colors.grey,
@@ -114,9 +114,9 @@ class _AddDoctorsState extends State<AddDoctors> {
             ),
 
             Padding(
-              padding: EdgeInsets.only(right: 170),
+              padding: EdgeInsets.only(right: 250),
               child: Text(
-                    "Speciality of Doctor",
+                    "Speciality ",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
@@ -183,9 +183,9 @@ class _AddDoctorsState extends State<AddDoctors> {
             ),
 
             Padding(
-                  padding: EdgeInsets.only(right: 120),
+                  padding: EdgeInsets.only(right: 200),
                   child: Text(
-                      "Phone Number of Doctor",
+                      "Contact Number",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -227,15 +227,13 @@ class _AddDoctorsState extends State<AddDoctors> {
                           flex: 7,
                           child: TextFormField(
                               validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Please type the Phone Number';
-                                } return null;
+                                return null;
                               },
                               onSaved: (input) => _number = input,
                               keyboardType: TextInputType.number,
-                              maxLength: 11,
+                              maxLength: 10,
                               decoration: InputDecoration(
-                                hintText: "Phone Number",
+                                hintText: "Contact Number",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
                                   color: Colors.grey,
@@ -254,9 +252,9 @@ class _AddDoctorsState extends State<AddDoctors> {
             ),
 
             Padding(
-                  padding: EdgeInsets.only(right: 225),
+                  padding: EdgeInsets.only(right: 300),
                   child: Text(
-                      "Mail of Doctor",
+                      "Mail",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -299,9 +297,7 @@ class _AddDoctorsState extends State<AddDoctors> {
                           flex: 7,
                           child: TextFormField(
                               validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Please type the Email ID of the Doctor';
-                                } return null;
+                                return null;
                               },
                               onSaved: (input) => _emailID = input,
                               decoration: InputDecoration(
@@ -324,9 +320,9 @@ class _AddDoctorsState extends State<AddDoctors> {
             ),
 
             Padding(
-              padding: EdgeInsets.only(right: 110),
+              padding: EdgeInsets.only(right: 260),
               child: Text(
-                    "The Address of the Doctor",
+                    "Address",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,

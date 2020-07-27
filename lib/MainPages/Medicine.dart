@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthreminders/MainPages/ProfilePage.dart';
 import 'package:healthreminders/MedicineReminders/AddMedicine.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListItemMedicines.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/BuildListItemGoogle.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/LoginPage.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -66,14 +67,14 @@ class _MedicineState extends State<Medicine> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Center(
-              child: Text(
+          title:  Text(
                 "Your Medicines",
                 style: TextStyle(
                     fontFamily: 'Roboto'
                 ),
               ),
-            ),
+          centerTitle: true,
+
           backgroundColor: Colors.teal,
            actions: <Widget>[
              Padding(
@@ -138,7 +139,7 @@ class _MedicineState extends State<Medicine> {
                            else errorMedicine(context);
                               return Expanded(
                                 child: SizedBox(
-                                  height: 700,
+                                  height: 800,
                                     child: ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: snapshot.data.documents.length,
@@ -193,12 +194,23 @@ class _MedicineState extends State<Medicine> {
                     child: Column(
                         children: <Widget>[
                           ListTile(
-                              leading: Icon(Icons.settings),
-                              title: Text('Settings')
+                            leading: Icon(Icons.person),
+                            title: Text('Profile'),
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfilePage();
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
-                              leading: Icon(Icons.email),
-                              title: Text('Email')
+                            leading: Icon(Icons.email),
+                            title: Text('Email'),
+                            onTap: () async {
+                            },
                           ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),

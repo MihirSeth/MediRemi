@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Models/BuildListAppointmentsHomePage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/MainPages/ProfilePage.dart';
 import 'package:healthreminders/MedicineReminders/Models/BuildListMedicineHomePage.dart';
+import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/LoginPage.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final databaseReference = Firestore.instance;
 final uid =  _auth.currentUser();
-
 
 
 class HomePage extends StatefulWidget {
@@ -28,40 +27,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  get data => StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('Medicines')
-          .where('uid', isEqualTo: uid)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Padding(
-              padding: EdgeInsets.only(
-                  top: 250, left: 75),
-              child: Text(
-                  'Fetching your Medicines...',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                  )
-              )
-          );
-        else
-          errorMedicine(context);
-        return Expanded(
-          child: SizedBox(
-            height: 700,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) =>
-                  buildListItemMedicineHomePage(
-                      context,
-                      snapshot.data.documents[index]),
-
-            ),
-          ),
-        );}
-  );
   int selectedDay;
 
   Future<void> _signOut() async {
@@ -72,16 +37,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Stream getData(BuildContext context) {
-    final user = Provider.of<User>(context);
-    Stream stream1 = Firestore.instance.collection('Medicines').where(
-        'uid', isEqualTo: user.uid).snapshots();
-    Stream stream2 = Firestore.instance.collection('Appointments').where(
-        'uid', isEqualTo: user.uid).snapshots();
-    Stream stream3 = Firestore.instance.collection('LabTests').where(
-        'uid', isEqualTo: user.uid).snapshots();
-    return Observable.merge(([stream1, stream2, stream3]));
-  }
 
   Widget pageItems = Text('');
   DateTime selectedDate = DateTime.now();
@@ -99,14 +54,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title:
-            Center(
-              child: Text(
+             Text(
                 "Home Page",
                 style: TextStyle(
                     fontFamily: 'Monster'
                 ),
               ),
-            ),
+          centerTitle: true,
+
           backgroundColor: Colors.teal,
         ),
 
@@ -275,12 +230,26 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                         children: <Widget>[
                           ListTile(
-                              leading: Icon(Icons.settings),
-                              title: Text('Settings')
+                              leading: Icon(Icons.person),
+                              title: Text('Profile'),
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfilePage();
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
                               leading: Icon(Icons.email),
-                              title: Text('Email')
+                              title: Text('Email'),
+                            onTap: () async {
+                              var pendingNotificationRequests =
+                                  await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+                              print ('Notification requests:' + pendingNotificationRequests.toString());
+                            },
                           ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
@@ -337,65 +306,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//  Widget widgetBuilder(DateTime selectedDate) {
-//    String dateString = DateFormat(widgetKeyFormat).format(selectedDate);
-//    if (data.containsKey(dateString)) {
-//      List items = data[dateString];
-//      return ListView(
-//        children: [
-//          Column(
-//            children: <Widget>[
-//              Row(
-//                children: <Widget>[
-//                  StreamBuilder<QuerySnapshot>(
-//                      stream: Firestore.instance.collection('Appointments')
-//                          .where('uid', isEqualTo: uid)
-//                          .where('Date of Appointment', isEqualTo: dateString)
-//                          .where('Month of Appointment', isEqualTo: dateString)
-//                          .where('Year of Appointment', isEqualTo: dateString)
-//
-//                          .snapshots(),
-//                      builder: (context, snapshot) {
-//                        if (!snapshot.hasData)
-//                          return Padding(
-//                              padding: EdgeInsets.only(
-//                                  top: 250, left: 75),
-//                              child: Text(
-//                                  'Fetching your Reminders...',
-//                                  style: TextStyle(
-//                                    color: Colors.black,
-//                                    fontSize: 20.0,
-//                                  )
-//                              )
-//                          );
-//                        else
-//                          errorMedicine(context);
-//                        return Expanded(
-//                          child: SizedBox(
-//                            height: 700,
-//                            child: ListView.builder(
-//                              shrinkWrap: true,
-//                              itemCount: snapshot.data.documents.length,
-//                              itemBuilder: (context, index) =>
-//                                  buildListItemAppointmentsHomePage(
-//                                      context,
-//                                      snapshot.data.documents[index]),
-//
-//                            ),
-//                          ),
-//                        );
-//                      }
-//                  ),
-//                ],
-//
-//              )
-//            ],
-//
-//
-//          ),
-//        ],
-//      );
-//    }
-//  }
+  googleName() {
+    StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection("Users Google")
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Text('Loading...');
+          else googleName();
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) =>
+                buildListItemGoogle(
+                    context, snapshot.data.documents[index]),
 
+          );
+        }
+    );
+  }
   }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Models/BuildListDoctorsHomePage.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
-import 'package:healthreminders/MainPages/Medicine.dart';
+import 'package:healthreminders/MainPages/ProfilePage.dart';
+import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/Models/User.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/LoginPage.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
@@ -27,6 +28,7 @@ class _MedicineState extends State<MoreReminders> {
       print(e); //
     }
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -34,14 +36,14 @@ class _MedicineState extends State<MoreReminders> {
 
     return Scaffold(
         appBar: AppBar(
-          title:   Center(
-              child: Text(
-                "More Reminders",
+          title:
+            Text(
+              "More Reminders",
                 style: TextStyle(
                     fontFamily: 'Monster'
                 ),
               ),
-            ),
+          centerTitle: true,
           backgroundColor: Colors.teal,
         ),
         body:
@@ -53,7 +55,7 @@ class _MedicineState extends State<MoreReminders> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 15, right: 15, top: 20),
                   child: Text(
-                    "More Reminders:",
+                    "More Information:",
                     style: TextStyle(
                       fontSize: 25,
                       fontFamily: 'Roboto',
@@ -171,12 +173,23 @@ class _MedicineState extends State<MoreReminders> {
                     child: Column(
                         children: <Widget>[
                           ListTile(
-                              leading: Icon(Icons.settings),
-                              title: Text('Settings')
+                            leading: Icon(Icons.person),
+                            title: Text('Profile'),
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfilePage();
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
-                              leading: Icon(Icons.email),
-                              title: Text('Email')
+                            leading: Icon(Icons.email),
+                            title: Text('Email'),
+                            onTap: () async {
+                            },
                           ),
                           ListTile(
                             leading: Icon(Icons.exit_to_app),
@@ -200,10 +213,26 @@ class _MedicineState extends State<MoreReminders> {
               ],
             )
         )
-
     );
   }
+  googleName() {
+    StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection("Users Google")
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Text('Loading...');
+          else googleName();
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) =>
+                buildListItemGoogle(
+                    context, snapshot.data.documents[index]),
 
+          );
+        }
+    );
+  }
 }
 
 void errorNames() {
@@ -231,4 +260,5 @@ void errorNames() {
         )
       ]
   );
+
 }

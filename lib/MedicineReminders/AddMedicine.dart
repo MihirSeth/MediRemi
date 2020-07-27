@@ -1,8 +1,5 @@
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:healthreminders/MainPages/Medicine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/AddedSuccessScreens/success_screen_medicines.dart';
 import 'DatabaseMedicine.dart';
@@ -27,35 +24,37 @@ class _AddMedicineState extends State<AddMedicine> {
   int _interval;
   int _startingTimeHours;
   int _startingTimeMinutes;
-  String _startingTimeType;
+//  String _startingTimeType;
   String _durationTime;
   String _durationType;
+  String _startingDate;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = 'Tablet';
   final myController = TextEditingController();
    final _timeDatabase = DateTime.now();
-   String medicineName;
-   String medicineType;
-   String medicineDosage;
-   int medicineInterval;
-   String medicineStartTimeHours;
-   String medicineStartTimeMinutes;
-  void getInfoMedicine () async{
-    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
-    medicineDetails.getDocuments().then((data) {
-      if (data.documents.length > 0) {
-        setState(() {
-          medicineName = data.documents[0].data['Name'];
-          medicineType = data.documents[0].data['Type'];
-          medicineDosage = data.documents[0].data['Dosage'];
-          medicineInterval = data.documents[0].data['Interval'];
-          medicineStartTimeHours = data.documents[0].data['Starting Time Hours'];
-          medicineStartTimeMinutes = data.documents[0].data['Starting Time Minutes'];
-        }
-        );
-      }
-    });
-  }
+
+//   String medicineName;
+//   String medicineType;
+//   String medicineDosage;
+//   int medicineInterval;
+//   String medicineStartTimeHours;
+//   String medicineStartTimeMinutes;
+//  void getInfoMedicine () async{
+//    var medicineDetails = Firestore.instance.collection('Medicines').where('uid',  isEqualTo: uid);
+//    medicineDetails.getDocuments().then((data) {
+//      if (data.documents.length > 0) {
+//        setState(() {
+//          medicineName = data.documents[0].data['Name'];
+//          medicineType = data.documents[0].data['Type'];
+//          medicineDosage = data.documents[0].data['Dosage'];
+//          medicineInterval = data.documents[0].data['Interval'];
+//          medicineStartTimeHours = data.documents[0].data['Starting Time Hours'];
+//          medicineStartTimeMinutes = data.documents[0].data['Starting Time Minutes'];
+//        }
+//        );
+//      }
+//    });
+//  }
   @override
   void initState() {
     super.initState();
@@ -119,7 +118,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   },
                   onSaved: (input) => _medicineName = input,
               decoration: InputDecoration(
-                hintText: "Type Medicine or Brand Name",
+                hintText: "Type Medicine Name",
                 hintStyle: TextStyle(
                     fontFamily: "Monster",
                     color: Colors.grey,
@@ -130,7 +129,7 @@ class _AddMedicineState extends State<AddMedicine> {
     ),
 
                       SizedBox(
-                        height: 30.0,
+                        height: 20.0,
                       ),
 
                       Padding(
@@ -170,9 +169,9 @@ class _AddMedicineState extends State<AddMedicine> {
                       ),
 
                       Padding(
-                        padding: EdgeInsets.only(right: 155),
+                        padding: EdgeInsets.only(right: 80),
                         child: Text(
-                            "Number of Pills to be taken",
+                            "Number of Pills to be taken each time",
                             style: TextStyle(
                               color: Colors.teal,
                               fontSize: 15.0,
@@ -198,7 +197,42 @@ class _AddMedicineState extends State<AddMedicine> {
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.teal),),
 
-                          ))
+                          )
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(right: 260),
+                        child: Text(
+                            "Starting Date",
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+
+                            )
+                        ),
+                      ),
+                      TextFormField(
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Please type the Starting Date';
+                            } return null;
+                          },
+                          onSaved: (input) => _startingDate = input,
+                          decoration: InputDecoration(
+                            hintText: "Type the Starting Date",
+                            hintStyle: TextStyle(
+                              fontFamily: "Monster",
+                              color: Colors.grey,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.teal),),
+
+                          )
+                      )
                     ]
               )
 
@@ -319,7 +353,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   )
                   ),
                   SizedBox(
-                    height: 25.0,
+                    height: 15.0,
                   ),
 
                   Container(
@@ -431,7 +465,7 @@ class _AddMedicineState extends State<AddMedicine> {
                   ),
 
                   SizedBox(
-                    height: 25.0,
+                    height: 15.0,
                   ),
 
                   Container(
@@ -440,10 +474,10 @@ class _AddMedicineState extends State<AddMedicine> {
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(right: 320),
+                                padding: EdgeInsets.only(right: 230),
                                 child:
                                 Text(
-                                    "Time",
+                                    "First Dosage Time",
                                     style: TextStyle(
                                       color: Colors.teal,
                                       fontSize: 15.0,
@@ -568,6 +602,16 @@ class _AddMedicineState extends State<AddMedicine> {
                                               ],
                                             ),
                                             value: 09
+                                        ),
+                                        DropdownMenuItem<int>(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('10', style: TextStyle(color: Colors.black),
+                                                ),
+
+                                              ],
+                                            ),
+                                            value: 10
                                         ),
                                         DropdownMenuItem<int>(
                                             child: Row(
@@ -1351,16 +1395,6 @@ class _AddMedicineState extends State<AddMedicine> {
                                             ),
                                             value: 59
                                         ),
-                                        DropdownMenuItem<int>(
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text('60', style: TextStyle(color: Colors.black),
-                                                ),
-
-                                              ],
-                                            ),
-                                            value: 60
-                                        )
 
                                       ],
                                       onChanged: (int newValue) {
@@ -1430,10 +1464,10 @@ class _AddMedicineState extends State<AddMedicine> {
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(right: 100),
+                                padding: EdgeInsets.only(right: 300),
                                 child:
                                 Text(
-                                    "Duration (Just for your Reference)",
+                                    "Duration",
                                     style: TextStyle(
                                       color: Colors.teal,
                                       fontSize: 15.0,
@@ -1463,6 +1497,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                                 fontFamily: "Monster",
                                                 color: Colors.grey,
                                               ),
+
                                               focusedBorder: UnderlineInputBorder(
                                                 borderSide: BorderSide(color: Colors.teal),),
 
@@ -1530,7 +1565,7 @@ class _AddMedicineState extends State<AddMedicine> {
                       )
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Container(
                     alignment: Alignment.bottomCenter,
@@ -1556,11 +1591,11 @@ class _AddMedicineState extends State<AddMedicine> {
                       _medicineName,
                       _dosage,
                       _pills,
+                      _startingDate,
                       _medicineType,
                       _interval,
                       _startingTimeHours,
                       _startingTimeMinutes,
-                      _startingTimeType,
                       _durationTime,
                       _durationType,
                       _uid,
@@ -1629,7 +1664,7 @@ class _AddMedicineState extends State<AddMedicine> {
                             ),
                           )
                       ),
-                    ),
+                    )
                   ),
 
                 ]
@@ -1637,6 +1672,7 @@ class _AddMedicineState extends State<AddMedicine> {
             ),
           ],
         )
+
     );
  }
   Future<void> scheduleNotificationMedicine() async {
@@ -1683,22 +1719,73 @@ class _AddMedicineState extends State<AddMedicine> {
         platformChannelSpecifics
     );
   }
+    print ('Time: ' + time.toString());
   }
 
+
+
+//   Future<void> scheduleNotificationPillsReminder() async {
+//
+////     double pillsDay = 24/_interval;
+////     double durationTime = _durationTime as double;
+////     double totalPills = pillsDay* durationTime;
+////     double totalHours = 24* durationTime;
+////     double pills = _pills as double;
+////     double requiredPills = totalPills - pills;
+////     double hoursLeft = requiredPills*_interval;
+////     double hoursForPills = totalHours - hoursLeft;
+////     double daysForPills1 = hoursForPills/24;
+////     int daysForPills = daysForPills1 as int;
+////     var sendNotificationTime = DateTime.now().add(Duration(days: daysForPills)).subtract(Duration(hours: 5));
+//
+//    double pillsDay = 24/_interval;
+//    double durationTime = _durationTime as double;
+//    double totalHours = 24* durationTime;
+//    double totalPills = totalHours/_interval;
+//    double pills = _pills as double;
+//    double requiredPills = totalPills - pills;
+//    double hoursLeft = requiredPills*_interval;
+//    double hoursForPills = totalHours - hoursLeft;
+//    double daysForPills1 = hoursForPills/24;
+//    int daysForPills = daysForPills1 as int;
+//    var sendNotificationTime = DateTime.now().add(Duration(days: daysForPills)).subtract(Duration(hours: 5));
+//
+//
+//
+//    var vibrationPattern = Int64List(4);
+//    vibrationPattern[0] = 0;
+//    vibrationPattern[1] = 1000;
+//    vibrationPattern[2] = 5000;
+//    vibrationPattern[3] = 2000;
+//
+//
+//    var androidPlatformChannelSpecifics =
+//    AndroidNotificationDetails(
+//      'your other channel id',
+//      'your other channel name',
+//      'your other channel description',
+//      sound: RawResourceAndroidNotificationSound('notification'),
+//      importance: Importance.Max,
+//      priority: Priority.High,
+//      showWhen: true,
+//      vibrationPattern: vibrationPattern,
+//    );
+//    var iOSPlatformChannelSpecifics =
+//    IOSNotificationDetails(sound: 'notification');
+//    NotificationDetails platformChannelSpecifics = NotificationDetails(
+//        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+//    await flutterLocalNotificationsPlugin.schedule(
+//        5,
+//        'Your pills for $_medicineName are getting over',
+//        'Stock them within the next 2 hours to avoid missing eating your medicine. ',
+//        sendNotificationTime,
+//        platformChannelSpecifics);
+//
+//  }
+
 }
 
-loading() async {
-  Future.delayed(Duration(seconds: 2));
-  Container(
-    color: Colors.white,
-    child: Center(
-      child: SpinKitRing(
-        color: Colors.teal,
-        size: 50.0,
-      ),
-    ),
-  );
-}
+
 
 Future getCurrentUser() async {
   final FirebaseUser user = await _auth.currentUser();
@@ -1706,3 +1793,4 @@ Future getCurrentUser() async {
   print(_uid);
   return _uid.toString();
 }
+

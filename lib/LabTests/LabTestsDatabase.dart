@@ -7,7 +7,7 @@ class DatabaseService {
   DatabaseService({ this.uid });
 
   // collection reference
-  final CollectionReference _labtestCollection = Firestore.instance.collection('LabTests');
+  final CollectionReference _labTestCollection = Firestore.instance.collection('LabTests');
 
 
   get labtestName => labtestName;
@@ -19,8 +19,8 @@ class DatabaseService {
   get dateLabTest => dateLabTest;
 
 
-  Future<void> labtestData(String labtestName,String labtestAddress, int timeHours, int timeMinutes, String timeType, String reasonLabTest, String dayLabTest,int dateLabTest,int monthLabTest, int yearLabTest, timeDatabase, String uid) async {
-    return await _labtestCollection.document().setData({
+  Future<void> labTestData(String labtestName,String labtestAddress, int timeHours, int timeMinutes, String timeType, String reasonLabTest, String dayLabTest,int dateLabTest,int monthLabTest, int yearLabTest, timeDatabase, String uid) async {
+    return await _labTestCollection.document().setData({
 
       "Lab Tests Name": labtestName,
       "Address of Lab Test": labtestAddress,

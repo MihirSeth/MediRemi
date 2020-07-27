@@ -1,21 +1,24 @@
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
-import 'package:healthreminders/MainPages/Medicine.dart';
-import 'package:healthreminders/MainPages/Steps.dart';
-import 'package:healthreminders/MainPages/home.dart';
+import 'package:healthreminders/MainPages/ProfilePage.dart';
+import 'package:healthreminders/MainPages/StepCounter.dart';
+//import 'package:healthreminders/MainPages/StepCounter.dart';
+//import 'package:healthreminders/MainPages/home.dart';
+import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Notes/Notes.dart';
-import 'package:healthreminders/StartupPages/WelcomePage.dart';
+import 'package:healthreminders/StartupPages/LoginPage.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 
 
@@ -38,8 +41,7 @@ class _MedicineState extends State<MoreOptions> {
       print(e); //
     }
   }
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+
 
   List<String> attachments = [];
   bool isHTML = false;
@@ -80,7 +82,7 @@ class _MedicineState extends State<MoreOptions> {
       content: Text(platformResponse),
     ));
   }
-  String msg = 'Download my Medicine Reminders App through https://drive.google.com/file/d/1IGeEAbc4UlmIIO0cJT5RJ310RMlHuSPi/view?usp=sharing';
+  String msg = 'Download my Medicine Reminders App through https://play.google.com/apps/testing/com.mihirseth.healthreminders';
 
 
   @override
@@ -91,14 +93,14 @@ class _MedicineState extends State<MoreOptions> {
     return Scaffold(
 //      backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  Center(
-            child: Text(
+        title:   Text(
                   "More Options",
                   style: TextStyle(
                       fontFamily: 'Monster'
                   ),
                 ),
-          ),
+        centerTitle: true,
+
         backgroundColor: Colors.teal,
       ),
 
@@ -172,6 +174,21 @@ class _MedicineState extends State<MoreOptions> {
                             ),
                           ),
                           ListTile(
+                            leading: Icon(Icons.directions_walk),
+                            title: Text('Steps'),
+                            onTap: () async {
+                              await Hive.initFlutter();
+                              await Hive.openBox<int>('steps');
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return StepsCounter();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          ListTile(
                               leading: ImageIcon(
                                   AssetImage('assets/Whatsapp.png'),
                                   color: Colors.green
@@ -183,66 +200,70 @@ class _MedicineState extends State<MoreOptions> {
                               }
                           ),
                           ListTile(
-                              leading: Icon(Icons.email),
+                              leading: Icon(Icons.share),
                               title: Text('Share us'),
                             onTap: () async {
                               FlutterShareMe()
                                   .shareToSystem(msg: msg);
-                              FirebaseUser user = await FirebaseAuth.instance.currentUser();
-                              user.delete();
                             },
                           ),
                           ListTile(
                             leading: Icon(Icons.delete),
                             title: Text('Delete Account'),
                             onTap: () async {
-                              AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                elevation: 5,
-                                title: Center(child: Text('Alert')),
-                                titleTextStyle: TextStyle(
-                                  color: Colors.teal,
-                                  fontFamily: 'Monster',
-                                  fontSize: 20.0,
-                                  letterSpacing: 1.5,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                ),
-                                content: Text('Are you sure you want to delete your account. Please delete all your data before moving on with deleting your Account.'),
-                                contentTextStyle: TextStyle(
-                                  fontFamily: 'Monster',
-                                  color: Colors.black,
-                                ),
-                                actions: [
-                                  FlatButton(
-                                    onPressed: () async {
-                                      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-                                      user.delete();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return LoginPage();
-                                          },
-                                        ),
-                                      );
-                                         },
-                                    child: Text('Delete your Account'),
+                              await showDialog(
+                                context: context,
+                                child: AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                  FlatButton(
-                                    onPressed: () async {
-                                      Navigator.of(context).pop(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return Home();
-                                          },
-                                        ),
-                                      );
-                                      },
-                                    child: Text('Go back to the screen to delete your Documents'),
+                                  elevation: 5,
+                                  title: Center(child: Text('Alert')),
+                                  titleTextStyle: TextStyle(
+                                    color: Colors.teal,
+                                    fontFamily: 'Monster',
+                                    fontSize: 20.0,
+                                    letterSpacing: 1.5,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                ],
+                                  content: Text('Are you sure you want to delete your account. Please delete all your data before moving on with deleting your Account.'),
+                                  contentTextStyle: TextStyle(
+                                    fontFamily: 'Monster',
+                                    color: Colors.black,
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                      onPressed: () async {
+                                        FirebaseUser user = await FirebaseAuth.instance.currentUser();
+                                        user.delete();
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return LoginPage();
+                                            },
+                                          ),
+                                        );
+                                           },
+                                      child: Center(child: Text('Delete your Account')),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 15.0),
+                                      child: FlatButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pop(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return MoreOptions();
+                                              },
+                                            ),
+                                          );
+                                          },
+                                        child: Center(child: Text('Go back to delete your Documents')),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           ),
@@ -300,13 +321,22 @@ class _MedicineState extends State<MoreOptions> {
                     child: Column(
                         children: <Widget>[
                           ListTile(
-                              leading: Icon(Icons.settings),
-                              title: Text('Settings')
+                            leading: Icon(Icons.person),
+                            title: Text('Profile'),
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfilePage();
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
-                              leading: Icon(Icons.email),
-                              title: Text('Email'),
-                            onTap: () {
+                            leading: Icon(Icons.email),
+                            title: Text('Email'),
+                            onTap: () async {
                             },
                           ),
                           ListTile(
@@ -333,7 +363,25 @@ class _MedicineState extends State<MoreOptions> {
         )
     );
   }
+  googleName() {
+    StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection("Users Google")
+            .where('uid',  isEqualTo: uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Text('Loading...');
+          else googleName();
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) =>
+                buildListItemGoogle(
+                    context, snapshot.data.documents[index]),
 
+          );
+        }
+    );
+  }
 }
 
 

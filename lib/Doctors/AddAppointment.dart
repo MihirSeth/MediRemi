@@ -159,7 +159,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                 Padding(
                   padding: EdgeInsets.only(right: 170),
                   child: Text(
-                      "Appointment Details",
+                      "Appointment Reason",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
@@ -206,7 +206,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               },
                               onSaved: (input) => _appointmentReason = input ,
                               decoration: InputDecoration(
-                                hintText: "Appointment Details",
+                                hintText: "Appointment Reason",
                                 hintStyle: TextStyle(
                                   fontFamily: "Monster",
                                   color: Colors.grey,
@@ -316,6 +316,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                               child: Row(
                                 children: <Widget>[
                                   DropdownButton<int>(
+                                   
                                     underline: Container(
                                       height: 2,
                                       color: Colors.teal,
