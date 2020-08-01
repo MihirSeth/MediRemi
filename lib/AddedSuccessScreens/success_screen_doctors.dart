@@ -9,6 +9,7 @@ class SuccessScreenDoctors extends StatefulWidget {
   @override
   _SuccessScreenDoctorsState createState() => _SuccessScreenDoctorsState();
 }
+// is animated when a person inputs a Doctor
 
 class _SuccessScreenDoctorsState extends State<SuccessScreenDoctors> {
   @override
@@ -16,9 +17,9 @@ class _SuccessScreenDoctorsState extends State<SuccessScreenDoctors> {
     super.initState();
     Timer(
       Duration(milliseconds: 2200),
-          () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                Doctors()));
+      () {
+        Navigator.pop(
+            context, MaterialPageRoute(builder: (context) => Doctors()));
       },
     );
   }

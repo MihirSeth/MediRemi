@@ -1,6 +1,6 @@
-# healthreminders
+# MediRemi
 
-A new Flutter application.
+A Health Care Reminder Application.
 
 ## Getting Started
 

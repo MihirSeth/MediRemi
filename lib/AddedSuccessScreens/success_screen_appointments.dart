@@ -6,8 +6,11 @@ import 'package:healthreminders/Doctors/Appointments.dart';
 
 class SuccessScreenAppoinments extends StatefulWidget {
   @override
-  _SuccessScreenAppoinmentsState createState() => _SuccessScreenAppoinmentsState();
+  _SuccessScreenAppoinmentsState createState() =>
+      _SuccessScreenAppoinmentsState();
 }
+
+// is animated when a person inputs Appointments
 
 class _SuccessScreenAppoinmentsState extends State<SuccessScreenAppoinments> {
   @override
@@ -15,9 +18,9 @@ class _SuccessScreenAppoinmentsState extends State<SuccessScreenAppoinments> {
     super.initState();
     Timer(
       Duration(milliseconds: 2200),
-          () {
-        Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-              Appointments()));
+      () {
+        Navigator.pop(
+            context, MaterialPageRoute(builder: (context) => Appointments()));
       },
     );
   }

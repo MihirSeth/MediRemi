@@ -8,29 +8,30 @@ class SuccessScreenWrapper extends StatefulWidget {
   _SuccessScreenWrapperState createState() => _SuccessScreenWrapperState();
 }
 
+// is animated when a person logs in
 class _SuccessScreenWrapperState extends State<SuccessScreenWrapper> {
   @override
   void initState() {
     super.initState();
     Timer(
       Duration(milliseconds: 1500),
-          () {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
-            Home()));
+      () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-     return Container(
-        color: Colors.white,
-        child: Center(
-          child: SpinKitRing(
-            color: Colors.teal,
-            size: 50.0,
-          ),
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: SpinKitRing(
+          color: Colors.teal,
+          size: 50.0,
         ),
-      );
+      ),
+    );
   }
 }

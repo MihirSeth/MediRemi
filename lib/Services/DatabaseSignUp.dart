@@ -46,7 +46,7 @@ class DatabaseService {
 //    }).toList();
 //  }
 //
-//  // user data from snapshots
+  // user data from snapshots
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
 

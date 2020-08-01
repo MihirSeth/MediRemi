@@ -8,6 +8,7 @@ class SuccessScreenNotes extends StatefulWidget {
   @override
   _SuccessScreenNotesState createState() => _SuccessScreenNotesState();
 }
+// is animated when a person inputs Notes
 
 class _SuccessScreenNotesState extends State<SuccessScreenNotes> {
   @override
@@ -15,9 +16,9 @@ class _SuccessScreenNotesState extends State<SuccessScreenNotes> {
     super.initState();
     Timer(
       Duration(milliseconds: 2200),
-          () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                Notes()));
+      () {
+        Navigator.pop(
+            context, MaterialPageRoute(builder: (context) => Notes()));
       },
     );
   }

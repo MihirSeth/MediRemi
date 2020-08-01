@@ -423,7 +423,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed:  () =>  signInWithGoogle().whenComplete(() {
+      onPressed:  () =>  signInWithGoogle(context).whenComplete(() {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {

@@ -2054,14 +2054,14 @@ class _AddLabTestsState extends State<AddLabTests> {
   Future<void> scheduleNotificationLabTests() async {
     final now = DateTime(_yearLabTest, _monthLabTest, _dateLabTest);
     final labTestDate = DateTime.now();
-    final difference = labTestDate.difference(now).inDays;
+    final difference = labTestDate.difference(now).inHours;
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.now().subtract(Duration(days: difference, hours:16));
+    DateTime.now().subtract(Duration(hours: difference)).add((Duration(hours: 12)));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'your other channel id',
@@ -2088,7 +2088,7 @@ class _AddLabTestsState extends State<AddLabTests> {
   Future<void> scheduleNotificationLabTestsTwo() async {
     final now = DateTime(_yearLabTest, _monthLabTest, _dateLabTest);
     final appointmentDate = DateTime.now();
-    final difference = appointmentDate.difference(now).inDays;
+    final difference = appointmentDate.difference(now).inHours;
 
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
@@ -2096,7 +2096,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
     var scheduledNotificationDateTime =
-    DateTime.now().subtract(Duration(days: difference, hours:18));
+    DateTime.now().subtract(Duration(hours: difference)).add((Duration(hours: 2)));
     var androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
         'your other channel id',
@@ -2115,7 +2115,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     await flutterLocalNotificationsPlugin.schedule(
         4,
         'Reminder for Lab Test',
-        'You have a $_labtestName Lab Test in 2 Hours, the location is $_labtestAddress. ',
+        'You have a $_labtestName Lab Test in 2 Hours. ',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
   }

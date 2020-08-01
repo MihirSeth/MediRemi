@@ -8,15 +8,16 @@ class SuccessScreenLabTests extends StatefulWidget {
   _SuccessScreenLabTestsState createState() => _SuccessScreenLabTestsState();
 }
 
+// is animated when a person inputs a Lab Test
 class _SuccessScreenLabTestsState extends State<SuccessScreenLabTests> {
   @override
   void initState() {
     super.initState();
     Timer(
       Duration(milliseconds: 2200),
-          () {
-            Navigator.pop(context, MaterialPageRoute(builder: (context) =>
-                LabTests()));
+      () {
+        Navigator.pop(
+            context, MaterialPageRoute(builder: (context) => LabTests()));
       },
     );
   }

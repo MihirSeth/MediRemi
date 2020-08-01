@@ -39,9 +39,9 @@ dependencies:
       url: git://github.com/2d-inc/Flare-Flutter.git
       ref: dev
       path: flare_flutter
-  rxdart: ^0.22.0
+  # rxdart: ^0.22.0
 #  firebase_messaging: ^6.0.16
-  flutter_open_whatsapp: ^0.1.2
+  # flutter_open_whatsapp: ^0.1.2
   flutter_local_notifications: ^1.4.4+2
   flutter_email_sender: ^3.0.1
   pedometer: ^1.2.5
