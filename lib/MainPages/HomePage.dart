@@ -11,6 +11,7 @@ import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/Models/loading.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/StartupPages/LoginPage.dart';
+import 'package:healthreminders/VIdeoCalling/Video_Pages/index.dart';
 import 'package:provider/provider.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 
@@ -193,15 +194,28 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
+//                  ListTile(
+//                    leading: Icon(Icons.email),
+//                    title: Text('Email'),
+//                    onTap: () async {
+//                      var pendingNotificationRequests =
+//                          await flutterLocalNotificationsPlugin
+//                              .pendingNotificationRequests();
+//                      print('Notification requests:' +
+//                          pendingNotificationRequests.toString());
+//                    },
+//                  ),
                   ListTile(
-                    leading: Icon(Icons.email),
-                    title: Text('Email'),
+                    leading: Icon(Icons.video_call),
+                    title: Text('Video Calling'),
                     onTap: () async {
-                      var pendingNotificationRequests =
-                          await flutterLocalNotificationsPlugin
-                              .pendingNotificationRequests();
-                      print('Notification requests:' +
-                          pendingNotificationRequests.toString());
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return IndexPage();
+                          },
+                        ),
+                      );
                     },
                   ),
                   ListTile(

@@ -50,8 +50,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resConfigs "en", "fr"
-        versionCode 4
-        versionName "2.2"
+        versionCode 5
+        versionName "2.3"
     }
 
     signingConfigs {

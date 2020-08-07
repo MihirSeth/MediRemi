@@ -51,6 +51,10 @@ dependencies:
   jiffy: ^3.0.1
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
+  agora_rtc_engine: ^1.0.13
+#  permission_handler: ^3.0.0
+
+  permission_handler: ^5.0.1+1
 
 
 

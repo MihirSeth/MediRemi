@@ -3,12 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Models/BuildListDoctorsHomePage.dart';
 import 'package:healthreminders/LabTests/BuildListItemLabTestHomePage.dart';
 import 'package:healthreminders/MainPages/ProfilePage.dart';
+import 'package:healthreminders/MainPages/ProfilePageGoogle.dart';
 import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/Models/User.dart';
 import 'package:healthreminders/StartupPages/LoginPage.dart';
 import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
+import 'package:healthreminders/VIdeoCalling/Video_Pages/index.dart';
 import 'package:provider/provider.dart';
 
 
@@ -186,9 +188,29 @@ class _MedicineState extends State<MoreReminders> {
                             },
                           ),
                           ListTile(
-                            leading: Icon(Icons.email),
-                            title: Text('Email'),
+                            leading: Icon(Icons.person),
+                            title: Text('Google Profile'),
                             onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ProfilePageGoogle();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.video_call),
+                            title: Text('Video Calling'),
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return IndexPage();
+                                  },
+                                ),
+                              );
                             },
                           ),
                           ListTile(

@@ -58,7 +58,7 @@ class _ProfilePageGoogleState extends State<ProfilePageGoogle> {
                 Row(
                   children: <Widget>[
                     StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection('Users ')
+                        stream: Firestore.instance.collection('Users Google ')
                             .where('uid',  isEqualTo: user.uid)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -73,7 +73,6 @@ class _ProfilePageGoogleState extends State<ProfilePageGoogle> {
                                     )
                                 )
                             );
-                          else googleProfile();
                           return Expanded(
                             child: SizedBox(
                               height: 800,
@@ -100,39 +99,5 @@ class _ProfilePageGoogleState extends State<ProfilePageGoogle> {
         )
     );
   }
-  googleProfile() {
-    StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('Users Google')
-//            .where('uid',  isEqualTo: user.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Padding(
-                padding: EdgeInsets.only(top: 250, left: 75),
-                child: Text(
-                    'Fetching your Data...',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    )
-                )
-            );
-          return Expanded(
-            child: SizedBox(
-              height: 800,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) =>
-                    buildListItemProfilePage(
-                        context,
-                        snapshot.data.documents[index]),
 
-              ),
-            ),
-          );
-        }
-    );
-
-  }
 }

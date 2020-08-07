@@ -20,24 +20,22 @@ import 'StartupPages/SignUp.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() async {
-
   runApp(HealthRemindersApp());
 }
 
 class HealthRemindersApp extends StatefulWidget {
-
   // This widget is the root of your application.
   @override
   _HealthRemindersAppState createState() => _HealthRemindersAppState();
 }
 
 class _HealthRemindersAppState extends State<HealthRemindersApp> {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
 //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
-
   void initState() {
     super.initState();
     initializing();
@@ -45,7 +43,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
 
   void initializing() async {
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('app_logo');
+        new AndroidInitializationSettings('app_logo');
     var initializationSettingsIOS = IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
@@ -99,33 +97,30 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
     );
   }
 
-  Future onDidReceiveLocalNotification(int id, String title, String body,
-      String payload) async {
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
     // display a dialog with the notification details, tap ok to go to another page
     showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          CupertinoAlertDialog(
-            title: Text(title),
-            content: Text(body),
-            actions: [
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                child: Text('Ok'),
-                onPressed: () async {
-                  Navigator.of(context, rootNavigator: true).pop();
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
-                },
-              )
-            ],
-          ),
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
-
-
 }
