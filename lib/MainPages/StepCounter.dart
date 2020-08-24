@@ -1,125 +1,114 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
+
 import 'package:pedometer/pedometer.dart';
-import 'package:hive/hive.dart';
 
-
-class StepsCounter extends StatefulWidget {
+class Steps extends StatefulWidget {
   @override
-  _StepsCounterState createState() => _StepsCounterState();
+  _StepsState createState() => _StepsState();
 }
 
-class _StepsCounterState extends State<StepsCounter> {
-  Pedometer _pedometer;
-  StreamSubscription<int> _subscription;
-  Box<int> stepsBox = Hive.box('steps');
-  int todaySteps;
-
-  final Color carbonBlack = Color(0xff1a1a1a);
+class _StepsState extends State<Steps> {
+  Stream<StepCount> _stepCountStream;
+  Stream<PedestrianStatus> _pedestrianStatusStream;
+  // String _status = '?';
+  // String _steps = '?';
+  String _status;
+  String _steps;
 
   @override
   void initState() {
     super.initState();
-    startListening();
+    initPlatformState();
   }
+
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
+  }
+
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
+  Future<void> initPlatformState() async {
+    _pedestrianStatusStream = await Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = await Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if (!mounted) return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: const Text('Step Counter'),
+      appBar: AppBar(
+        title: Text('Step Counter'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Steps taken:',
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              '$_steps',
+              style: TextStyle(fontSize: 60),
+            ),
+            Divider(
+              height: 100,
+              thickness: 0,
+              color: Colors.white,
+            ),
+            Text(
+              'Pedestrian status:',
+              style: TextStyle(fontSize: 30),
+            ),
+            Icon(
+              _status == 'walking'
+                  ? Icons.directions_walk
+                  : _status == 'stopped'
+                      ? Icons.accessibility_new
+                      : Icons.error,
+              size: 100,
+            ),
+            Center(
+              child: Text(
+                _status,
+                style: _status == 'walking' || _status == 'stopped'
+                    ? TextStyle(fontSize: 30)
+                    : TextStyle(fontSize: 20, color: Colors.red),
+              ),
+            )
+          ],
         ),
-        body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Icon(
-                  Icons.directions_walk,
-                  size: 90,
-                ),
-                new Text(
-                  'Steps taken:',
-                  style: TextStyle(fontSize: 30),
-                ),
-                new Text(
-                  todaySteps?.toString() ?? '0',
-                  style: TextStyle(fontSize: 100, color: Colors.blue),
-              )
-            ],
-          )
-        )
-      );
-     }
-  @override
-  void dispose() {
-    stopListening();
-    super.dispose();
-  }
-
-  Widget gradientShaderMask({@required Widget child}) {
-    return ShaderMask(
-      shaderCallback: (bounds) => LinearGradient(
-        colors: [
-          Colors.orange,
-          Colors.deepOrange.shade900,
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-      child: child,
+      ),
     );
   }
-
-  void startListening() {
-    _pedometer = Pedometer();
-    _subscription = _pedometer.pedometerStream.listen(
-      getTodaySteps,
-      onError: _onError,
-      onDone: _onDone,
-      cancelOnError: true,
-    );
-  }
-
-  void _onDone() => print("Finished pedometer tracking");
-  void _onError(error) => print("Flutter Pedometer Error: $error");
-
-  Future<int> getTodaySteps(int value) async {
-    print(value);
-    int savedStepsCountKey = 999999;
-    int savedStepsCount = stepsBox.get(savedStepsCountKey, defaultValue: 0);
-
-    int todayDayNo = Jiffy(DateTime.now()).dayOfYear;
-    if (value < savedStepsCount) {
-      // Upon device reboot, pedometer resets. When this happens, the saved counter must be reset as well.
-      savedStepsCount = 0;
-      // persist this value using a package of your choice here
-      stepsBox.put(savedStepsCountKey, savedStepsCount);
-    }
-
-    // load the last day saved using a package of your choice here
-    int lastDaySavedKey = 888888;
-    int lastDaySaved = stepsBox.get(lastDaySavedKey, defaultValue: 0);
-
-    // When the day changes, reset the daily steps count
-    // and Update the last day saved as the day changes.
-    if (lastDaySaved < todayDayNo) {
-      lastDaySaved = todayDayNo;
-      savedStepsCount = value;
-
-      stepsBox
-        ..put(lastDaySavedKey, lastDaySaved)
-        ..put(savedStepsCountKey, savedStepsCount);
-    }
-
-    setState(() {
-      todaySteps = value - savedStepsCount;
-    });
-    stepsBox.put(todayDayNo, todaySteps);
-    return todaySteps; // this is your daily steps value.
-  }
-
-  void stopListening() {
-    _subscription.cancel();
-  }
-   }
-
+}

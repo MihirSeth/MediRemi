@@ -6,6 +6,7 @@ import 'package:healthreminders/Services/DatabaseSignUp.dart';
 import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/Services/SignUpGoogle.dart';
 import 'package:healthreminders/Services/GoogleDatabase.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -180,7 +181,7 @@ class _SignupPageState extends State<SignupPage> {
                                 },
                                 onSaved: (input) => _weight = input,
                                 decoration: InputDecoration(
-                                  hintText: "Weight",
+                                  hintText: "Weight in kg",
                                   hintStyle: TextStyle(
                                     fontFamily: "Monster",
                                     fontWeight: FontWeight.bold,
@@ -203,7 +204,7 @@ class _SignupPageState extends State<SignupPage> {
                                 },
                                 onSaved: (input) => _height = input,
                                 decoration: InputDecoration(
-                                  hintText: "Height",
+                                  hintText: "Height in cm",
                                   hintStyle: TextStyle(
                                     fontFamily: "Monster",
                                     fontWeight: FontWeight.bold,
@@ -427,6 +428,21 @@ class _SignupPageState extends State<SignupPage> {
         ));
   }
 
+  Future<void> _handlePermissions() async {
+    if (await Permission.microphone.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+    }
+    if (await Permission.camera.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+    }
+    if (await Permission.notification.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+    }
+    if (await Permission.sensors.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+    }
+  }
+
   Future<void> signUp(context) async {
     try {
       AuthResult result = await FirebaseAuth.instance
@@ -439,6 +455,9 @@ class _SignupPageState extends State<SignupPage> {
           _phoneNumber, _weight, _height, _age, _bloodGroup, _gender);
       print("Successfully Registered!");
 //        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+
+      await _handlePermissions();
+
       setState(() {
         loading = false;
         showDialog(
@@ -459,7 +478,7 @@ class _SignupPageState extends State<SignupPage> {
                   decoration: TextDecoration.underline,
                 ),
                 content: Text(
-                    'Congratulations...you have signed up to make sure that you never miss anything to do with your health. We would also request you to keep the app always running to receive notifications. '),
+                    'Congratulations...you have signed up to make sure that you never miss anything to do with your health. IARC Certified. We take your privacy and security of personal information with the utmost importance, we use Google Firebase to securely and safely keep all your data. It is our assurance that your private data will not be checked by anyone. Thank you for using our app. '),
                 contentTextStyle: TextStyle(
                   fontFamily: 'Monster',
                   color: Colors.black,

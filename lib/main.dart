@@ -73,6 +73,7 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
       value: AuthService().user,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        title: 'MediRemi',
         routes: <String, WidgetBuilder>{
           "/signup": (BuildContext context) => new SignupPage(),
           "/passwordreset": (BuildContext context) => new PasswordReset(),
@@ -87,7 +88,6 @@ class _HealthRemindersAppState extends State<HealthRemindersApp> {
           '/notes': (context) => Notes(),
           '/labtest': (context) => LabTests(),
         },
-        title: 'MediRemi',
         theme: ThemeData(
           primarySwatch: Colors.teal,
           visualDensity: VisualDensity.adaptivePlatformDensity,

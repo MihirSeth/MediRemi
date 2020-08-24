@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthreminders/AddedSuccessScreens/success_screen_appointments.dart';
 
 import 'Appointments.dart';
-import 'Services/AppointmentDatabase.dart';
+import 'Database/AppointmentDatabase.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -32,9 +33,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   int _monthAppointment;
   int _yearAppointment;
 //  int _timeFromToday;
-
   final _timeDatabase = DateTime.now();
-
+  int _id = Random().nextInt(999999999);
+  int _id2 = Random().nextInt(999999999);
   String appointmentDoctorName;
   String appointmentTime;
   int appointmentDate;
@@ -1896,16 +1897,16 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                       ),
                       value: _yearAppointment,
                       items: [
-                        DropdownMenuItem<int>(
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '2019',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                            value: 2019),
+                        // DropdownMenuItem<int>(
+                        //     child: Row(
+                        //       children: <Widget>[
+                        //         Text(
+                        //           '2019',
+                        //           style: TextStyle(color: Colors.black),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     value: 2019),
                         DropdownMenuItem<int>(
                             child: Row(
                               children: <Widget>[
@@ -1997,19 +1998,20 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
                         String _uid = await getCurrentUser();
 
                         await DatabaseService().appointmentData(
-                          _doctorsName,
-                          _appointmentReason,
-                          _doctorAddress,
-                          _timeHours,
-                          _timeMinutes,
-                          _timeType,
-                          _dayAppointment,
-                          _dateAppointment,
-                          _monthAppointment,
-                          _yearAppointment,
-                          _timeDatabase,
-                          _uid,
-                        );
+                            _doctorsName,
+                            _appointmentReason,
+                            _doctorAddress,
+                            _timeHours,
+                            _timeMinutes,
+                            _timeType,
+                            _dayAppointment,
+                            _dateAppointment,
+                            _monthAppointment,
+                            _yearAppointment,
+                            _timeDatabase,
+                            _uid,
+                            _id,
+                            _id2);
                         scheduleNotificationAppointments();
                       } catch (e) {
                         setState(() {
@@ -2077,7 +2079,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   }
 
   Future<void> scheduleNotificationAppointments() async {
-    final appointmentDate = DateTime(_yearAppointment, _monthAppointment, _dateAppointment);
+    final appointmentDate =
+        DateTime(_yearAppointment, _monthAppointment, _dateAppointment);
     final now = DateTime.now();
     final difference = now.difference(appointmentDate).inHours;
 
@@ -2086,8 +2089,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
-    var scheduledNotificationDateTime =
-        DateTime.now().subtract(Duration(hours: difference)).add(Duration(days:1));
+    var scheduledNotificationDateTime = DateTime.now()
+        .subtract(Duration(hours: difference))
+        .add(Duration(days: 1));
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your other channel id',
       'your other channel name',
@@ -2103,9 +2107,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        1,
+        _id,
         'Appointment Reminder for $_doctorsName',
-        'Your Appointment with $_doctorsName is in 24 Hourss',
+        'Your Appointment with $_doctorsName is in 24 Hours',
         scheduledNotificationDateTime,
         platformChannelSpecifics);
 
@@ -2114,7 +2118,8 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
   }
 
   Future<void> scheduleNotificationAppointmentsTwo() async {
-    final appointmentDate = DateTime(_yearAppointment, _monthAppointment, _dateAppointment);
+    final appointmentDate =
+        DateTime(_yearAppointment, _monthAppointment, _dateAppointment);
     final now = DateTime.now();
     final difference = now.difference(appointmentDate).inHours;
 
@@ -2123,8 +2128,9 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
-    var scheduledNotificationDateTime =
-        DateTime.now().subtract(Duration(hours: difference)).add((Duration(hours: 4)));
+    var scheduledNotificationDateTime = DateTime.now()
+        .subtract(Duration(hours: difference))
+        .add((Duration(hours: 4)));
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your other channel id',
       'your other channel name',
@@ -2140,7 +2146,7 @@ class _AddAppoinmentsState extends State<AddAppoinments> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        2,
+        _id2,
         'Appointment Reminder for $_doctorsName',
         'Your Appointment with $_doctorsName is in 4 hours ',
         scheduledNotificationDateTime,

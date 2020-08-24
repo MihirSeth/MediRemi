@@ -272,12 +272,15 @@ buildListItemLabTests(BuildContext context, DocumentSnapshot document) {
                               ),
                             ),
                             onPressed: () async {
+                              int id =  document['id'];
+                              int id2 =  document['id2'];
+
                               await databaseReference
                                   .collection('LabTests')
                                   .document(document.documentID)
                                   .delete();
-                              await flutterLocalNotificationsPlugin.cancel(3);
-                              await flutterLocalNotificationsPlugin.cancel(4);
+                              await flutterLocalNotificationsPlugin.cancel(id);
+                              await flutterLocalNotificationsPlugin.cancel(id2);
                             }
                         ),
                       ),

@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DatabaseService{
-
+class DatabaseService {
   final String uid;
-  DatabaseService({ this.uid });
+  DatabaseService({this.uid});
 
   // collection reference
-  final CollectionReference _medicinesCollection = Firestore.instance.collection('Medicines');
-
+  final CollectionReference _medicinesCollection =
+      Firestore.instance.collection('Medicines');
 
   get medicineName => medicineName;
   get dosage => dosage;
@@ -19,10 +18,22 @@ class DatabaseService{
   get durationTime => durationTime;
   get durationType => durationType;
 
-
-  Future<void> medicineData (String medicineName,String dosage,String pills,String startingDate, String medicineType, int interval,int startingTimeHours,int startingTimeMinutes ,String durationTime, String durationType, String uid, timeDatabase) async {
+  Future<void> medicineData(
+      String medicineName,
+      String dosage,
+      String pills,
+      String startingDate,
+      String medicineType,
+      int interval,
+      int startingTimeHours,
+      int startingTimeMinutes,
+      String durationTime,
+      String pillsHave,
+      // String durationType,
+      String uid,
+      timeDatabase,
+      int id) async {
     return await _medicinesCollection.document().setData({
-
       "Name": medicineName,
       "Dosage": dosage,
       "Pills": pills,
@@ -33,11 +44,11 @@ class DatabaseService{
       "Starting Time Minutes": startingTimeMinutes,
 //      "Starting Time Type": startingTimeType,
       "Duration Time": durationTime,
-      "Duration Type": durationType,
+      // "Duration Type": durationType,
+      "Pills Have": pillsHave,
       "Create Time Database": timeDatabase,
       "uid": uid,
-
-
+      "id": id,
     });
   }
 
@@ -70,5 +81,3 @@ class DatabaseService{
 //  Names({ this.name, this.email });
 //
 //}
-
-

@@ -4,10 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthreminders/Doctors/Appointments.dart';
 import 'package:healthreminders/Doctors/Doctors.dart';
 import 'package:healthreminders/LabTests/LabTests.dart';
-import 'package:healthreminders/MainPages/ProfilePage.dart';
-import 'package:healthreminders/MainPages/ProfilePageGoogle.dart';
+import 'package:healthreminders/ProfilePages/ProfilePage.dart';
+import 'package:healthreminders/ProfilePages/ProfilePageGoogle.dart';
 import 'package:healthreminders/MainPages/StepCounter.dart';
-//import 'package:healthreminders/MainPages/StepCounter.dart';
 //import 'package:healthreminders/MainPages/home.dart';
 import 'package:healthreminders/Models/BuildListItemGoogle.dart';
 import 'package:healthreminders/Models/User.dart';
@@ -17,10 +16,9 @@ import 'package:healthreminders/Models/BuildListItemNameEmail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthreminders/StartupPages/SignUp.dart';
 import 'package:healthreminders/VIdeoCalling/Video_Pages/index.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final uid = _auth.currentUser();
@@ -80,7 +78,7 @@ class _MedicineState extends State<MoreOptions> {
   }
 
   String msg =
-      'Download my Medicine Reminders App through https://play.google.com/apps/testing/com.mihirseth.healthreminders';
+      'Download MediRemi on Google Play Store through https://bit.ly/3iDVunK';
 
   @override
   Widget build(BuildContext context) {
@@ -165,14 +163,15 @@ class _MedicineState extends State<MoreOptions> {
                       ),
                       ListTile(
                         leading: Icon(Icons.directions_walk),
-                        title: Text('Steps'),
+                        title: Text(
+                          'Steps',
+                          // style: TextStyle(color: Colors.grey),
+                        ),
                         onTap: () async {
-                          await Hive.initFlutter();
-                          await Hive.openBox<int>('steps');
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return StepsCounter();
+                                return Steps();
                               },
                             ),
                           );
@@ -191,6 +190,12 @@ class _MedicineState extends State<MoreOptions> {
                           );
                         },
                       ),
+                      // ListTile(
+                      //   leading: Icon(Icons.video_call),
+                      //   title: Text('YouTube'),
+                      //   onTap: launchURL,
+                      // ),
+
                       // ListTile(
                       //     leading: ImageIcon(
                       //         AssetImage('assets/Whatsapp.png'),
@@ -275,19 +280,19 @@ class _MedicineState extends State<MoreOptions> {
                           );
                         },
                       ),
-//                          ListTile(
-//                            leading: Icon(Icons.directions_walk),
-//                            title: Text('Steps'),
-//                            onTap: () {
-//                              Navigator.of(context).push(
-//                                MaterialPageRoute(
-//                                  builder: (context) {
-//                                    return Steps();
-//                                  },
-//                                ),
-//                              );
-//                        }
-//                        )
+                      ListTile(
+                          leading: Icon(Icons.arrow_right),
+                          title: Text('Privacy Statement and Licensing'),
+                          onTap: () {
+                            showAboutDialog(
+                                context: context,
+                                applicationVersion: '2.3',
+                                applicationName: 'MediRemi',
+                                applicationIcon: ImageIcon(
+                                    AssetImage('assets/app_logo.png')),
+                                applicationLegalese:
+                                    'A Health Reminder App. IARC Certified. We take your privacy and security of personal information with the utmost importance, we use Google Firebase to securely and safely keep all your data. It is our assurance that your private data will not be checked by anyone. Thank you for using our app.');
+                          }),
                     ]),
                   ),
                 ),
@@ -307,10 +312,8 @@ class _MedicineState extends State<MoreOptions> {
                       .where('uid', isEqualTo: user.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData)
-                      return Text('Loading...');
-                    else
-                      googleName();
+                    if (!snapshot.hasData) return Text('Loading...');
+
                     return ListView.builder(
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) => buildListItem(
@@ -404,24 +407,33 @@ class _MedicineState extends State<MoreOptions> {
           );
         });
   }
+
+  errorNames() {
+    Column(children: <Widget>[
+      Text(
+          'Signed Up with not enough information. Go back to sign up page and sign up again'),
+      InkWell(
+          onTap: () {
+            BuildContext context;
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SignupPage()));
+          },
+          child: Text(
+            "Login with Google",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Monster",
+            ),
+          ))
+    ]);
+  }
 }
 
-errorNames() {
-  Column(children: <Widget>[
-    Text(
-        'Signed Up with not enough information. Go back to sign up page and sign up again'),
-    InkWell(
-        onTap: () {
-          BuildContext context;
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignupPage()));
-        },
-        child: Text(
-          "Login with Google",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: "Monster",
-          ),
-        ))
-  ]);
+launchURL() async {
+  const url = 'https://flutter.dev';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }

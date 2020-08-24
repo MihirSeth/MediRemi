@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class _AddLabTestsState extends State<AddLabTests> {
   int _yearLabTest;
 //  int _timeFromToday;
   final _timeDatabase = DateTime.now();
+  int _id = Random().nextInt(999999999);
+  int _id2 = Random().nextInt(999999999);
 
 
   String labtestName;
@@ -1977,7 +1980,9 @@ class _AddLabTestsState extends State<AddLabTests> {
                                   _monthLabTest,
                                   _yearLabTest,
                                   _timeDatabase,
-                                  _uid
+                                  _uid,
+                                _id,
+                                _id2,
                               );
                               scheduleNotificationLabTests();
                               scheduleNotificationLabTestsTwo();
@@ -2078,7 +2083,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        3,
+        _id,
         'Reminder for Lab Test',
         'Today is your Lab Test for $_labtestName for $_reasonLabTest. ',
         scheduledNotificationDateTime,
@@ -2113,7 +2118,7 @@ class _AddLabTestsState extends State<AddLabTests> {
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
-        4,
+        _id2,
         'Reminder for Lab Test',
         'You have a $_labtestName Lab Test in 2 Hours. ',
         scheduledNotificationDateTime,
